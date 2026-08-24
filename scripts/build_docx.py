@@ -1,0 +1,215 @@
+"""
+Renders reports/Checkpoint_1_Report.md into a Word document that follows the
+section order of the supplied Checkpoint 1 template.
+
+Handles the subset of markdown the report actually uses: ATX headings, pipe
+tables, fenced code blocks, bullet and numbered lists, images, blockquotes,
+horizontal rules, and inline **bold** / *italic* / `code`.
+
+Run:  python3 scripts/build_docx.py
+"""
+
+import os
+import re
+
+from docx import Document
+from docx.enum.table import WD_TABLE_ALIGNMENT
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.shared import Inches, Pt, RGBColor
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SRC = os.path.join(ROOT, "reports", "Checkpoint_1_Report.md")
+OUT = os.path.join(ROOT, "reports", "Checkpoint_1_Report.docx")
+
+INK = RGBColor(0x1F, 0x29, 0x33)
+ACCENT = RGBColor(0x2F, 0x6F, 0x9F)
+MUTED = RGBColor(0x7B, 0x89, 0x94)
+
+INLINE = re.compile(r"(\*\*.+?\*\*|\*[^*]+?\*|`[^`]+?`)")
+IMAGE = re.compile(r"^!\[(.*?)\]\((.+?)\)$")
+
+
+def add_runs(par, text):
+    """Write text into a paragraph, honouring inline markdown emphasis."""
+    for piece in INLINE.split(text):
+        if not piece:
+            continue
+        if piece.startswith("**") and piece.endswith("**"):
+            par.add_run(piece[2:-2]).bold = True
+        elif piece.startswith("`") and piece.endswith("`"):
+            run = par.add_run(piece[1:-1])
+            run.font.name = "Consolas"
+            run.font.size = Pt(9)
+            run.font.color.rgb = ACCENT
+        elif piece.startswith("*") and piece.endswith("*"):
+            par.add_run(piece[1:-1]).italic = True
+        else:
+            par.add_run(piece)
+
+
+def setup_styles(doc):
+    normal = doc.styles["Normal"]
+    normal.font.name = "Calibri"
+    normal.font.size = Pt(10.5)
+    normal.font.color.rgb = INK
+    normal.paragraph_format.space_after = Pt(6)
+    normal.paragraph_format.line_spacing = 1.15
+
+    for name, size, color in (("Heading 1", 18, ACCENT),
+                              ("Heading 2", 14, INK),
+                              ("Heading 3", 11.5, INK)):
+        st = doc.styles[name]
+        st.font.name = "Calibri"
+        st.font.size = Pt(size)
+        st.font.bold = True
+        st.font.color.rgb = color
+        st.paragraph_format.space_before = Pt(14 if size > 12 else 10)
+        st.paragraph_format.space_after = Pt(5)
+
+
+def add_table(doc, rows):
+    header, body = rows[0], rows[1:]
+    table = doc.add_table(rows=1, cols=len(header))
+    table.style = "Light Grid Accent 1"
+    table.alignment = WD_TABLE_ALIGNMENT.CENTER
+    table.autofit = True
+
+    for cell, text in zip(table.rows[0].cells, header):
+        cell.text = ""
+        add_runs(cell.paragraphs[0], text)
+        for run in cell.paragraphs[0].runs:
+            run.bold = True
+
+    for row in body:
+        cells = table.add_row().cells
+        # Guard against a ragged row losing content off the end.
+        for i, text in enumerate(row[:len(header)]):
+            cells[i].text = ""
+            add_runs(cells[i].paragraphs[0], text)
+            cells[i].paragraphs[0].runs and setattr(
+                cells[i].paragraphs[0].runs[0].font, "size", Pt(9))
+    doc.add_paragraph()
+
+
+def split_row(line):
+    return [c.strip() for c in line.strip().strip("|").split("|")]
+
+
+def add_code(doc, lines):
+    par = doc.add_paragraph()
+    par.paragraph_format.left_indent = Inches(0.25)
+    par.paragraph_format.space_before = Pt(4)
+    par.paragraph_format.space_after = Pt(8)
+    run = par.add_run("\n".join(lines))
+    run.font.name = "Consolas"
+    run.font.size = Pt(8.5)
+    run.font.color.rgb = RGBColor(0x33, 0x3D, 0x47)
+
+
+# A block ends at a blank line or at the start of any other markdown
+# construct; everything before that is one soft-wrapped block.
+BLOCK_START = re.compile(r"^(#|\||```|[-*]\s|\d{1,2}\.\s|>\s|!\[|---$)")
+
+
+def gather(lines, i, first):
+    """Join a block's soft-wrapped continuation lines into one string."""
+    block = [first]
+    while i < len(lines) and lines[i].strip() \
+            and not BLOCK_START.match(lines[i].strip()):
+        block.append(lines[i].strip())
+        i += 1
+    return " ".join(block), i
+
+
+def convert(md, doc):
+    lines = md.splitlines()
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        stripped = line.strip()
+
+        if not stripped:
+            i += 1
+            continue
+
+        if stripped == "---":
+            doc.add_page_break()
+            i += 1
+            continue
+
+        if stripped.startswith("```"):
+            block = []
+            i += 1
+            while i < len(lines) and not lines[i].strip().startswith("```"):
+                block.append(lines[i])
+                i += 1
+            add_code(doc, block)
+            i += 1
+            continue
+
+        if stripped.startswith("|") and i + 1 < len(lines) \
+                and set(lines[i + 1].strip()) <= set("|- :"):
+            rows = [split_row(stripped)]
+            i += 2
+            while i < len(lines) and lines[i].strip().startswith("|"):
+                rows.append(split_row(lines[i]))
+                i += 1
+            add_table(doc, rows)
+            continue
+
+        m = IMAGE.match(stripped)
+        if m:
+            path = os.path.normpath(os.path.join(ROOT, "reports", m.group(2)))
+            if os.path.exists(path):
+                doc.add_picture(path, width=Inches(6.0))
+                doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
+                cap = doc.add_paragraph()
+                cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                run = cap.add_run(m.group(1))
+                run.italic = True
+                run.font.size = Pt(9)
+                run.font.color.rgb = MUTED
+            i += 1
+            continue
+
+        if stripped.startswith("#"):
+            level = len(stripped) - len(stripped.lstrip("#"))
+            doc.add_heading(stripped[level:].strip(), min(level, 3))
+            i += 1
+            continue
+
+        m = re.match(r"^(?:[-*]\s+|\d{1,2}\.\s+)(.*)$", stripped)
+        if m:
+            style = "List Bullet" if stripped[0] in "-*" else "List Number"
+            text, i = gather(lines, i + 1, m.group(1))
+            add_runs(doc.add_paragraph(style=style), text)
+            continue
+
+        if stripped.startswith("> "):
+            par = doc.add_paragraph()
+            par.paragraph_format.left_indent = Inches(0.3)
+            add_runs(par, stripped[2:])
+            for run in par.runs:
+                run.italic = True
+            i += 1
+            continue
+
+        # Ordinary paragraph: join the soft-wrapped lines that follow it.
+        text, i = gather(lines, i + 1, stripped)
+        add_runs(doc.add_paragraph(), text)
+
+
+def main():
+    doc = Document()
+    setup_styles(doc)
+    for section in doc.sections:
+        section.left_margin = section.right_margin = Inches(0.85)
+        section.top_margin = section.bottom_margin = Inches(0.8)
+
+    convert(open(SRC, encoding="utf-8").read(), doc)
+    doc.save(OUT)
+    print("wrote", OUT)
+
+
+if __name__ == "__main__":
+    main()

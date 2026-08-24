@@ -1,0 +1,139 @@
+"""
+Builds the charts used in the Checkpoint 1 report from the populated
+warehouse. Output: docs/figures/*.png
+
+Run:  python3 scripts/make_figures.py
+"""
+
+import os
+import sqlite3
+
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DB_PATH = os.path.join(ROOT, "data", "sales_trend.db")
+FIG_DIR = os.path.join(ROOT, "docs", "figures")
+
+INK = "#1f2933"
+MUTED = "#7b8794"
+ACCENT = "#2f6f9f"
+SERIES = ["#2f6f9f", "#c96f3f", "#5c9e73"]
+
+thousands = FuncFormatter(lambda v, _: f"{v/1000:,.0f}k")
+
+
+def style(ax):
+    for side in ("top", "right"):
+        ax.spines[side].set_visible(False)
+    for side in ("left", "bottom"):
+        ax.spines[side].set_color(MUTED)
+    ax.tick_params(colors=MUTED, labelsize=9)
+    ax.grid(axis="y", color="#e4e7eb", linewidth=0.8)
+    ax.set_axisbelow(True)
+
+
+def save(fig, name):
+    path = os.path.join(FIG_DIR, name)
+    fig.savefig(path, dpi=160, bbox_inches="tight", facecolor="white")
+    plt.close(fig)
+    print("wrote", path)
+
+
+def fig_annual_trend(con):
+    rows = con.execute("""
+        SELECT d.year_number, SUM(f.amount), SUM(f.profit)
+        FROM fact_sales f JOIN dim_date d ON d.order_date = f.order_date
+        WHERE d.is_complete_year = 1
+        GROUP BY d.year_number ORDER BY d.year_number
+    """).fetchall()
+    years = [str(r[0]) for r in rows]
+    revenue = [r[1] for r in rows]
+    profit = [r[2] for r in rows]
+
+    fig, ax = plt.subplots(figsize=(7.5, 4))
+    ax.bar(years, revenue, color=ACCENT, width=0.6, label="Revenue")
+    ax.bar(years, profit, color="#9fc3dd", width=0.6, label="Profit")
+    for x, v in zip(years, revenue):
+        ax.text(x, v + 25000, f"{v/1000:,.0f}k", ha="center",
+                fontsize=9, color=INK)
+    style(ax)
+    ax.yaxis.set_major_formatter(thousands)
+    ax.set_ylim(0, max(revenue) * 1.15)
+    ax.set_title("Revenue peaked in 2022 and has not recovered",
+                 color=INK, fontsize=12, fontweight="bold", loc="left")
+    ax.set_ylabel("Amount", color=MUTED, fontsize=9)
+    ax.legend(frameon=False, fontsize=9, labelcolor=MUTED)
+    save(fig, "fig1_annual_trend.png")
+
+
+def fig_monthly_seasonality(con):
+    rows = con.execute("""
+        SELECT d.month_number, d.month_name, SUM(f.amount)
+        FROM fact_sales f JOIN dim_date d ON d.order_date = f.order_date
+        WHERE d.is_complete_year = 1
+        GROUP BY d.month_number, d.month_name ORDER BY d.month_number
+    """).fetchall()
+    labels = [r[1][:3] for r in rows]
+    values = [r[2] for r in rows]
+    mean = sum(values) / len(values)
+
+    fig, ax = plt.subplots(figsize=(7.5, 4))
+    colors = [ACCENT if v >= mean else "#c3cbd3" for v in values]
+    ax.bar(labels, values, color=colors, width=0.65)
+    ax.axhline(mean, color=MUTED, linestyle="--", linewidth=1)
+    ax.text(11.4, mean * 1.03, "5-year average", ha="right",
+            fontsize=8, color=MUTED)
+    style(ax)
+    ax.yaxis.set_major_formatter(thousands)
+    ax.set_title("Demand concentrates in October and December",
+                 color=INK, fontsize=12, fontweight="bold", loc="left")
+    ax.set_ylabel("Revenue, 2020–2024 pooled", color=MUTED, fontsize=9)
+    save(fig, "fig2_monthly_seasonality.png")
+
+
+def fig_category_trend(con):
+    rows = con.execute("""
+        SELECT c.category_name, d.year_number, SUM(f.amount)
+        FROM fact_sales f
+        JOIN dim_date d ON d.order_date = f.order_date
+        JOIN dim_sub_category s ON s.sub_category_id = f.sub_category_id
+        JOIN dim_category c ON c.category_id = s.category_id
+        WHERE d.is_complete_year = 1
+        GROUP BY c.category_name, d.year_number
+        ORDER BY c.category_name, d.year_number
+    """).fetchall()
+    cats = sorted({r[0] for r in rows})
+    years = sorted({r[1] for r in rows})
+
+    fig, ax = plt.subplots(figsize=(7.5, 4))
+    for i, cat in enumerate(cats):
+        vals = [next(r[2] for r in rows if r[0] == cat and r[1] == y)
+                for y in years]
+        ax.plot(years, vals, marker="o", color=SERIES[i], linewidth=2,
+                markersize=5, label=cat)
+        ax.text(years[-1] + 0.08, vals[-1], cat, color=SERIES[i],
+                fontsize=9, va="center")
+    style(ax)
+    ax.yaxis.set_major_formatter(thousands)
+    ax.set_xticks(years)
+    ax.set_xlim(years[0] - 0.15, years[-1] + 1.15)
+    ax.set_title("Electronics reversed in 2024 while Office Supplies rebounded",
+                 color=INK, fontsize=12, fontweight="bold", loc="left")
+    ax.set_ylabel("Revenue", color=MUTED, fontsize=9)
+    save(fig, "fig3_category_trend.png")
+
+
+def main():
+    os.makedirs(FIG_DIR, exist_ok=True)
+    con = sqlite3.connect(DB_PATH)
+    fig_annual_trend(con)
+    fig_monthly_seasonality(con)
+    fig_category_trend(con)
+    con.close()
+
+
+if __name__ == "__main__":
+    main()

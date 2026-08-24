@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.DS_Store
+
+# Generated build artefact - rebuild with scripts/clean_and_load.py
+data/sales_trend.db

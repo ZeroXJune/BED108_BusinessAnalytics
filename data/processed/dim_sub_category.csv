@@ -1,0 +1,13 @@
+sub_category_id,sub_category_name,category_id
+1,Electronic Games,1
+2,Printers,1
+3,Pens,2
+4,Laptops,1
+5,Tables,3
+6,Chairs,3
+7,Markers,2
+8,Sofas,3
+9,Paper,2
+10,Binders,2
+11,Phones,1
+12,Bookcases,3
