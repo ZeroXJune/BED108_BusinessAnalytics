@@ -1,20 +1,31 @@
-# BA Capstone Project: Checkpoint 1
-## Data Fundamentals & SQL Querying
+# Sales Trend Analysis for a Multi-Category Retailer
 
-**Group Name:** _______________________
-**Course & Section:** BED 108 — Business Analytics
-**Date:** _______________________
+## BA Capstone Project — Checkpoint 1: Data Fundamentals & SQL Querying
 
-**Team Members & Roles:**
+**Talibon Polytechnic College**
 
-| Member | Role |
+**Course Code & Title:** BED 106 — Business Analytics
+
+**Academic Year / Semester:** A.Y. 2026–2027 · 1st Semester
+
+**Instructor:** Jessie A. Melendres
+
+**Business Domain:** Retail & Sales Analytics
+
+**Group Name / Number:** _______________________
+
+**Date of Submission:** _______________________
+
+**Group Members & Roles**
+
+Caption: Group members and assigned project roles.
+
+| Member Name | Role |
 | --- | --- |
 | _______________________ | Project Lead / Analyst |
 | _______________________ | Data Engineer |
 | _______________________ | Statistician / Modeler |
 | _______________________ | BI Developer / Visualizer |
-
-**Project topic:** Sales trend analysis for a multi-category US retailer, 2020–2025.
 
 ---
 
@@ -89,6 +100,8 @@ method, and the three measures: quantity, amount and profit.
 
 ## Data Source Report
 
+Caption: Data source report for the sales transaction dataset.
+
 | Attribute | Details |
 | --- | --- |
 | Dataset Name | Sales Dataset (multi-category US retail transactions) |
@@ -100,6 +113,8 @@ method, and the three measures: quantity, amount and profit.
 | Currency | **Not stated in the source file.** `Amount` and `Profit` are unitless integers; all figures in this report are quoted as currency units. |
 
 ## Data Dictionary
+
+Caption: Data dictionary — column name, data type and description.
 
 | Column Name | Data Type | Description |
 | --- | --- | --- |
@@ -169,6 +184,8 @@ All steps are executable and repeatable: `python3 scripts/clean_and_load.py`.
 
 ## Raw Dataset Preview — first 10 rows
 
+Caption: Raw dataset preview, first rows as received.
+
 | Order ID | Amount | Profit | Qty | Category | Sub-Category | PaymentMode | Order Date | CustomerName | State | City | Year-Month |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | B-26776 | 9726 | 1275 | 5 | Electronics | Electronic Games | UPI | 2023-06-27 | David Padilla | Florida | Miami | 2023-06 |
@@ -202,6 +219,8 @@ dim_date ───────────────────────�
 **Star schema, 7 tables.** `fact_sales` sits at the centre at a grain of one
 transaction line, with six dimensions hanging off it.
 
+Caption: Entity relationships and cardinality in the sales_trend schema.
+
 | Parent | Child | Cardinality |
 | --- | --- | --- |
 | `dim_state` | `dim_city` | 1 : many |
@@ -233,6 +252,8 @@ mysql -u root -p sales_trend < sql/04_queries.sql
 ```
 
 **Populated row counts (verified after load):**
+
+Caption: Populated row counts verified after load.
 
 | Table | Rows |
 | --- | --- |
@@ -298,6 +319,8 @@ cause of the trend break identified in Q3.
 ### Q3 — Annual sales trend, 2020–2024
 `GROUP BY` with `COUNT`, `SUM` and `AVG`.
 
+Caption: Q3 — annual sales trend, 2020–2024.
+
 | year | lines | units | revenue | profit | avg_line_value | margin_pct |
 | --- | --- | --- | --- | --- | --- | --- |
 | 2020 | 171 | 1,695 | 859,401 | 224,103 | 5,025.74 | 26.08 |
@@ -316,7 +339,9 @@ fewer of them. That points the investigation at demand and product availability,
 not at pricing. Margin held between 23.97% and 26.93% throughout, confirming
 that profitability per sale was never the issue.
 
-![Figure 1 — annual revenue and profit](../docs/figures/fig1_annual_trend.png)
+Caption: Annual revenue and profit, 2020–2024. Revenue peaked in 2022.
+
+![](../docs/figures/fig1_annual_trend.png)
 
 ### Q4 — Monthly seasonality, 2020–2024 pooled
 `GROUP BY` month with a share-of-total subquery.
@@ -334,12 +359,16 @@ problem — more orders to pick, pack and ship — not a high-value-order proble
 so the right response is staffing and warehouse capacity rather than premium
 stock.
 
-![Figure 2 — monthly seasonality](../docs/figures/fig2_monthly_seasonality.png)
+Caption: Revenue by calendar month, 2020–2024 pooled. Demand concentrates in October and December.
+
+![](../docs/figures/fig2_monthly_seasonality.png)
 
 ## 3. Multi-Table Joins
 
 ### Q5 — Revenue by category per year
 Joins 4 tables: `fact_sales → dim_date`, `dim_sub_category → dim_category`.
+
+Caption: Q5 — revenue by product category per year.
 
 | category | 2020 | 2021 | 2022 | 2023 | 2024 |
 | --- | --- | --- | --- | --- | --- |
@@ -357,10 +386,14 @@ So the 2024 "plateau" is really **an Electronics collapse very nearly offset by
 an Office Supplies recovery**. Managing to the aggregate number would have
 missed both.
 
-![Figure 3 — category trend](../docs/figures/fig3_category_trend.png)
+Caption: Revenue by product category per year. Electronics reversed in 2024 while Office Supplies rebounded.
+
+![](../docs/figures/fig3_category_trend.png)
 
 ### Q6 — Top cities by revenue and revenue per customer
 Joins 4 tables: `fact_sales → dim_customer → dim_city → dim_state`.
+
+Caption: Q6 — top cities by revenue and revenue per customer.
 
 | state | city | customers | revenue | revenue_per_customer | margin_pct |
 | --- | --- | --- | --- | --- | --- |
@@ -384,6 +417,8 @@ which is what makes Q7 the decisive query.
 
 ### Q7 — Which sub-categories turned growth into a plateau? (Business Question 2)
 Conditional aggregation comparing 2023 with 2024 across all 12 sub-categories.
+
+Caption: Q7 — sub-category revenue change, 2023 vs 2024.
 
 | category | sub_category | revenue_2023 | revenue_2024 | change_abs | change_pct |
 | --- | --- | --- | --- | --- | --- |
@@ -419,6 +454,8 @@ identical in a sales table and require opposite responses.
 ### Q8 — Is the Q4 peak company-wide or category-specific? (Business Question 3)
 Quarterly revenue per category with a window function giving each quarter's
 share of that category's own total.
+
+Caption: Q8 — each quarter's share of its own category's annual revenue.
 
 | category | Q1 | Q2 | Q3 | Q4 |
 | --- | --- | --- | --- | --- |
@@ -474,6 +511,8 @@ python3 scripts/clean_and_load.py   # clean, normalise, load, verify integrity
 python3 scripts/run_queries.py      # run all 8 queries, capture real results
 python3 scripts/make_figures.py     # regenerate Figures 1-3
 ```
+
+Caption: Project artefacts and their locations in the repository.
 
 | Artefact | Path |
 | --- | --- |

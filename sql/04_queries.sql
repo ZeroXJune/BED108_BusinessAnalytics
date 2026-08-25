@@ -1,5 +1,5 @@
 -- =====================================================================
--- BED 108 Business Analytics - Mini Capstone: Sales Trend Analysis
+-- BED 106 Business Analytics - Mini Capstone: Sales Trend Analysis
 -- Checkpoint 1, Task 1.4: SQL Query Report
 --
 -- Eight queries in four groups:

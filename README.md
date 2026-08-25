@@ -1,4 +1,4 @@
-# BED 108 Business Analytics — Mini Capstone: Sales Trend Analysis
+# BED 106 Business Analytics — Mini Capstone: Sales Trend Analysis
 
 Checkpoint 1 (Data Fundamentals & SQL Querying) for a sales-trend study of a
 multi-category US retailer, 2020–2025.
@@ -6,6 +6,19 @@ multi-category US retailer, 2020–2025.
 **Deliverable:** [`reports/Checkpoint_1_Report.docx`](reports/Checkpoint_1_Report.docx)
 — the supplied template filled in end to end.
 Markdown source: [`reports/Checkpoint_1_Report.md`](reports/Checkpoint_1_Report.md).
+
+> ### Read before submitting
+>
+> Section 3.2 of the BED 106 project brief states that **AI-generated analysis
+> is not permitted** and that insights must be derived by the students
+> themselves. The business interpretations in this report were drafted with AI
+> assistance and **must be rewritten by the group in their own words**.
+>
+> The rest is unaffected: the query results are computed output, and the schema
+> and SQL are tooling. What has to be yours is the *reading* of the numbers.
+> The rubric also asks for 2–3 sentences per query and the current drafts run
+> longer — rewriting them shorter and in your own voice fixes both at once.
+> Full detail in [`docs/rubric_compliance.md`](docs/rubric_compliance.md).
 
 ## Headline findings
 
@@ -82,14 +95,23 @@ Two decisions worth knowing before reading the SQL:
 
 ## Before you submit
 
-- Fill in the group name, date and member names at the top of the report.
-- Confirm the dataset's exact licence on its source page and record it in the
-  Task 1.2 table.
-- Insert your own MySQL Workbench screenshots in the Task 1.3 and 1.4 slots —
-  the result tables are already there in full, but the rubric asks for
-  screenshots of your own run.
-- Note the template header says BED 106; this repository is BED 108. Confirm
-  which is correct for your section.
+Full checklist in [`docs/rubric_compliance.md`](docs/rubric_compliance.md).
+The five things only the group can supply:
+
+1. **Rewrite the business interpretations in your own words** (see the notice
+   above) and trim each to the 2–3 sentences the rubric asks for.
+2. Fill in the cover page: group name/number, submission date, member names.
+3. Confirm the dataset's exact licence on its source page and record it in the
+   Task 1.2 table.
+4. Take your own screenshots of the schema, populated tables and query results
+   in phpMyAdmin or MySQL Workbench — the full result sets are already in the
+   report, but the brief asks for screenshots of *your* run.
+5. Complete and sign `reports/Form_A_Individual_Contribution.md`, one per
+   member. This is required with every checkpoint.
+
+The repository folder is named `BED108_BusinessAnalytics`, but the course is
+**BED 106** per the project brief. The folder name is cosmetic; every document
+and SQL header now says BED 106.
 
 ## Limitation
 

@@ -49,17 +49,17 @@ def add_runs(par, text):
 
 def setup_styles(doc):
     normal = doc.styles["Normal"]
-    normal.font.name = "Calibri"
-    normal.font.size = Pt(10.5)
+    normal.font.name = "Arial"
+    normal.font.size = Pt(12)
     normal.font.color.rgb = INK
     normal.paragraph_format.space_after = Pt(6)
-    normal.paragraph_format.line_spacing = 1.15
+    normal.paragraph_format.line_spacing = 1.5
 
-    for name, size, color in (("Heading 1", 18, ACCENT),
+    for name, size, color in (("Heading 1", 16, ACCENT),
                               ("Heading 2", 14, INK),
-                              ("Heading 3", 11.5, INK)):
+                              ("Heading 3", 12, INK)):
         st = doc.styles[name]
-        st.font.name = "Calibri"
+        st.font.name = "Arial"
         st.font.size = Pt(size)
         st.font.bold = True
         st.font.color.rgb = color
@@ -67,7 +67,18 @@ def setup_styles(doc):
         st.paragraph_format.space_after = Pt(5)
 
 
-def add_table(doc, rows):
+def add_caption(doc, text):
+    par = doc.add_paragraph()
+    par.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    par.paragraph_format.space_after = Pt(10)
+    par.paragraph_format.line_spacing = 1.0
+    run = par.add_run(text)
+    run.italic = True
+    run.font.size = Pt(10)
+    run.font.color.rgb = MUTED
+
+
+def add_table(doc, rows, caption=None):
     header, body = rows[0], rows[1:]
     table = doc.add_table(rows=1, cols=len(header))
     table.style = "Light Grid Accent 1"
@@ -86,9 +97,14 @@ def add_table(doc, rows):
         for i, text in enumerate(row[:len(header)]):
             cells[i].text = ""
             add_runs(cells[i].paragraphs[0], text)
-            cells[i].paragraphs[0].runs and setattr(
-                cells[i].paragraphs[0].runs[0].font, "size", Pt(9))
-    doc.add_paragraph()
+            para = cells[i].paragraphs[0]
+            para.paragraph_format.line_spacing = 1.0
+            for run in para.runs:
+                run.font.size = Pt(9)
+    if caption:
+        add_caption(doc, caption)
+    else:
+        doc.add_paragraph()
 
 
 def split_row(line):
@@ -124,11 +140,19 @@ def gather(lines, i, first):
 def convert(md, doc):
     lines = md.splitlines()
     i = 0
+    counters = {"table": 0, "figure": 0}
+    heading = ""
+    pending_caption = None
     while i < len(lines):
         line = lines[i]
         stripped = line.strip()
 
         if not stripped:
+            i += 1
+            continue
+
+        if stripped.startswith("Caption:"):
+            pending_caption = stripped[len("Caption:"):].strip()
             i += 1
             continue
 
@@ -154,7 +178,10 @@ def convert(md, doc):
             while i < len(lines) and lines[i].strip().startswith("|"):
                 rows.append(split_row(lines[i]))
                 i += 1
-            add_table(doc, rows)
+            counters["table"] += 1
+            label = pending_caption or heading
+            pending_caption = None
+            add_table(doc, rows, f"Table {counters['table']}. {label}".strip())
             continue
 
         m = IMAGE.match(stripped)
@@ -163,18 +190,17 @@ def convert(md, doc):
             if os.path.exists(path):
                 doc.add_picture(path, width=Inches(6.0))
                 doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
-                cap = doc.add_paragraph()
-                cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                run = cap.add_run(m.group(1))
-                run.italic = True
-                run.font.size = Pt(9)
-                run.font.color.rgb = MUTED
+                counters["figure"] += 1
+                label = pending_caption or m.group(1)
+                pending_caption = None
+                add_caption(doc, f"Figure {counters['figure']}. {label}".strip())
             i += 1
             continue
 
         if stripped.startswith("#"):
             level = len(stripped) - len(stripped.lstrip("#"))
-            doc.add_heading(stripped[level:].strip(), min(level, 3))
+            heading = stripped[level:].strip()
+            doc.add_heading(heading, min(level, 3))
             i += 1
             continue
 
@@ -203,8 +229,8 @@ def main():
     doc = Document()
     setup_styles(doc)
     for section in doc.sections:
-        section.left_margin = section.right_margin = Inches(0.85)
-        section.top_margin = section.bottom_margin = Inches(0.8)
+        section.left_margin = section.right_margin = Inches(1.0)
+        section.top_margin = section.bottom_margin = Inches(1.0)
 
     convert(open(SRC, encoding="utf-8").read(), doc)
     doc.save(OUT)
