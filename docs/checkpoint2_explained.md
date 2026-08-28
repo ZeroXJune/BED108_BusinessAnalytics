@@ -74,7 +74,7 @@ the business. A correct R² with no interpretation scores badly.
 | **Correlation** | 2.3 | Two pairs + a supporting third |
 | **Regression** | 2.4 | Equation, R², t, p, forecasts, limits |
 | **Forecast** | 2.5 | Trend test, seasonal index, forecast, holdout check |
-| **PivotTable 1–3** | 2.1 (2) | Three native Excel PivotTable objects |
+| **PivotTable 1–3** | 2.1 (2, 3) | Three native Excel PivotTables, each with a PivotChart |
 
 ### Two design decisions to be able to defend
 
@@ -141,11 +141,15 @@ PivotTable.
 Sheets **PivotTable 1, 2 and 3** are **native Excel PivotTable objects**, with
 the Fields pane and drag-and-drop:
 
-| Sheet | Rows | Columns | Values |
-| --- | --- | --- | --- |
-| PivotTable 1 | Category | Year | Sum of Amount |
-| PivotTable 2 | State | — | Average of Amount |
-| PivotTable 3 | YearMonth | — | Count of SaleID |
+| Sheet | Rows | Columns | Values | PivotChart |
+| --- | --- | --- | --- | --- |
+| PivotTable 1 | Category | Year | Sum of Amount | Clustered column |
+| PivotTable 2 | State | — | Average of Amount | Column |
+| PivotTable 3 | YearMonth | — | Count of SaleID | Line |
+
+Each carries a **PivotChart** — a chart bound to its PivotTable rather than to
+a cell range, so it refreshes with the pivot and offers field buttons for
+filtering. That binding is what the `pivotSource` element in the chart records.
 
 All three read `Cleaned Data!A1:S1195` through **one shared pivot cache** —
 which is what Excel itself does when you build several PivotTables from one

@@ -28,6 +28,7 @@ from collections import OrderedDict
 
 from openpyxl import Workbook
 from openpyxl.chart import BarChart, LineChart, Reference, ScatterChart, Series
+from openpyxl.chart.pivot import PivotSource
 from openpyxl.chart.trendline import Trendline
 from openpyxl.pivot.cache import (CacheDefinition, CacheField, CacheSource,
                                   SharedItems, WorksheetSource)
@@ -1158,6 +1159,10 @@ def add_pivot_tables(wb, last):
             "note": "Rows: Category. Columns: Year. Values: Sum of Amount.",
             "rows": ["Category"], "cols": ["Year"],
             "data": [("Amount", "sum", "Sum of Amount")],
+            # 3 categories x 6 years, plus header and total rows.
+            "ref": "A6:H11",
+            "chart": ("bar", "Revenue by Category and Year",
+                      "Category", "Revenue", "J6"),
         },
         {
             "sheet": "PivotTable 2",
@@ -1166,6 +1171,9 @@ def add_pivot_tables(wb, last):
             "note": "Rows: State. Values: Average of Amount.",
             "rows": ["State"], "cols": [],
             "data": [("Amount", "average", "Average of Amount")],
+            "ref": "A6:B13",          # 6 states, header and total
+            "chart": ("bar", "Average Order Value by State",
+                      "State", "Average order value", "E6"),
         },
         {
             "sheet": "PivotTable 3",
@@ -1174,6 +1182,9 @@ def add_pivot_tables(wb, last):
             "note": "Rows: YearMonth. Values: Count of SaleID.",
             "rows": ["YearMonth"], "cols": [],
             "data": [("SaleID", "count", "Count of SaleID")],
+            "ref": "A6:B68",          # 61 months, header and total
+            "chart": ("line", "Orders per Month",
+                      "Month", "Orders", "E6"),
         },
     ]
 
@@ -1211,7 +1222,7 @@ def add_pivot_tables(wb, last):
 
         pivot = TableDefinition(
             name=spec["name"], cacheId=1,
-            location=Location(ref="A6:D20", firstHeaderRow=1,
+            location=Location(ref=spec["ref"], firstHeaderRow=1,
                               firstDataRow=2, firstDataCol=1),
             pivotFields=pivot_fields,
             rowFields=row_fields,
@@ -1222,8 +1233,49 @@ def add_pivot_tables(wb, last):
         )
         pivot.cache = cache
         ws.add_pivot(pivot)
-        print(f"  {spec['sheet']}: {spec['name']}")
+        add_pivot_chart(wb, ws, spec)
+        print(f"  {spec['sheet']}: {spec['name']} + PivotChart")
     return specs
+
+
+def add_pivot_chart(wb, ws, spec):
+    """A PivotChart bound to the PivotTable on the same sheet.
+
+    The pivotSource element is what makes Excel treat this as a PivotChart
+    rather than an ordinary chart: it refreshes with the PivotTable and shows
+    the field buttons. Its series point at the PivotTable's output range, which
+    Excel fills on refresh.
+    """
+    kind, chart_title, x_title, y_title, anchor = spec["chart"]
+    chart = LineChart() if kind == "line" else BarChart()
+    if kind != "line":
+        chart.type = "col"
+        chart.grouping = "clustered"
+    chart.title = chart_title
+    chart.x_axis.title = x_title
+    chart.y_axis.title = y_title
+    chart.height, chart.width = 9, 18
+
+    first, last_ref = spec["ref"].split(":")
+    top = int("".join(c for c in first if c.isdigit()))
+    bottom = int("".join(c for c in last_ref if c.isdigit()))
+    right = "".join(c for c in last_ref if c.isalpha())
+    last_col = 0
+    for ch in right:
+        last_col = last_col * 26 + (ord(ch) - 64)
+
+    # Values start one column right of the row labels; the header row carries
+    # the series names.
+    data = Reference(ws, min_col=2, max_col=last_col,
+                     min_row=top, max_row=bottom)
+    cats = Reference(ws, min_col=1, min_row=top + 1, max_row=bottom)
+    chart.add_data(data, titles_from_data=True)
+    chart.set_categories(cats)
+
+    # Excel identifies the source as [workbook]sheet!pivotname.
+    chart.pivotSource = PivotSource(
+        name=f"[{os.path.basename(OUT)}]{ws.title}!{spec['name']}", fmtId=1)
+    ws.add_chart(chart, anchor)
 
 
 def sheet_readme(wb, anchors, last, c_first, c_last):
@@ -1260,12 +1312,12 @@ def sheet_readme(wb, anchors, last, c_first, c_last):
         ("Forecast", "Task 2.5. Trend test, seasonal index, a six-period "
                      "forecast, and an honest check against the two complete "
                      "2025 months held back from the analysis."),
-        ("PivotTable 1", "Native Excel PivotTable: total revenue by Category "
-                         "and Year."),
-        ("PivotTable 2", "Native Excel PivotTable: average order value by "
-                         "State."),
-        ("PivotTable 3", "Native Excel PivotTable: number of orders by "
-                         "period (YearMonth)."),
+        ("PivotTable 1", "Native Excel PivotTable and PivotChart: total "
+                         "revenue by Category and Year."),
+        ("PivotTable 2", "Native Excel PivotTable and PivotChart: average "
+                         "order value by State."),
+        ("PivotTable 3", "Native Excel PivotTable and PivotChart: number of "
+                         "orders by period (YearMonth)."),
     ]
     for name, what in guide:
         n = ws.cell(row=row, column=1, value=name)
@@ -1285,8 +1337,12 @@ def sheet_readme(wb, anchors, last, c_first, c_last):
         "Change the data and everything recalculates.",
         "Both forms of pivot are present. Pivot Analysis holds SUMIFS "
         "cross-tabs, which are auditable cell by cell; PivotTable 1 to 3 are "
-        "native Excel PivotTable objects over the same data. The PivotTables "
+        "native Excel PivotTables, each with a PivotChart beside it. They "
         "refresh from Cleaned Data when the file opens.",
+        "Keep this file named Checkpoint_2_Workbook.xlsx. A PivotChart "
+        "records its source as [filename]Sheet!PivotName, so renaming the "
+        "file can break the three PivotCharts. The four charts on Pivot "
+        "Charts are ordinary charts and are unaffected either way.",
         "Both ends of the source file are partial: it runs 22 March 2020 to "
         "15 March 2025. The analysis window is therefore the 57 whole months "
         "from April 2020 to December 2024. January and February 2025 are "

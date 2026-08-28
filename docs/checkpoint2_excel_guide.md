@@ -50,13 +50,16 @@ your instructor takes is covered:
 | **Pivot Analysis** | Four SUMIFS / COUNTIFS / AVERAGEIFS cross-tabs | Auditable cell by cell — click any cell and read the logic |
 | **PivotTable 1–3** | Three native Excel PivotTable objects | The PivotTable object itself, with the Fields pane and drag-and-drop |
 
-The three native PivotTables are:
+The three native PivotTables, each with a **PivotChart** beside it:
 
-| Sheet | Rows | Columns | Values |
-| --- | --- | --- | --- |
-| PivotTable 1 | Category | Year | Sum of Amount |
-| PivotTable 2 | State | — | Average of Amount |
-| PivotTable 3 | YearMonth | — | Count of SaleID |
+| Sheet | Rows | Columns | Values | Chart |
+| --- | --- | --- | --- | --- |
+| PivotTable 1 | Category | Year | Sum of Amount | Clustered column |
+| PivotTable 2 | State | — | Average of Amount | Column |
+| PivotTable 3 | YearMonth | — | Count of SaleID | Line |
+
+A PivotChart is not an ordinary chart: it is bound to its PivotTable, refreshes
+with it, and shows field buttons you can filter from.
 
 All three read from `Cleaned Data!A1:S1195` through one shared pivot cache,
 exactly as Excel does when you build several PivotTables from one range.
@@ -66,11 +69,18 @@ load*, because the builder writes the PivotTable definition but cannot compute
 its cached values outside Excel. If one ever looks empty, click inside it and
 use **PivotTable Analyze → Refresh**.
 
-> **Check this on first open.** The PivotTables were written by a library, not
-> by Excel, and could not be opened in Excel during the build. They should
-> appear populated. If Excel instead offers to "repair" the file, say yes, tell
-> me, and use the Pivot Analysis cross-tabs — they are unaffected and satisfy
-> the same requirement.
+> **Do not rename this file.** A PivotChart stores its source as
+> `[filename]Sheet!PivotName`, so the three PivotCharts are tied to the name
+> **`Checkpoint_2_Workbook.xlsx`**. If your group needs to submit under a
+> different name, ask for the workbook to be regenerated under that name
+> rather than renaming it afterwards. The PivotTables themselves and the four
+> charts on *Pivot Charts* are unaffected by renaming.
+
+> **Check this on first open.** The PivotTables and PivotCharts were written by
+> a library, not by Excel, and could not be opened in Excel during the build.
+> They should appear populated. If Excel instead offers to "repair" the file,
+> say yes, tell me, and use the *Pivot Analysis* cross-tabs and the *Pivot
+> Charts* sheet — both are unaffected and satisfy the same requirement.
 
 ### Building more of your own
 

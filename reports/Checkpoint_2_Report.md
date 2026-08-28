@@ -94,7 +94,7 @@ Caption: Workbook structure and the task each sheet satisfies.
 | Correlation | 2.3 | Two pairs plus a supporting third, with scatter plots |
 | Regression | 2.4 | Equation, R², t, p-value, forecasts, limitations |
 | Forecast | 2.5 | Trend test, seasonal index, forecast, holdout check |
-| PivotTable 1–3 | 2.1 sheet 2 | Three native Excel PivotTable objects |
+| PivotTable 1–3 | 2.1 sheets 2–3 | Three native Excel PivotTables, each with a PivotChart |
 
 ## Sheet 1 — Cleaned Data
 
@@ -117,8 +117,9 @@ The brief asks for at least three pivot tables. There are four:
 > cross-tabs, which compute exactly what a PivotTable computes and can be
 > audited cell by cell. Sheets **PivotTable 1–3** hold three *native* Excel
 > PivotTable objects over the same data — Category × Year, average order value
-> by State, and orders by period — sharing one pivot cache, so whichever
-> reading of the brief applies is covered.
+> by State, and orders by period — sharing one pivot cache, each with a
+> **PivotChart** bound to it. Whichever reading of the brief applies is
+> covered.
 
 ## Sheet 3 — Pivot Charts
 
