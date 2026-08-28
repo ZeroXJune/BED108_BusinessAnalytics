@@ -6,7 +6,7 @@ Checkpoints 1 and 2 of 4 are complete.
 | Checkpoint | Phase | Deliverables |
 | --- | --- | --- |
 | **CP1** — Data Fundamentals & SQL | Preliminary | [Report](reports/Checkpoint_1_Report.docx) · [SQL](sql/) · [ERD](docs/erd.md) · [Explainer](docs/Checkpoint_1_Explained.docx) |
-| **CP2** — Spreadsheet & Statistics | Midterm | [Report](reports/Checkpoint_2_Report.docx) · [Workbook](reports/Checkpoint_2_Workbook.xlsx) · [Excel guide](docs/checkpoint2_excel_guide.md) |
+| **CP2** — Spreadsheet & Statistics | Midterm | [Report](reports/Checkpoint_2_Report.docx) · [Workbook](reports/Checkpoint_2_Workbook.xlsx) · [Excel guide](docs/checkpoint2_excel_guide.md) · [Explainer](docs/Checkpoint_2_Explained.docx) |
 | CP3 — BI Dashboard | Semi-Final | not started |
 | CP4 — Predictive & Defense | Final | not started |
 
