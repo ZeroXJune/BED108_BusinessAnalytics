@@ -40,17 +40,43 @@ workbook deliberately avoids newer array functions such as `XLOOKUP`,
 
 ---
 
-## 2. Adding native PivotTables
+## 2. PivotTables — both kinds are already in the workbook
 
-The **Pivot Analysis** sheet holds formula-driven cross-tabs. They compute
-exactly what a PivotTable computes, they recalculate live, and they are
-auditable cell by cell — which is arguably better evidence of understanding
-than a PivotTable object.
+The workbook now contains **both** forms, so whichever reading of the brief
+your instructor takes is covered:
 
-But the brief says "pivot tables", and if your instructor wants actual
-PivotTable objects, each takes about two minutes.
+| Where | What | Why it is there |
+| --- | --- | --- |
+| **Pivot Analysis** | Four SUMIFS / COUNTIFS / AVERAGEIFS cross-tabs | Auditable cell by cell — click any cell and read the logic |
+| **PivotTable 1–3** | Three native Excel PivotTable objects | The PivotTable object itself, with the Fields pane and drag-and-drop |
 
-### Pivot A — total revenue by category
+The three native PivotTables are:
+
+| Sheet | Rows | Columns | Values |
+| --- | --- | --- | --- |
+| PivotTable 1 | Category | Year | Sum of Amount |
+| PivotTable 2 | State | — | Average of Amount |
+| PivotTable 3 | YearMonth | — | Count of SaleID |
+
+All three read from `Cleaned Data!A1:S1195` through one shared pivot cache,
+exactly as Excel does when you build several PivotTables from one range.
+
+**They populate when you open the file.** The cache is marked *refresh on
+load*, because the builder writes the PivotTable definition but cannot compute
+its cached values outside Excel. If one ever looks empty, click inside it and
+use **PivotTable Analyze → Refresh**.
+
+> **Check this on first open.** The PivotTables were written by a library, not
+> by Excel, and could not be opened in Excel during the build. They should
+> appear populated. If Excel instead offers to "repair" the file, say yes, tell
+> me, and use the Pivot Analysis cross-tabs — they are unaffected and satisfy
+> the same requirement.
+
+### Building more of your own
+
+If you want additional PivotTables, each takes about two minutes.
+
+#### Example — total revenue by category
 
 1. Click any cell in the **Cleaned Data** sheet.
 2. **Insert → PivotTable → New Worksheet → OK**.
@@ -60,16 +86,16 @@ PivotTable objects, each takes about two minutes.
 5. Drag **Year** to *Columns*.
 6. Rename the sheet `PivotTable 1`.
 
-### Pivot B — average order value by region
+#### Example — average order value by region
 
 Same steps, then: **State** to *Rows*, **Amount** to *Values*, and set the
 value field to **Average** rather than Sum.
 
-### Pivot C — count of orders by period
+#### Example — count of orders by period
 
 **YearMonth** to *Rows*, **SaleID** to *Values*, value field set to **Count**.
 
-### Turning a PivotTable into a PivotChart
+#### Turning a PivotTable into a PivotChart
 
 Click inside the PivotTable → **Insert → PivotChart** → choose Column for
 categories or Line for the monthly series. Then add a chart title and axis

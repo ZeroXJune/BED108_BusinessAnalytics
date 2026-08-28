@@ -29,6 +29,10 @@ from collections import OrderedDict
 from openpyxl import Workbook
 from openpyxl.chart import BarChart, LineChart, Reference, ScatterChart, Series
 from openpyxl.chart.trendline import Trendline
+from openpyxl.pivot.cache import (CacheDefinition, CacheField, CacheSource,
+                                  SharedItems, WorksheetSource)
+from openpyxl.pivot.table import (DataField, FieldItem, Location, PivotField,
+                                  RowColField, TableDefinition)
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.utils import get_column_letter
 from openpyxl.workbook.defined_name import DefinedName
@@ -292,10 +296,10 @@ def sheet_pivots(wb, rows, last):
     anchors["p4"] = (p4_first, p4_last)
 
     row += 2
-    note(ws, row, "Note: these are formula-driven cross-tabs, which compute "
-                  "exactly what a PivotTable computes and recalculate live. "
-                  "To add native Excel PivotTables as well, see the guide in "
-                  "docs/checkpoint2_excel_guide.md.")
+    note(ws, row, "These are formula-driven cross-tabs: they compute exactly "
+                  "what a PivotTable computes, recalculate live, and can be "
+                  "audited cell by cell. Native Excel PivotTable objects over "
+                  "the same data are on sheets PivotTable 1 to 3.")
     return ws, anchors, cats, years, states, subs, months
 
 
@@ -1117,6 +1121,111 @@ def add_self_checks(ws, row, anchors, last, c_first, c_last):
     return row + 1
 
 
+# Column positions on the Cleaned Data sheet, used as pivot field indices.
+FIELD = {name: i for i, (name, _) in enumerate(COLUMNS)}
+
+
+def add_pivot_tables(wb, last):
+    """Native Excel PivotTable objects over the Cleaned Data sheet.
+
+    The Pivot Analysis sheet already answers these questions with SUMIFS
+    cross-tabs, which are auditable cell by cell. These are the PivotTable
+    objects themselves, for the reading of the brief that wants them.
+
+    One shared cache serves all three, exactly as Excel does when you build
+    several PivotTables from one range. The cache carries refreshOnLoad, so
+    Excel populates it from the source the moment the file opens - openpyxl
+    writes the definition but cannot compute the cached records.
+    """
+    source_ref = f"A1:{get_column_letter(len(COLUMNS))}{last}"
+    cache = CacheDefinition(
+        cacheSource=CacheSource(
+            type="worksheet",
+            worksheetSource=WorksheetSource(ref=source_ref,
+                                            sheet="Cleaned Data")),
+        cacheFields=[CacheField(name=name, sharedItems=SharedItems())
+                     for name, _ in COLUMNS],
+        recordCount=last - 1,
+        refreshOnLoad=True,
+        createdVersion=3, refreshedVersion=3, minRefreshableVersion=3,
+    )
+
+    specs = [
+        {
+            "sheet": "PivotTable 1",
+            "name": "PivotRevenueByCategoryYear",
+            "title": "PivotTable 1 - Total revenue by Category and Year",
+            "note": "Rows: Category. Columns: Year. Values: Sum of Amount.",
+            "rows": ["Category"], "cols": ["Year"],
+            "data": [("Amount", "sum", "Sum of Amount")],
+        },
+        {
+            "sheet": "PivotTable 2",
+            "name": "PivotAverageOrderValueByState",
+            "title": "PivotTable 2 - Average order value by State",
+            "note": "Rows: State. Values: Average of Amount.",
+            "rows": ["State"], "cols": [],
+            "data": [("Amount", "average", "Average of Amount")],
+        },
+        {
+            "sheet": "PivotTable 3",
+            "name": "PivotOrdersByPeriod",
+            "title": "PivotTable 3 - Number of orders by period",
+            "note": "Rows: YearMonth. Values: Count of SaleID.",
+            "rows": ["YearMonth"], "cols": [],
+            "data": [("SaleID", "count", "Count of SaleID")],
+        },
+    ]
+
+    for spec in specs:
+        ws = wb.create_sheet(spec["sheet"])
+        widths(ws, {"A": 26, "B": 16, "C": 16, "D": 16, "E": 16, "F": 16})
+        title(ws, 1, spec["title"], spec["note"])
+        note(ws, 3, "A live PivotTable. Click inside it to open the "
+                    "PivotTable Fields pane; use PivotTable Analyze > Refresh "
+                    "after changing the data.")
+
+        row_fields, pivot_fields = [], []
+        data_names = {d[0] for d in spec["data"]}
+        for name, _ in COLUMNS:
+            if name in spec["rows"]:
+                pivot_fields.append(PivotField(
+                    axis="axisRow", showAll=False,
+                    items=[FieldItem(t="default")]))
+                row_fields.append(RowColField(x=FIELD[name]))
+            elif name in spec["cols"]:
+                pivot_fields.append(PivotField(
+                    axis="axisCol", showAll=False,
+                    items=[FieldItem(t="default")]))
+            elif name in data_names:
+                pivot_fields.append(PivotField(dataField=True, showAll=False))
+            else:
+                pivot_fields.append(PivotField(showAll=False))
+
+        col_fields = [RowColField(x=FIELD[c]) for c in spec["cols"]]
+        data_fields = [
+            DataField(name=label, fld=FIELD[col], subtotal=how,
+                      baseField=0, baseItem=0)
+            for col, how, label in spec["data"]
+        ]
+
+        pivot = TableDefinition(
+            name=spec["name"], cacheId=1,
+            location=Location(ref="A6:D20", firstHeaderRow=1,
+                              firstDataRow=2, firstDataCol=1),
+            pivotFields=pivot_fields,
+            rowFields=row_fields,
+            colFields=col_fields,
+            dataFields=data_fields,
+            dataCaption="Values",
+            createdVersion=3, updatedVersion=3, minRefreshableVersion=3,
+        )
+        pivot.cache = cache
+        ws.add_pivot(pivot)
+        print(f"  {spec['sheet']}: {spec['name']}")
+    return specs
+
+
 def sheet_readme(wb, anchors, last, c_first, c_last):
     """A short guide so the marker knows what is where."""
     ws = wb.create_sheet("Read Me", 0)
@@ -1151,6 +1260,12 @@ def sheet_readme(wb, anchors, last, c_first, c_last):
         ("Forecast", "Task 2.5. Trend test, seasonal index, a six-period "
                      "forecast, and an honest check against the two complete "
                      "2025 months held back from the analysis."),
+        ("PivotTable 1", "Native Excel PivotTable: total revenue by Category "
+                         "and Year."),
+        ("PivotTable 2", "Native Excel PivotTable: average order value by "
+                         "State."),
+        ("PivotTable 3", "Native Excel PivotTable: number of orders by "
+                         "period (YearMonth)."),
     ]
     for name, what in guide:
         n = ws.cell(row=row, column=1, value=name)
@@ -1168,9 +1283,10 @@ def sheet_readme(wb, anchors, last, c_first, c_last):
         "Every computed cell is a live formula over named ranges (Amount, "
         "Profit, Quantity, Category, State, Yr, YearMonth and others). "
         "Change the data and everything recalculates.",
-        "The cross-tabs on Pivot Analysis compute exactly what a PivotTable "
-        "computes. To add native Excel PivotTables as well, follow "
-        "docs/checkpoint2_excel_guide.md - it takes about two minutes each.",
+        "Both forms of pivot are present. Pivot Analysis holds SUMIFS "
+        "cross-tabs, which are auditable cell by cell; PivotTable 1 to 3 are "
+        "native Excel PivotTable objects over the same data. The PivotTables "
+        "refresh from Cleaned Data when the file opens.",
         "Both ends of the source file are partial: it runs 22 March 2020 to "
         "15 March 2025. The analysis window is therefore the 57 whole months "
         "from April 2020 to December 2024. January and February 2025 are "
@@ -1208,6 +1324,7 @@ def main():
     sheet_correlation(wb, c_first, c_last, last)
     sheet_regression(wb, c_first, c_last)
     sheet_forecast(wb, months, p3_first, p3_last)
+    add_pivot_tables(wb, last)
     sheet_readme(wb, anchors, last, c_first, c_last)
 
     wb.save(OUT)

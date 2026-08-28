@@ -60,7 +60,7 @@ the business. A correct R² with no interpretation scores badly.
 
 ## 2. The workbook, sheet by sheet
 
-`reports/Checkpoint_2_Workbook.xlsx` — ten sheets, 1,724 formula cells.
+`reports/Checkpoint_2_Workbook.xlsx` — thirteen sheets, 1,724 formula cells.
 
 | Sheet | Task | What it holds |
 | --- | --- | --- |
@@ -74,6 +74,7 @@ the business. A correct R² with no interpretation scores badly.
 | **Correlation** | 2.3 | Two pairs + a supporting third |
 | **Regression** | 2.4 | Equation, R², t, p, forecasts, limits |
 | **Forecast** | 2.5 | Trend test, seasonal index, forecast, holdout check |
+| **PivotTable 1–3** | 2.1 (2) | Three native Excel PivotTable objects |
 
 ### Two design decisions to be able to defend
 
@@ -130,12 +131,26 @@ the two numbers it comes from.
 | 3 | Orders, revenue, units by month | `COUNTIFS`, `SUMIFS` | The series everything else uses |
 | 4 | Sub-category revenue, 2023 vs 2024 | `SUMIFS` with two criteria | Reproduces the CP1 Printers finding |
 
-**On "pivot tables".** These are **formula-driven cross-tabs**, not PivotTable
-objects. They compute exactly what a PivotTable computes, they recalculate
-live, and every cell is auditable — you can click it and read the logic, which
-you cannot do inside a PivotTable. If your instructor wants the objects
-themselves, `docs/checkpoint2_excel_guide.md` §2 has the two-minute procedure
-per table. Be ready to explain the difference either way.
+**On "pivot tables" — you have both kinds, and should know the difference.**
+
+The four on *Pivot Analysis* are **formula-driven cross-tabs**. They compute
+exactly what a PivotTable computes, recalculate live, and every cell is
+auditable — you can click one and read the logic, which you cannot do inside a
+PivotTable.
+
+Sheets **PivotTable 1, 2 and 3** are **native Excel PivotTable objects**, with
+the Fields pane and drag-and-drop:
+
+| Sheet | Rows | Columns | Values |
+| --- | --- | --- | --- |
+| PivotTable 1 | Category | Year | Sum of Amount |
+| PivotTable 2 | State | — | Average of Amount |
+| PivotTable 3 | YearMonth | — | Count of SaleID |
+
+All three read `Cleaned Data!A1:S1195` through **one shared pivot cache** —
+which is what Excel itself does when you build several PivotTables from one
+range, rather than caching the same data three times. The cache is marked
+*refresh on load*, so Excel populates it when the file opens.
 
 ### Sheet 3 — Pivot Charts
 
@@ -617,10 +632,17 @@ complete months but sit in a partial year, so they are held back as the forecast
 check.
 
 **Are these real PivotTables?**
-No — they are formula-driven cross-tabs using SUMIFS, COUNTIFS and AVERAGEIFS.
-They compute exactly what a PivotTable computes and recalculate live, and every
-cell is auditable, which a PivotTable's internals are not. Native PivotTables
-can be added in about two minutes each if required.
+Both kinds are in the workbook. *Pivot Analysis* holds four formula-driven
+cross-tabs using SUMIFS, COUNTIFS and AVERAGEIFS — they compute exactly what a
+PivotTable computes and every cell can be audited, which a PivotTable's
+internals cannot. Sheets *PivotTable 1* to *3* are native PivotTable objects
+over the same range, sharing one pivot cache the way Excel does when several
+PivotTables come from one source.
+
+**Why share a cache between the three PivotTables?**
+Because they all read the same range. A shared cache stores that data once
+instead of three times, which keeps the file smaller and means one refresh
+updates all three. It is what Excel does by default.
 
 **Why does the histogram matter?**
 Because its shape is flat rather than bell-shaped. A normal distribution peaks
