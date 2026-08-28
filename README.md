@@ -102,18 +102,18 @@ keys, 7 foreign keys, 6 unique constraints and 4 check constraints, and both
 constraint types were confirmed to reject invalid rows.
 
 The queries avoid dialect-specific date functions (calendar parts come from
-`dim_date`), so the same `04_queries.sql` runs unchanged on MySQL 8 and SQLite 3.
+`dates`), so the same `04_queries.sql` runs unchanged on MySQL 8 and SQLite 3.
 
 ## Schema
 
-Star schema, 7 tables, grain of one transaction line. Full ERD in
+Star schema, 8 tables (1 fact + 7 dimensions), grain of one transaction line. Full ERD in
 [`docs/erd.md`](docs/erd.md).
 
 ```
-dim_state ──< dim_city ──< dim_customer ──┐
-dim_category ──< dim_sub_category ────────┼──< fact_sales
-dim_payment_mode ─────────────────────────┤
-dim_date ─────────────────────────────────┘
+states ──< cities ──< customers ──┐
+categories ──< sub_categories ────────┼──< sales
+payment_modes ─────────────────────────┤
+dates ─────────────────────────────────┘
 ```
 
 Two decisions worth knowing before reading the SQL:
@@ -124,7 +124,7 @@ Two decisions worth knowing before reading the SQL:
   surrogate `sale_id`.
 - **Both ends of the series are partial.** The file runs 22 March 2020 to
   15 March 2025, so 2025 is a part-year, 2020 is a *nine-month* year, and
-  March 2020 and March 2025 are part-months. `dim_date` carries
+  March 2020 and March 2025 are part-months. `dates` carries
   `is_complete_year` and `is_complete_month`; the analysis window is the 57
   complete months from April 2020 to December 2024. Q3 also reports
   `revenue_per_month` so the short 2020 cannot be compared unfairly against a

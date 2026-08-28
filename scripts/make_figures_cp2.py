@@ -43,7 +43,7 @@ def save(fig, name):
 def series(con):
     rows = con.execute("""
         SELECT d.year_month, COUNT(*), SUM(f.amount), d.month_number
-        FROM fact_sales f JOIN dim_date d ON d.order_date = f.order_date
+        FROM sales f JOIN dates d ON d.order_date = f.order_date
         WHERE d.is_complete_year = 1 AND d.is_complete_month = 1
         GROUP BY d.year_month, d.month_number ORDER BY d.year_month
     """).fetchall()
@@ -51,7 +51,7 @@ def series(con):
 
 
 def fig_histogram(con):
-    amounts = [r[0] for r in con.execute("SELECT amount FROM fact_sales")]
+    amounts = [r[0] for r in con.execute("SELECT amount FROM sales")]
     fig, ax = plt.subplots(figsize=(7.5, 3.9))
     ax.hist(amounts, bins=range(0, 11000, 1000), color=ACCENT,
             edgecolor="white", linewidth=1.2)
@@ -90,7 +90,7 @@ def fig_scatter_regression(con):
 
 
 def fig_scatter_null(con):
-    rows = con.execute("SELECT quantity, amount FROM fact_sales").fetchall()
+    rows = con.execute("SELECT quantity, amount FROM sales").fetchall()
     x = np.array([r[0] for r in rows], float)
     y = np.array([r[1] for r in rows], float)
     r, p = stats.pearsonr(x, y)
@@ -124,8 +124,8 @@ def fig_forecast(con):
 
     fut = [f"2025-{m:02d}" for m in range(1, 7)]
     fc = [level * idx[m] / grand for m in range(1, 7)]
-    act = dict(con.execute("""SELECT d.year_month, SUM(f.amount) FROM fact_sales f
-        JOIN dim_date d ON d.order_date=f.order_date
+    act = dict(con.execute("""SELECT d.year_month, SUM(f.amount) FROM sales f
+        JOIN dates d ON d.order_date=f.order_date
         WHERE d.year_number=2025 GROUP BY 1"""))
 
     fig, ax = plt.subplots(figsize=(9.5, 4.2))

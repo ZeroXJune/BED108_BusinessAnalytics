@@ -49,7 +49,7 @@ def fig_annual_trend(con):
         SELECT d.year_number,
                SUM(f.amount) / COUNT(DISTINCT d.year_month),
                SUM(f.profit) / COUNT(DISTINCT d.year_month)
-        FROM fact_sales f JOIN dim_date d ON d.order_date = f.order_date
+        FROM sales f JOIN dates d ON d.order_date = f.order_date
         WHERE d.is_complete_year = 1 AND d.is_complete_month = 1
         GROUP BY d.year_number ORDER BY d.year_number
     """).fetchall()
@@ -79,7 +79,7 @@ def fig_annual_trend(con):
 def fig_monthly_seasonality(con):
     rows = con.execute("""
         SELECT d.month_number, d.month_name, SUM(f.amount)
-        FROM fact_sales f JOIN dim_date d ON d.order_date = f.order_date
+        FROM sales f JOIN dates d ON d.order_date = f.order_date
         WHERE d.is_complete_year = 1 AND d.is_complete_month = 1
         GROUP BY d.month_number, d.month_name ORDER BY d.month_number
     """).fetchall()
@@ -104,10 +104,10 @@ def fig_monthly_seasonality(con):
 def fig_category_trend(con):
     rows = con.execute("""
         SELECT c.category_name, d.year_number, SUM(f.amount)
-        FROM fact_sales f
-        JOIN dim_date d ON d.order_date = f.order_date
-        JOIN dim_sub_category s ON s.sub_category_id = f.sub_category_id
-        JOIN dim_category c ON c.category_id = s.category_id
+        FROM sales f
+        JOIN dates d ON d.order_date = f.order_date
+        JOIN sub_categories s ON s.sub_category_id = f.sub_category_id
+        JOIN categories c ON c.category_id = s.category_id
         WHERE d.is_complete_year = 1
         GROUP BY c.category_name, d.year_number
         ORDER BY c.category_name, d.year_number

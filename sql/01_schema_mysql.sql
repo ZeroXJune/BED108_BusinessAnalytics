@@ -3,7 +3,7 @@
 -- Checkpoint 1, Task 1.3: Relational Database Design
 --
 -- Target RDBMS: MySQL 8.0
--- Design      : star schema - one fact table (fact_sales) surrounded by
+-- Design      : star schema - one fact table (sales) surrounded by
 --               six conformed dimensions. Chosen because every key
 --               business question in Task 1.1 is "a measure, sliced by a
 --               dimension, over time", which is exactly what this shape
@@ -21,64 +21,64 @@ USE sales_trend;
 -- ---------------------------------------------------------------------
 -- Geography: state 1---* city 1---* customer
 -- ---------------------------------------------------------------------
-CREATE TABLE dim_state (
+CREATE TABLE states (
     state_id    INT           NOT NULL,
     state_name  VARCHAR(60)   NOT NULL,
-    CONSTRAINT pk_dim_state PRIMARY KEY (state_id),
-    CONSTRAINT uq_dim_state_name UNIQUE (state_name)
+    CONSTRAINT pk_states PRIMARY KEY (state_id),
+    CONSTRAINT uq_states_name UNIQUE (state_name)
 ) ENGINE = InnoDB;
 
-CREATE TABLE dim_city (
+CREATE TABLE cities (
     city_id     INT           NOT NULL,
     city_name   VARCHAR(60)   NOT NULL,
     state_id    INT           NOT NULL,
-    CONSTRAINT pk_dim_city PRIMARY KEY (city_id),
+    CONSTRAINT pk_cities PRIMARY KEY (city_id),
     -- A city name is only unique inside its state.
-    CONSTRAINT uq_dim_city UNIQUE (city_name, state_id),
-    CONSTRAINT fk_city_state FOREIGN KEY (state_id)
-        REFERENCES dim_state (state_id)
+    CONSTRAINT uq_cities UNIQUE (city_name, state_id),
+    CONSTRAINT fk_cities_states FOREIGN KEY (state_id)
+        REFERENCES states (state_id)
 ) ENGINE = InnoDB;
 
-CREATE TABLE dim_customer (
+CREATE TABLE customers (
     customer_id   INT          NOT NULL,
     customer_name VARCHAR(120) NOT NULL,
     city_id       INT          NOT NULL,
-    CONSTRAINT pk_dim_customer PRIMARY KEY (customer_id),
+    CONSTRAINT pk_customers PRIMARY KEY (customer_id),
     -- CustomerName alone repeats across cities in the raw file, so the
     -- business key is the (name, city) pair.
-    CONSTRAINT uq_dim_customer UNIQUE (customer_name, city_id),
-    CONSTRAINT fk_customer_city FOREIGN KEY (city_id)
-        REFERENCES dim_city (city_id)
+    CONSTRAINT uq_customers UNIQUE (customer_name, city_id),
+    CONSTRAINT fk_customers_cities FOREIGN KEY (city_id)
+        REFERENCES cities (city_id)
 ) ENGINE = InnoDB;
 
 -- ---------------------------------------------------------------------
 -- Product hierarchy: category 1---* sub_category
 -- ---------------------------------------------------------------------
-CREATE TABLE dim_category (
+CREATE TABLE categories (
     category_id   INT         NOT NULL,
     category_name VARCHAR(60) NOT NULL,
-    CONSTRAINT pk_dim_category PRIMARY KEY (category_id),
-    CONSTRAINT uq_dim_category_name UNIQUE (category_name)
+    CONSTRAINT pk_categories PRIMARY KEY (category_id),
+    CONSTRAINT uq_categories_name UNIQUE (category_name)
 ) ENGINE = InnoDB;
 
-CREATE TABLE dim_sub_category (
+CREATE TABLE sub_categories (
     sub_category_id   INT         NOT NULL,
     sub_category_name VARCHAR(60) NOT NULL,
     category_id       INT         NOT NULL,
-    CONSTRAINT pk_dim_sub_category PRIMARY KEY (sub_category_id),
-    CONSTRAINT uq_dim_sub_category UNIQUE (sub_category_name, category_id),
-    CONSTRAINT fk_sub_category_category FOREIGN KEY (category_id)
-        REFERENCES dim_category (category_id)
+    CONSTRAINT pk_sub_categories PRIMARY KEY (sub_category_id),
+    CONSTRAINT uq_sub_categories UNIQUE (sub_category_name, category_id),
+    CONSTRAINT fk_sub_categories_categories FOREIGN KEY (category_id)
+        REFERENCES categories (category_id)
 ) ENGINE = InnoDB;
 
 -- ---------------------------------------------------------------------
 -- Payment method
 -- ---------------------------------------------------------------------
-CREATE TABLE dim_payment_mode (
+CREATE TABLE payment_modes (
     payment_mode_id   INT         NOT NULL,
     payment_mode_name VARCHAR(40) NOT NULL,
-    CONSTRAINT pk_dim_payment_mode PRIMARY KEY (payment_mode_id),
-    CONSTRAINT uq_dim_payment_mode_name UNIQUE (payment_mode_name)
+    CONSTRAINT pk_payment_modes PRIMARY KEY (payment_mode_id),
+    CONSTRAINT uq_payment_modes_name UNIQUE (payment_mode_name)
 ) ENGINE = InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -91,9 +91,9 @@ CREATE TABLE dim_payment_mode (
 --
 -- NOTE: `year_month` is backticked because YEAR_MONTH is a reserved word in
 -- MySQL and MariaDB (the INTERVAL ... YEAR_MONTH unit). Unqualified and
--- unquoted it is a syntax error; write dim_date.year_month or `year_month`.
+-- unquoted it is a syntax error; write dates.year_month or `year_month`.
 -- ---------------------------------------------------------------------
-CREATE TABLE dim_date (
+CREATE TABLE dates (
     order_date       DATE        NOT NULL,
     year_number      SMALLINT    NOT NULL,
     quarter_number   TINYINT     NOT NULL,
@@ -102,9 +102,9 @@ CREATE TABLE dim_date (
     `year_month`     CHAR(7)     NOT NULL,
     is_complete_year TINYINT     NOT NULL,
     is_complete_month TINYINT    NOT NULL,
-    CONSTRAINT pk_dim_date PRIMARY KEY (order_date),
-    CONSTRAINT ck_dim_date_quarter CHECK (quarter_number BETWEEN 1 AND 4),
-    CONSTRAINT ck_dim_date_month   CHECK (month_number BETWEEN 1 AND 12)
+    CONSTRAINT pk_dates PRIMARY KEY (order_date),
+    CONSTRAINT ck_dates_quarter CHECK (quarter_number BETWEEN 1 AND 4),
+    CONSTRAINT ck_dates_month   CHECK (month_number BETWEEN 1 AND 12)
 ) ENGINE = InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -112,7 +112,7 @@ CREATE TABLE dim_date (
 -- order_ref keeps the raw "Order ID" for traceability but is NOT a key -
 -- the raw values are reused across dates and customers.
 -- ---------------------------------------------------------------------
-CREATE TABLE fact_sales (
+CREATE TABLE sales (
     sale_id         INT      NOT NULL,
     order_ref       VARCHAR(20) NOT NULL,
     order_date      DATE     NOT NULL,
@@ -122,21 +122,21 @@ CREATE TABLE fact_sales (
     quantity        INT      NOT NULL,
     amount          DECIMAL(12, 2) NOT NULL,
     profit          DECIMAL(12, 2) NOT NULL,
-    CONSTRAINT pk_fact_sales PRIMARY KEY (sale_id),
+    CONSTRAINT pk_sales PRIMARY KEY (sale_id),
     CONSTRAINT fk_sales_date FOREIGN KEY (order_date)
-        REFERENCES dim_date (order_date),
+        REFERENCES dates (order_date),
     CONSTRAINT fk_sales_customer FOREIGN KEY (customer_id)
-        REFERENCES dim_customer (customer_id),
+        REFERENCES customers (customer_id),
     CONSTRAINT fk_sales_sub_category FOREIGN KEY (sub_category_id)
-        REFERENCES dim_sub_category (sub_category_id),
+        REFERENCES sub_categories (sub_category_id),
     CONSTRAINT fk_sales_payment_mode FOREIGN KEY (payment_mode_id)
-        REFERENCES dim_payment_mode (payment_mode_id),
-    CONSTRAINT ck_fact_quantity CHECK (quantity > 0),
-    CONSTRAINT ck_fact_amount   CHECK (amount >= 0)
+        REFERENCES payment_modes (payment_mode_id),
+    CONSTRAINT ck_sales_quantity CHECK (quantity > 0),
+    CONSTRAINT ck_sales_amount   CHECK (amount >= 0)
 ) ENGINE = InnoDB;
 
 -- Indexes on the columns the Task 1.4 queries filter and group by.
-CREATE INDEX ix_fact_sales_date         ON fact_sales (order_date);
-CREATE INDEX ix_fact_sales_sub_category ON fact_sales (sub_category_id);
-CREATE INDEX ix_fact_sales_customer     ON fact_sales (customer_id);
-CREATE INDEX ix_fact_sales_payment      ON fact_sales (payment_mode_id);
+CREATE INDEX ix_sales_date         ON sales (order_date);
+CREATE INDEX ix_sales_sub_category ON sales (sub_category_id);
+CREATE INDEX ix_sales_customer     ON sales (customer_id);
+CREATE INDEX ix_sales_payment      ON sales (payment_mode_id);

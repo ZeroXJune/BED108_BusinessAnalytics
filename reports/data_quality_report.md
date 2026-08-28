@@ -51,10 +51,10 @@ No column contains a null or blank value, so no imputation was needed.
 
 ## 4. Inconsistencies
 
-- `Year-Month` is fully derivable from `Order Date` (0 mismatches), so it is redundant and is recomputed in `dim_date` rather than stored twice.
+- `Year-Month` is fully derivable from `Order Date` (0 mismatches), so it is redundant and is recomputed in `dates` rather than stored twice.
 - `CustomerName` is not a reliable identifier: 5 names appear in more than one city, so the customer key is (name, city).
 - Negative `Amount` values: 0; negative `Profit` values: 0; rows where profit exceeds amount: 0; non-positive `Quantity`: 0. The measures are internally consistent.
-- The 2025 rows stop on 15 March. Any year-on-year trend statement must exclude 2025 or label it as a partial year; `dim_date.is_complete_year` flags this.
+- The 2025 rows stop on 15 March. Any year-on-year trend statement must exclude 2025 or label it as a partial year; `dates.is_complete_year` flags this.
 
 ### Evidence that the dataset is synthetic
 
@@ -70,20 +70,20 @@ This matters twice over. For Checkpoint 1 it means the figures should be present
 
 1. Trimmed surrounding whitespace and normalised casing on all text labels (`State`, `City`, `Category`, `Sub-Category`, `CustomerName`).
 2. Cast `Amount`, `Profit` and `Quantity` to integers and `Order Date` to a true date type.
-3. Dropped the redundant `Year-Month` column and rebuilt the calendar attributes in `dim_date`.
+3. Dropped the redundant `Year-Month` column and rebuilt the calendar attributes in `dates`.
 4. Replaced the unreliable `Order ID` key with a surrogate primary key `sale_id`, retaining the original value as `order_ref`.
-5. Split the flat file into six dimension tables and one fact table, assigning surrogate keys and enforcing foreign keys.
+5. Split the flat file into seven dimension tables and one fact table, assigning surrogate keys and enforcing foreign keys.
 6. Verified referential integrity with `PRAGMA foreign_key_check` after load; the build fails if any violation is found.
 
 ## 6. Loaded row counts
 
 | Table | Rows |
 | --- | --- |
-| `dim_state` | 6 |
-| `dim_city` | 18 |
-| `dim_category` | 3 |
-| `dim_sub_category` | 12 |
-| `dim_payment_mode` | 5 |
-| `dim_customer` | 807 |
-| `dim_date` | 648 |
-| `fact_sales` | 1,194 |
+| `states` | 6 |
+| `cities` | 18 |
+| `categories` | 3 |
+| `sub_categories` | 12 |
+| `payment_modes` | 5 |
+| `customers` | 807 |
+| `dates` | 648 |
+| `sales` | 1,194 |

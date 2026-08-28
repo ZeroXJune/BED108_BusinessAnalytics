@@ -103,14 +103,14 @@ def load():
                cu.customer_name, ci.city_name, st.state_name,
                cat.category_name, s.sub_category_name, pm.payment_mode_name,
                f.quantity, f.amount, f.profit
-        FROM fact_sales f
-        JOIN dim_date         d   ON d.order_date      = f.order_date
-        JOIN dim_customer     cu  ON cu.customer_id    = f.customer_id
-        JOIN dim_city         ci  ON ci.city_id        = cu.city_id
-        JOIN dim_state        st  ON st.state_id       = ci.state_id
-        JOIN dim_sub_category s   ON s.sub_category_id = f.sub_category_id
-        JOIN dim_category     cat ON cat.category_id   = s.category_id
-        JOIN dim_payment_mode pm  ON pm.payment_mode_id = f.payment_mode_id
+        FROM sales f
+        JOIN dates         d   ON d.order_date      = f.order_date
+        JOIN customers     cu  ON cu.customer_id    = f.customer_id
+        JOIN cities         ci  ON ci.city_id        = cu.city_id
+        JOIN states        st  ON st.state_id       = ci.state_id
+        JOIN sub_categories s   ON s.sub_category_id = f.sub_category_id
+        JOIN categories     cat ON cat.category_id   = s.category_id
+        JOIN payment_modes pm  ON pm.payment_mode_id = f.payment_mode_id
         ORDER BY f.order_date, f.sale_id
     """).fetchall()
     con.close()

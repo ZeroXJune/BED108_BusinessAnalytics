@@ -16,7 +16,7 @@ can supply.
 | **1.2** Data dictionary (name, type, description) | Done | Table 3, all 12 columns |
 | **1.2** Quality assessment: missing, duplicates, inconsistencies, cleaning | Done | Report §"Preliminary Data Quality Assessment"; evidence in `reports/data_quality_report.md` |
 | **1.2** Raw dataset preview, first 10–20 rows | Partial | Table 4 — **ACTION: paste your own screenshot** |
-| **1.3** ERD with at least 2 related tables | Exceeded | 7 tables, `docs/erd.md` |
+| **1.3** ERD with at least 2 related tables | Exceeded | 8 tables, `docs/erd.md` |
 | **1.3** Tables with appropriate types and PK/FK | Done | `sql/01_schema_mysql.sql` |
 | **1.3** Import and load cleaned data | Done | `sql/02_mysql_full_import.sql` — one-file import, verified on MariaDB 10.11 |
 | **1.3** Screenshots of schema and populated tables | Script ready | Blocks S1–S7 of `sql/05_screenshot_queries.sql`, mapped in `docs/screenshot_guide.md` — **ACTION: capture the images** |

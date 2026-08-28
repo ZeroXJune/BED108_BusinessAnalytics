@@ -10,7 +10,7 @@
 --
 -- Every query is written in portable SQL (no dialect-specific date
 -- functions) so it runs unchanged on MySQL 8 and SQLite 3. Calendar parts
--- come from dim_date rather than YEAR()/strftime() for that reason.
+-- come from dates rather than YEAR()/strftime() for that reason.
 --
 -- The file covers 22 March 2020 to 15 March 2025, so BOTH ends are partial:
 --   is_complete_year  = 0 for 2025, which stops on 15 March.
@@ -37,7 +37,7 @@ SELECT
     quantity,
     amount,
     profit
-FROM fact_sales
+FROM sales
 WHERE order_date >= '2024-01-01'
   AND order_date <= '2024-12-31'
 ORDER BY amount DESC
@@ -57,7 +57,7 @@ SELECT
     amount,
     profit,
     ROUND(100.0 * profit / amount, 2) AS margin_pct
-FROM fact_sales
+FROM sales
 WHERE quantity >= 15
   AND profit < 0.15 * amount
 -- sale_id breaks ties: three rows share the same margin AND amount, so
@@ -93,8 +93,8 @@ SELECT
                                                     AS revenue_per_month,
     ROUND(AVG(f.amount), 2)                         AS avg_line_value,
     ROUND(100.0 * SUM(f.profit) / SUM(f.amount), 2) AS margin_pct
-FROM fact_sales AS f
-JOIN dim_date AS d
+FROM sales AS f
+JOIN dates AS d
       ON d.order_date = f.order_date
 WHERE d.is_complete_year = 1
   AND d.is_complete_month = 1
@@ -117,13 +117,13 @@ SELECT
     ROUND(
         100.0 * SUM(f.amount) / (
             SELECT SUM(f2.amount)
-            FROM fact_sales AS f2
-            JOIN dim_date AS d2 ON d2.order_date = f2.order_date
+            FROM sales AS f2
+            JOIN dates AS d2 ON d2.order_date = f2.order_date
             WHERE d2.is_complete_year = 1
               AND d2.is_complete_month = 1
         ), 2)                       AS pct_of_total_revenue
-FROM fact_sales AS f
-JOIN dim_date AS d
+FROM sales AS f
+JOIN dates AS d
       ON d.order_date = f.order_date
 WHERE d.is_complete_year = 1
   AND d.is_complete_month = 1
@@ -137,8 +137,8 @@ ORDER BY d.month_number;
 
 -- ---------------------------------------------------------------------
 -- Q5. Revenue by product category per year.
---     Joins 4 tables: fact_sales -> dim_date
---                                -> dim_sub_category -> dim_category
+--     Joins 4 tables: sales -> dates
+--                                -> sub_categories -> categories
 -- ---------------------------------------------------------------------
 SELECT
     c.category_name                                 AS category,
@@ -147,10 +147,10 @@ SELECT
     ROUND(SUM(f.amount), 2)                         AS revenue,
     ROUND(SUM(f.profit), 2)                         AS profit,
     ROUND(100.0 * SUM(f.profit) / SUM(f.amount), 2) AS margin_pct
-FROM fact_sales AS f
-JOIN dim_date         AS d ON d.order_date       = f.order_date
-JOIN dim_sub_category AS s ON s.sub_category_id  = f.sub_category_id
-JOIN dim_category     AS c ON c.category_id      = s.category_id
+FROM sales AS f
+JOIN dates         AS d ON d.order_date       = f.order_date
+JOIN sub_categories AS s ON s.sub_category_id  = f.sub_category_id
+JOIN categories     AS c ON c.category_id      = s.category_id
 WHERE d.is_complete_year = 1
 GROUP BY c.category_name, d.year_number
 ORDER BY c.category_name, d.year_number;
@@ -159,7 +159,7 @@ ORDER BY c.category_name, d.year_number;
 -- ---------------------------------------------------------------------
 -- Q6. Top 10 cities by revenue, with the state they belong to and how
 --     many distinct customers each one represents.
---     Joins 4 tables: fact_sales -> dim_customer -> dim_city -> dim_state
+--     Joins 4 tables: sales -> customers -> cities -> states
 -- ---------------------------------------------------------------------
 SELECT
     st.state_name                                   AS state,
@@ -170,10 +170,10 @@ SELECT
     ROUND(SUM(f.amount) / COUNT(DISTINCT cu.customer_id), 2)
                                                     AS revenue_per_customer,
     ROUND(100.0 * SUM(f.profit) / SUM(f.amount), 2) AS margin_pct
-FROM fact_sales   AS f
-JOIN dim_customer AS cu ON cu.customer_id = f.customer_id
-JOIN dim_city     AS ci ON ci.city_id     = cu.city_id
-JOIN dim_state    AS st ON st.state_id    = ci.state_id
+FROM sales   AS f
+JOIN customers AS cu ON cu.customer_id = f.customer_id
+JOIN cities     AS ci ON ci.city_id     = cu.city_id
+JOIN states    AS st ON st.state_id    = ci.state_id
 GROUP BY st.state_name, ci.city_name
 ORDER BY revenue DESC
 LIMIT 10;
@@ -205,10 +205,10 @@ SELECT
        - SUM(CASE WHEN d.year_number = 2023 THEN f.amount ELSE 0 END))
         / NULLIF(SUM(CASE WHEN d.year_number = 2023 THEN f.amount ELSE 0 END), 0), 1)
         AS change_pct
-FROM fact_sales       AS f
-JOIN dim_date         AS d ON d.order_date      = f.order_date
-JOIN dim_sub_category AS s ON s.sub_category_id = f.sub_category_id
-JOIN dim_category     AS c ON c.category_id     = s.category_id
+FROM sales       AS f
+JOIN dates         AS d ON d.order_date      = f.order_date
+JOIN sub_categories AS s ON s.sub_category_id = f.sub_category_id
+JOIN categories     AS c ON c.category_id     = s.category_id
 WHERE d.year_number IN (2023, 2024)
 GROUP BY c.category_name, s.sub_category_name
 ORDER BY change_abs ASC;
@@ -228,10 +228,10 @@ SELECT
     ROUND(100.0 * SUM(f.amount) / SUM(SUM(f.amount)) OVER (
               PARTITION BY c.category_name), 2)
                             AS pct_of_category_revenue
-FROM fact_sales       AS f
-JOIN dim_date         AS d ON d.order_date      = f.order_date
-JOIN dim_sub_category AS s ON s.sub_category_id = f.sub_category_id
-JOIN dim_category     AS c ON c.category_id     = s.category_id
+FROM sales       AS f
+JOIN dates         AS d ON d.order_date      = f.order_date
+JOIN sub_categories AS s ON s.sub_category_id = f.sub_category_id
+JOIN categories     AS c ON c.category_id     = s.category_id
 WHERE d.is_complete_year = 1
   AND d.is_complete_month = 1
 GROUP BY c.category_name, d.quarter_number

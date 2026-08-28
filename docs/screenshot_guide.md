@@ -55,8 +55,8 @@ drag the results pane up so the query and the first rows fit together.
 | Block | Report slot | Capture | Expected result |
 | --- | --- | --- | --- |
 | **S1** | Schema | `SHOW TABLES;` | Exactly **8** tables |
-| **S2** | Schema | `DESCRIBE fact_sales;` | 9 columns, `sale_id` marked **PRI** |
-| **S3** | Schema — *the key one* | `SHOW CREATE TABLE fact_sales;` | 4 FOREIGN KEYs, 2 CHECKs, 4 indexes, all in one image |
+| **S2** | Schema | `DESCRIBE sales;` | 9 columns, `sale_id` marked **PRI** |
+| **S3** | Schema — *the key one* | `SHOW CREATE TABLE sales;` | 4 FOREIGN KEYs, 2 CHECKs, 4 indexes, all in one image |
 | **S4** | Schema | Foreign-key listing | **7** rows, parent → child |
 | **S5** | Populated tables | Row counts | 3, 18, 807, 648, 5, 6, 12, **1194** |
 | **S6** | Populated tables | Integrity proof | `1194 | 6182639 | 547 | 57 | 0 | 0` |
@@ -104,14 +104,14 @@ Each needs three things per the brief: **(a)** the SQL, **(b)** the result,
 `INTERVAL 1 YEAR_MONTH`. So this **fails**:
 
 ```sql
-SELECT year_month FROM dim_date;          -- syntax error
+SELECT year_month FROM dates;          -- syntax error
 ```
 
 and these both **work**:
 
 ```sql
-SELECT dim_date.year_month FROM dim_date; -- qualified with the table name
-SELECT `year_month` FROM dim_date;        -- wrapped in backticks
+SELECT dates.year_month FROM dates; -- qualified with the table name
+SELECT `year_month` FROM dates;        -- wrapped in backticks
 ```
 
 Every query in this project qualifies or backticks it, so the supplied scripts

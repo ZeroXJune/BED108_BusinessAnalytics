@@ -49,7 +49,7 @@ that ten-day month inside a monthly average pulled March's seasonal index down
 from 1.025 to 0.876 — a 15% distortion that would have made an average month
 look weak.
 
-**What changed.** `dim_date` now carries a second flag, `is_complete_month`,
+**What changed.** `dates` now carries a second flag, `is_complete_month`,
 alongside `is_complete_year`. The analysis window is the **57 whole months from
 April 2020 to December 2024**. Query Q3 now reports `months_covered` and
 `revenue_per_month` so the short year is visible in the table rather than hidden

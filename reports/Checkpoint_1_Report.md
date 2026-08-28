@@ -163,7 +163,7 @@ no imputation or row-dropping was required.
   2025 look like an 80% collapse in demand; and comparing 2020's part-year
   total against a full 2021 overstates growth (69.9% raw versus 30.9% on a
   like-for-like monthly basis). Including the 10-day March 2020 in a monthly
-  average also drags that month's seasonal index down by 15%. `dim_date` carries
+  average also drags that month's seasonal index down by 15%. `dates` carries
   two flags, `is_complete_year` and `is_complete_month`, and every trend query
   filters on them.
 - **Limitation worth stating — the dataset is synthetic.** Four independent
@@ -187,14 +187,14 @@ no imputation or row-dropping was required.
 2. Cast `Amount`, `Profit`, `Quantity` to numeric types and `Order Date` to a
    true `DATE`.
 3. Dropped the redundant `Year-Month` column; rebuilt year, quarter, month and
-   month name in `dim_date`.
+   month name in `dates`.
 4. Replaced `Order ID` as a key with the surrogate primary key `sale_id`,
    retaining the original value as the descriptive column `order_ref`.
 5. Keyed customers on (name, city) rather than name alone.
-6. Added `dim_date.is_complete_year` and `dim_date.is_complete_month` so every
+6. Added `dates.is_complete_year` and `dates.is_complete_month` so every
    trend query excludes the partial 2025 year and the two part-months
    (March 2020, March 2025) explicitly rather than by convention.
-7. Split the flat file into six dimension tables and one fact table with
+7. Split the flat file into seven dimension tables and one fact table with
    enforced foreign keys; the build fails on any referential-integrity
    violation (`PRAGMA foreign_key_check`).
 
@@ -225,29 +225,32 @@ The full diagram, in Mermaid source that renders directly on GitHub, is in
 `docs/erd.md`. Structure:
 
 ```
-dim_state ──< dim_city ──< dim_customer ──┐
+states ──< cities ──< customers ──┐
                                           │
-dim_category ──< dim_sub_category ────────┼──< fact_sales
+categories ──< sub_categories ────────┼──< sales
                                           │
-dim_payment_mode ─────────────────────────┤
+payment_modes ─────────────────────────┤
                                           │
-dim_date ─────────────────────────────────┘
+dates ─────────────────────────────────┘
 ```
 
-**Star schema, 7 tables.** `fact_sales` sits at the centre at a grain of one
-transaction line, with six dimensions hanging off it.
+**Star schema, 8 tables.** `sales` is the **fact table** — it holds the additive
+measures (`quantity`, `amount`, `profit`) at a grain of one transaction line.
+The other seven are **dimension tables**, holding the descriptive attributes
+those measures are sliced by. The tables are named plainly rather than with
+`fact_`/`dim_` prefixes; the roles come from the design, not the names.
 
 Caption: Entity relationships and cardinality in the sales_trend schema.
 
 | Parent | Child | Cardinality |
 | --- | --- | --- |
-| `dim_state` | `dim_city` | 1 : many |
-| `dim_city` | `dim_customer` | 1 : many |
-| `dim_category` | `dim_sub_category` | 1 : many |
-| `dim_customer` | `fact_sales` | 1 : many |
-| `dim_sub_category` | `fact_sales` | 1 : many |
-| `dim_payment_mode` | `fact_sales` | 1 : many |
-| `dim_date` | `fact_sales` | 1 : many |
+| `states` | `cities` | 1 : many |
+| `cities` | `customers` | 1 : many |
+| `categories` | `sub_categories` | 1 : many |
+| `customers` | `sales` | 1 : many |
+| `sub_categories` | `sales` | 1 : many |
+| `payment_modes` | `sales` | 1 : many |
+| `dates` | `sales` | 1 : many |
 
 **Why this design.** Every key business question in Task 1.1 has the form "a
 measure, sliced by a dimension, over time" — which a star schema answers in one
@@ -282,26 +285,26 @@ Caption: Populated row counts verified after load.
 
 | Table | Rows |
 | --- | --- |
-| `dim_state` | 6 |
-| `dim_city` | 18 |
-| `dim_category` | 3 |
-| `dim_sub_category` | 12 |
-| `dim_payment_mode` | 5 |
-| `dim_customer` | 807 |
-| `dim_date` | 648 |
-| `fact_sales` | 1,194 |
+| `states` | 6 |
+| `cities` | 18 |
+| `categories` | 3 |
+| `sub_categories` | 12 |
+| `payment_modes` | 5 |
+| `customers` | 807 |
+| `dates` | 648 |
+| `sales` | 1,194 |
 
 The schema creates **8 primary keys, 7 foreign keys, 6 unique constraints and
 4 check constraints**, all verified on a live MySQL-compatible server; both
 foreign keys and check constraints were confirmed to reject invalid rows.
 
-`fact_sales` holds exactly the 1,194 rows of the raw file — no transaction was
-lost or invented in normalisation. `dim_customer` has 807 rows against 802
+`sales` holds exactly the 1,194 rows of the raw file — no transaction was
+lost or invented in normalisation. `customers` has 807 rows against 802
 distinct names, the 5 extra rows being the names that appear in more than one
 city.
 
 _(Insert your MySQL Workbench screenshots of `SHOW TABLES;` and
-`SELECT COUNT(*) FROM fact_sales;` here.)_
+`SELECT COUNT(*) FROM sales;` here.)_
 
 ---
 
@@ -315,7 +318,7 @@ unchanged on MySQL 8 and SQLite 3.
 ## 1. Basic Data Retrieval
 
 ### Q1 — Largest transaction lines of the most recent complete year
-`SELECT` / `WHERE` / `ORDER BY` on `fact_sales`.
+`SELECT` / `WHERE` / `ORDER BY` on `sales`.
 
 **Business Interpretation.** The 15 biggest lines of 2024 sit in a tight band
 from 9,380 to 9,914, against a dataset-wide maximum of 9,992 — so there is a
@@ -401,7 +404,7 @@ Caption: Revenue by calendar month, 2020–2024 pooled. Demand concentrates in O
 ## 3. Multi-Table Joins
 
 ### Q5 — Revenue by category per year
-Joins 4 tables: `fact_sales → dim_date`, `dim_sub_category → dim_category`.
+Joins 4 tables: `sales → dates`, `sub_categories → categories`.
 
 Caption: Q5 — revenue by product category per year.
 
@@ -426,7 +429,7 @@ Caption: Revenue by product category per year. Electronics reversed in 2024 whil
 ![](../docs/figures/fig3_category_trend.png)
 
 ### Q6 — Top cities by revenue and revenue per customer
-Joins 4 tables: `fact_sales → dim_customer → dim_city → dim_state`.
+Joins 4 tables: `sales → customers → cities → states`.
 
 Caption: Q6 — top cities by revenue and revenue per customer.
 

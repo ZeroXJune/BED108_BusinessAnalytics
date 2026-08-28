@@ -7,8 +7,8 @@
 --     mysql -u root -p sales_trend < 03_insert_data.sql
 -- or run 02_mysql_full_import.sql instead, which is self-contained.
 
--- dim_state: 6 rows
-INSERT INTO dim_state (state_id, state_name) VALUES
+-- states: 6 rows
+INSERT INTO states (state_id, state_name) VALUES
     (1, 'Florida'),
     (2, 'Illinois'),
     (3, 'New York'),
@@ -16,8 +16,8 @@ INSERT INTO dim_state (state_id, state_name) VALUES
     (5, 'Texas'),
     (6, 'Ohio');
 
--- dim_city: 18 rows
-INSERT INTO dim_city (city_id, city_name, state_id) VALUES
+-- cities: 18 rows
+INSERT INTO cities (city_id, city_name, state_id) VALUES
     (1, 'Miami', 1),
     (2, 'Chicago', 2),
     (3, 'Buffalo', 3),
@@ -37,14 +37,14 @@ INSERT INTO dim_city (city_id, city_name, state_id) VALUES
     (17, 'Tampa', 1),
     (18, 'Peoria', 2);
 
--- dim_category: 3 rows
-INSERT INTO dim_category (category_id, category_name) VALUES
+-- categories: 3 rows
+INSERT INTO categories (category_id, category_name) VALUES
     (1, 'Electronics'),
     (2, 'Office Supplies'),
     (3, 'Furniture');
 
--- dim_sub_category: 12 rows
-INSERT INTO dim_sub_category (sub_category_id, sub_category_name, category_id) VALUES
+-- sub_categories: 12 rows
+INSERT INTO sub_categories (sub_category_id, sub_category_name, category_id) VALUES
     (1, 'Electronic Games', 1),
     (2, 'Printers', 1),
     (3, 'Pens', 2),
@@ -58,16 +58,16 @@ INSERT INTO dim_sub_category (sub_category_id, sub_category_name, category_id) V
     (11, 'Phones', 1),
     (12, 'Bookcases', 3);
 
--- dim_payment_mode: 5 rows
-INSERT INTO dim_payment_mode (payment_mode_id, payment_mode_name) VALUES
+-- payment_modes: 5 rows
+INSERT INTO payment_modes (payment_mode_id, payment_mode_name) VALUES
     (1, 'UPI'),
     (2, 'Debit Card'),
     (3, 'EMI'),
     (4, 'Credit Card'),
     (5, 'COD');
 
--- dim_customer: 807 rows
-INSERT INTO dim_customer (customer_id, customer_name, city_id) VALUES
+-- customers: 807 rows
+INSERT INTO customers (customer_id, customer_name, city_id) VALUES
     (1, 'David Padilla', 1),
     (2, 'Connor Morgan', 2),
     (3, 'Robert Stone', 3),
@@ -168,7 +168,7 @@ INSERT INTO dim_customer (customer_id, customer_name, city_id) VALUES
     (98, 'Janet Carlson', 1),
     (99, 'Spencer Spears', 2),
     (100, 'Jeffrey Middleton', 3);
-INSERT INTO dim_customer (customer_id, customer_name, city_id) VALUES
+INSERT INTO customers (customer_id, customer_name, city_id) VALUES
     (101, 'Veronica Kelley', 4),
     (102, 'Leslie Bean', 7),
     (103, 'Amy Wilson', 5),
@@ -269,7 +269,7 @@ INSERT INTO dim_customer (customer_id, customer_name, city_id) VALUES
     (198, 'Anna Blackburn', 14),
     (199, 'Michelle Bailey', 9),
     (200, 'Sara Peterson', 2);
-INSERT INTO dim_customer (customer_id, customer_name, city_id) VALUES
+INSERT INTO customers (customer_id, customer_name, city_id) VALUES
     (201, 'Katherine Williams', 4),
     (202, 'Cory Evans', 4),
     (203, 'Michael Rodriguez', 14),
@@ -370,7 +370,7 @@ INSERT INTO dim_customer (customer_id, customer_name, city_id) VALUES
     (298, 'Randy Johnson', 13),
     (299, 'James Benitez', 1),
     (300, 'Donald York', 3);
-INSERT INTO dim_customer (customer_id, customer_name, city_id) VALUES
+INSERT INTO customers (customer_id, customer_name, city_id) VALUES
     (301, 'Tiffany Parker', 16),
     (302, 'Melissa Mcknight', 5),
     (303, 'Mr. Jack Mercado', 14),
@@ -471,7 +471,7 @@ INSERT INTO dim_customer (customer_id, customer_name, city_id) VALUES
     (398, 'Julia Gallagher', 16),
     (399, 'Ronald Frey Jr.', 6),
     (400, 'Megan Charles', 17);
-INSERT INTO dim_customer (customer_id, customer_name, city_id) VALUES
+INSERT INTO customers (customer_id, customer_name, city_id) VALUES
     (401, 'Amy Duran Md', 4),
     (402, 'Christopher Thomas', 6),
     (403, 'Peter Castro', 9),
@@ -572,7 +572,7 @@ INSERT INTO dim_customer (customer_id, customer_name, city_id) VALUES
     (498, 'Denise Mcdaniel', 5),
     (499, 'Michael Rodriguez', 8),
     (500, 'Matthew Huff', 10);
-INSERT INTO dim_customer (customer_id, customer_name, city_id) VALUES
+INSERT INTO customers (customer_id, customer_name, city_id) VALUES
     (501, 'Linda Little', 17),
     (502, 'Kerri Andrews', 12),
     (503, 'Jeffrey Johnson Iii', 12),
@@ -673,7 +673,7 @@ INSERT INTO dim_customer (customer_id, customer_name, city_id) VALUES
     (598, 'Kayla Banks', 14),
     (599, 'Zachary Pierce', 16),
     (600, 'Nicolas Owen', 12);
-INSERT INTO dim_customer (customer_id, customer_name, city_id) VALUES
+INSERT INTO customers (customer_id, customer_name, city_id) VALUES
     (601, 'Martha Carney', 6),
     (602, 'Francisco Hicks', 7),
     (603, 'Matthew Parker', 7),
@@ -774,7 +774,7 @@ INSERT INTO dim_customer (customer_id, customer_name, city_id) VALUES
     (698, 'Jessica Greene', 6),
     (699, 'Vincent Perez', 8),
     (700, 'Dennis Rivera', 12);
-INSERT INTO dim_customer (customer_id, customer_name, city_id) VALUES
+INSERT INTO customers (customer_id, customer_name, city_id) VALUES
     (701, 'Nancy Keller', 9),
     (702, 'Michelle Anderson', 15),
     (703, 'Anthony May', 17),
@@ -875,7 +875,7 @@ INSERT INTO dim_customer (customer_id, customer_name, city_id) VALUES
     (798, 'Samantha Williams', 4),
     (799, 'Samuel Little Md', 2),
     (800, 'Paul Taylor', 12);
-INSERT INTO dim_customer (customer_id, customer_name, city_id) VALUES
+INSERT INTO customers (customer_id, customer_name, city_id) VALUES
     (801, 'Susan Baker', 10),
     (802, 'Mark Fry', 11),
     (803, 'Megan Mclean', 6),
@@ -884,8 +884,8 @@ INSERT INTO dim_customer (customer_id, customer_name, city_id) VALUES
     (806, 'Stephanie Oconnell', 3),
     (807, 'Andrea Hill', 2);
 
--- dim_date: 648 rows
-INSERT INTO dim_date (order_date, year_number, quarter_number, month_number, month_name, `year_month`, is_complete_year, is_complete_month) VALUES
+-- dates: 648 rows
+INSERT INTO dates (order_date, year_number, quarter_number, month_number, month_name, `year_month`, is_complete_year, is_complete_month) VALUES
     ('2020-03-22', 2020, 1, 3, 'March', '2020-03', 1, 0),
     ('2020-03-23', 2020, 1, 3, 'March', '2020-03', 1, 0),
     ('2020-03-31', 2020, 1, 3, 'March', '2020-03', 1, 0),
@@ -986,7 +986,7 @@ INSERT INTO dim_date (order_date, year_number, quarter_number, month_number, mon
     ('2021-01-19', 2021, 1, 1, 'January', '2021-01', 1, 1),
     ('2021-01-21', 2021, 1, 1, 'January', '2021-01', 1, 1),
     ('2021-01-30', 2021, 1, 1, 'January', '2021-01', 1, 1);
-INSERT INTO dim_date (order_date, year_number, quarter_number, month_number, month_name, `year_month`, is_complete_year, is_complete_month) VALUES
+INSERT INTO dates (order_date, year_number, quarter_number, month_number, month_name, `year_month`, is_complete_year, is_complete_month) VALUES
     ('2021-02-04', 2021, 1, 2, 'February', '2021-02', 1, 1),
     ('2021-02-06', 2021, 1, 2, 'February', '2021-02', 1, 1),
     ('2021-02-09', 2021, 1, 2, 'February', '2021-02', 1, 1),
@@ -1087,7 +1087,7 @@ INSERT INTO dim_date (order_date, year_number, quarter_number, month_number, mon
     ('2021-11-16', 2021, 4, 11, 'November', '2021-11', 1, 1),
     ('2021-11-20', 2021, 4, 11, 'November', '2021-11', 1, 1),
     ('2021-11-23', 2021, 4, 11, 'November', '2021-11', 1, 1);
-INSERT INTO dim_date (order_date, year_number, quarter_number, month_number, month_name, `year_month`, is_complete_year, is_complete_month) VALUES
+INSERT INTO dates (order_date, year_number, quarter_number, month_number, month_name, `year_month`, is_complete_year, is_complete_month) VALUES
     ('2021-11-24', 2021, 4, 11, 'November', '2021-11', 1, 1),
     ('2021-11-26', 2021, 4, 11, 'November', '2021-11', 1, 1),
     ('2021-11-27', 2021, 4, 11, 'November', '2021-11', 1, 1),
@@ -1188,7 +1188,7 @@ INSERT INTO dim_date (order_date, year_number, quarter_number, month_number, mon
     ('2022-07-17', 2022, 3, 7, 'July', '2022-07', 1, 1),
     ('2022-07-18', 2022, 3, 7, 'July', '2022-07', 1, 1),
     ('2022-07-22', 2022, 3, 7, 'July', '2022-07', 1, 1);
-INSERT INTO dim_date (order_date, year_number, quarter_number, month_number, month_name, `year_month`, is_complete_year, is_complete_month) VALUES
+INSERT INTO dates (order_date, year_number, quarter_number, month_number, month_name, `year_month`, is_complete_year, is_complete_month) VALUES
     ('2022-07-23', 2022, 3, 7, 'July', '2022-07', 1, 1),
     ('2022-07-25', 2022, 3, 7, 'July', '2022-07', 1, 1),
     ('2022-07-26', 2022, 3, 7, 'July', '2022-07', 1, 1),
@@ -1289,7 +1289,7 @@ INSERT INTO dim_date (order_date, year_number, quarter_number, month_number, mon
     ('2023-05-04', 2023, 2, 5, 'May', '2023-05', 1, 1),
     ('2023-05-08', 2023, 2, 5, 'May', '2023-05', 1, 1),
     ('2023-05-10', 2023, 2, 5, 'May', '2023-05', 1, 1);
-INSERT INTO dim_date (order_date, year_number, quarter_number, month_number, month_name, `year_month`, is_complete_year, is_complete_month) VALUES
+INSERT INTO dates (order_date, year_number, quarter_number, month_number, month_name, `year_month`, is_complete_year, is_complete_month) VALUES
     ('2023-05-14', 2023, 2, 5, 'May', '2023-05', 1, 1),
     ('2023-05-19', 2023, 2, 5, 'May', '2023-05', 1, 1),
     ('2023-05-24', 2023, 2, 5, 'May', '2023-05', 1, 1),
@@ -1390,7 +1390,7 @@ INSERT INTO dim_date (order_date, year_number, quarter_number, month_number, mon
     ('2024-01-28', 2024, 1, 1, 'January', '2024-01', 1, 1),
     ('2024-02-01', 2024, 1, 2, 'February', '2024-02', 1, 1),
     ('2024-02-02', 2024, 1, 2, 'February', '2024-02', 1, 1);
-INSERT INTO dim_date (order_date, year_number, quarter_number, month_number, month_name, `year_month`, is_complete_year, is_complete_month) VALUES
+INSERT INTO dates (order_date, year_number, quarter_number, month_number, month_name, `year_month`, is_complete_year, is_complete_month) VALUES
     ('2024-02-07', 2024, 1, 2, 'February', '2024-02', 1, 1),
     ('2024-02-10', 2024, 1, 2, 'February', '2024-02', 1, 1),
     ('2024-02-11', 2024, 1, 2, 'February', '2024-02', 1, 1),
@@ -1491,7 +1491,7 @@ INSERT INTO dim_date (order_date, year_number, quarter_number, month_number, mon
     ('2024-10-21', 2024, 4, 10, 'October', '2024-10', 1, 1),
     ('2024-10-26', 2024, 4, 10, 'October', '2024-10', 1, 1),
     ('2024-10-31', 2024, 4, 10, 'October', '2024-10', 1, 1);
-INSERT INTO dim_date (order_date, year_number, quarter_number, month_number, month_name, `year_month`, is_complete_year, is_complete_month) VALUES
+INSERT INTO dates (order_date, year_number, quarter_number, month_number, month_name, `year_month`, is_complete_year, is_complete_month) VALUES
     ('2024-11-10', 2024, 4, 11, 'November', '2024-11', 1, 1),
     ('2024-11-14', 2024, 4, 11, 'November', '2024-11', 1, 1),
     ('2024-11-17', 2024, 4, 11, 'November', '2024-11', 1, 1),
@@ -1541,8 +1541,8 @@ INSERT INTO dim_date (order_date, year_number, quarter_number, month_number, mon
     ('2025-03-14', 2025, 1, 3, 'March', '2025-03', 0, 0),
     ('2025-03-15', 2025, 1, 3, 'March', '2025-03', 0, 0);
 
--- fact_sales: 1194 rows
-INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
+-- sales: 1194 rows
+INSERT INTO sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
     (1, 'B-25665', '2020-03-22', 797, 1, 2, 18, 8962, 2444),
     (2, 'B-25102', '2020-03-23', 8, 3, 4, 14, 2975, 462),
     (3, 'B-26523', '2020-03-31', 172, 3, 1, 6, 8204, 2382),
@@ -1643,7 +1643,7 @@ INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_categor
     (98, 'B-25424', '2020-09-15', 188, 3, 3, 17, 1574, 258),
     (99, 'B-25424', '2020-09-15', 188, 10, 1, 17, 5635, 318),
     (100, 'B-25424', '2020-09-15', 188, 8, 2, 11, 6515, 961);
-INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
+INSERT INTO sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
     (101, 'B-26505', '2020-09-21', 575, 11, 2, 13, 8158, 2052),
     (102, 'B-26790', '2020-09-21', 735, 8, 3, 16, 3445, 1405),
     (103, 'B-26790', '2020-09-21', 735, 4, 1, 1, 9837, 384),
@@ -1744,7 +1744,7 @@ INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_categor
     (198, 'B-25966', '2021-03-01', 801, 12, 2, 9, 6093, 3042),
     (199, 'B-25510', '2021-03-03', 66, 12, 5, 12, 2478, 92),
     (200, 'B-25965', '2021-03-05', 747, 4, 2, 2, 544, 272);
-INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
+INSERT INTO sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
     (201, 'B-25885', '2021-03-06', 124, 3, 5, 12, 9704, 4339),
     (202, 'B-25885', '2021-03-06', 124, 2, 2, 18, 4948, 2356),
     (203, 'B-25885', '2021-03-06', 124, 1, 2, 10, 6435, 334),
@@ -1845,7 +1845,7 @@ INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_categor
     (298, 'B-25156', '2021-08-29', 94, 6, 4, 16, 9820, 793),
     (299, 'B-25483', '2021-09-06', 719, 12, 2, 9, 3129, 55),
     (300, 'B-25483', '2021-09-06', 719, 4, 3, 13, 7821, 3821);
-INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
+INSERT INTO sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
     (301, 'B-25564', '2021-09-06', 597, 9, 3, 8, 2451, 342),
     (302, 'B-25915', '2021-09-08', 79, 10, 5, 10, 3433, 1169),
     (303, 'B-25915', '2021-09-08', 79, 10, 2, 1, 3887, 1490),
@@ -1946,7 +1946,7 @@ INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_categor
     (398, 'B-25744', '2022-01-14', 247, 10, 4, 12, 8438, 3427),
     (399, 'B-25744', '2022-01-14', 247, 1, 1, 9, 1689, 109),
     (400, 'B-25744', '2022-01-14', 247, 9, 5, 14, 3936, 1626);
-INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
+INSERT INTO sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
     (401, 'B-26964', '2022-01-14', 222, 3, 4, 15, 3522, 898),
     (402, 'B-25223', '2022-01-15', 138, 9, 5, 1, 3099, 479),
     (403, 'B-25223', '2022-01-15', 138, 11, 5, 7, 2521, 906),
@@ -2047,7 +2047,7 @@ INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_categor
     (498, 'B-26352', '2022-05-16', 448, 5, 5, 19, 4936, 576),
     (499, 'B-26803', '2022-05-16', 583, 2, 1, 12, 9399, 1949),
     (500, 'B-26803', '2022-05-16', 583, 8, 4, 4, 7957, 965);
-INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
+INSERT INTO sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
     (501, 'B-25681', '2022-05-17', 692, 4, 5, 19, 3854, 245),
     (502, 'B-26153', '2022-05-18', 274, 5, 2, 7, 4906, 975),
     (503, 'B-26734', '2022-05-23', 716, 5, 5, 17, 847, 355),
@@ -2148,7 +2148,7 @@ INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_categor
     (598, 'B-26139', '2022-10-07', 24, 5, 2, 1, 3132, 963),
     (599, 'B-26592', '2022-10-07', 329, 3, 5, 1, 9832, 1270),
     (600, 'B-26592', '2022-10-07', 329, 3, 4, 15, 796, 153);
-INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
+INSERT INTO sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
     (601, 'B-26489', '2022-10-08', 197, 4, 5, 14, 2791, 894),
     (602, 'B-26489', '2022-10-08', 197, 8, 2, 3, 6223, 1478),
     (603, 'B-26489', '2022-10-08', 197, 6, 2, 17, 8943, 3121),
@@ -2249,7 +2249,7 @@ INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_categor
     (698, 'B-26279', '2023-02-17', 624, 10, 1, 4, 3194, 534),
     (699, 'B-25166', '2023-02-23', 359, 6, 1, 17, 1133, 73),
     (700, 'B-25166', '2023-02-23', 359, 12, 5, 19, 6248, 1168);
-INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
+INSERT INTO sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
     (701, 'B-25552', '2023-02-28', 394, 10, 1, 7, 1732, 766),
     (702, 'B-25552', '2023-02-28', 394, 9, 3, 19, 8788, 3944),
     (703, 'B-25856', '2023-02-28', 81, 6, 4, 1, 3428, 350),
@@ -2350,7 +2350,7 @@ INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_categor
     (798, 'B-26795', '2023-07-16', 55, 7, 4, 11, 5002, 1801),
     (799, 'B-26795', '2023-07-16', 55, 7, 5, 18, 7380, 1673),
     (800, 'B-25331', '2023-07-17', 452, 3, 1, 8, 2514, 95);
-INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
+INSERT INTO sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
     (801, 'B-25931', '2023-07-18', 728, 8, 1, 18, 6485, 3178),
     (802, 'B-26352', '2023-07-18', 447, 2, 2, 3, 9382, 1085),
     (803, 'B-26352', '2023-07-18', 447, 5, 5, 19, 4936, 576),
@@ -2451,7 +2451,7 @@ INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_categor
     (898, 'B-25970', '2023-12-14', 570, 6, 2, 14, 9132, 3096),
     (899, 'B-26157', '2023-12-14', 21, 9, 5, 4, 6045, 1606),
     (900, 'B-26157', '2023-12-14', 21, 3, 5, 11, 9337, 554);
-INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
+INSERT INTO sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
     (901, 'B-26507', '2023-12-16', 91, 12, 5, 20, 9895, 1598),
     (902, 'B-26537', '2023-12-21', 491, 5, 1, 17, 3260, 207),
     (903, 'B-26032', '2023-12-24', 108, 11, 5, 1, 8346, 1176),
@@ -2552,7 +2552,7 @@ INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_categor
     (998, 'B-25983', '2024-05-19', 92, 5, 4, 11, 1166, 349),
     (999, 'B-26309', '2024-05-20', 766, 5, 1, 4, 6672, 3319),
     (1000, 'B-26138', '2024-05-21', 723, 12, 1, 19, 3084, 611);
-INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
+INSERT INTO sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
     (1001, 'B-26789', '2024-05-21', 767, 10, 1, 12, 4699, 103),
     (1002, 'B-25762', '2024-05-24', 427, 1, 5, 13, 2858, 482),
     (1003, 'B-26792', '2024-05-26', 340, 3, 3, 3, 3288, 1477),
@@ -2653,7 +2653,7 @@ INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_categor
     (1098, 'B-25488', '2024-10-05', 402, 8, 1, 5, 1388, 345),
     (1099, 'B-25488', '2024-10-05', 402, 4, 4, 8, 8555, 1638),
     (1100, 'B-25819', '2024-10-05', 482, 3, 3, 11, 2589, 605);
-INSERT INTO fact_sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
+INSERT INTO sales (sale_id, order_ref, order_date, customer_id, sub_category_id, payment_mode_id, quantity, amount, profit) VALUES
     (1101, 'B-26122', '2024-10-07', 496, 9, 1, 20, 4116, 921),
     (1102, 'B-26038', '2024-10-08', 568, 11, 2, 5, 8400, 267),
     (1103, 'B-26038', '2024-10-08', 568, 9, 3, 15, 4963, 1254),

@@ -105,7 +105,7 @@ worth being able to say out loud:
 ```
 sales_dataset_raw.csv
         │
-        ▼  clean_and_load.py  ── cleans, splits into 7 tables, checks foreign keys
+        ▼  clean_and_load.py  ── cleans, splits into 8 tables, checks foreign keys
    sales_trend.db  +  data/processed/*.csv  +  sql/03_insert_data.sql
         │
         ▼  run_queries.py     ── executes sql/04_queries.sql
@@ -221,7 +221,7 @@ that is guaranteed unique. Explained further in §5.
 customers on name alone you silently merge two different people.
 
 **Resolution.** The customer business key is **(name, city)**. That is why
-`dim_customer` has **807 rows** against 802 distinct names — the 5 extra rows
+`customers` has **807 rows** against 802 distinct names — the 5 extra rows
 are those duplicated names correctly separated.
 
 #### Problem 3 — `Year-Month` is redundant
@@ -230,7 +230,7 @@ The column holds `2023-06` where `Order Date` already holds `2023-06-27`. We
 checked all 1,194 rows: **zero mismatches**. It is derivable, so storing it is
 duplication — and duplicated data is where update anomalies come from.
 
-**Resolution.** Dropped it; the calendar parts are recomputed in `dim_date`.
+**Resolution.** Dropped it; the calendar parts are recomputed in `dates`.
 
 #### Problem 4 — both ends of the series are partial
 
@@ -247,7 +247,7 @@ period, and that creates *three* separate traps:
    index down from 1.025 to 0.876 — a 15% distortion that would make an average
    month look weak.
 
-**Resolution.** `dim_date` carries two flags:
+**Resolution.** `dates` carries two flags:
 
 - `is_complete_year` — 1 for 2020–2024, 0 for 2025.
 - `is_complete_month` — 0 for March 2020 and March 2025, 1 elsewhere.
@@ -301,22 +301,34 @@ than skipping it — the rubric asks you to *identify* missing values, and
 An ERD with at least 2 related tables, correct data types and primary/foreign
 keys, the cleaned data loaded, and screenshots.
 
-We built **7 tables**. The minimum was 2.
+We built **8 tables** — one fact and seven dimensions. The minimum was 2.
 
 ### The shape: a star schema
 
 ```
-dim_state ──< dim_city ──< dim_customer ──┐
+states ──< cities ──< customers ──┐
                                           │
-dim_category ──< dim_sub_category ────────┼──< fact_sales
+categories ──< sub_categories ────────┼──< sales
                                           │
-dim_payment_mode ─────────────────────────┤
+payment_modes ─────────────────────────┤
                                           │
-dim_date ─────────────────────────────────┘
+dates ─────────────────────────────────┘
 ```
 
 One **fact table** in the middle holding the numbers, surrounded by **dimension
 tables** holding the descriptive labels you slice those numbers by.
+
+The tables are named plainly (`sales`, `customers`, `dates`) rather than with
+the `fact_`/`dim_` prefixes some warehouses use, but the roles are unchanged
+and you should be able to name them:
+
+| Role | Tables here | Test |
+| --- | --- | --- |
+| **Fact** | `sales` | Its numbers add up meaningfully. `SUM(amount)` is total revenue. |
+| **Dimension** | `states`, `cities`, `customers`, `categories`, `sub_categories`, `payment_modes`, `dates` | They describe and label. Summing `customer_id` would be nonsense. |
+
+If you are asked which is the fact table, the answer is `sales`, and the reason
+is the grain and the additive measures below - not the name.
 
 **Why this shape.** Look at the three business questions — each is "a *measure*,
 broken down by a *dimension*, over *time*". Revenue by category by year. Revenue
@@ -327,27 +339,27 @@ each one is answered in a single join hop.
 
 The **grain** is what exactly one row of the fact table represents. Ours:
 
-> One row of `fact_sales` = one product line on one order.
+> One row of `sales` = one product line on one order.
 
 Fix the grain before anything else, because every measure has to be additive at
 that grain. `quantity`, `amount` and `profit` all are: summing them across any
 group gives a meaningful total. If you mixed grains — some rows per order, some
 per line — every SUM would be wrong.
 
-### The seven tables
+### The eight tables
 
 | Table | Rows | Primary key | Holds |
 | --- | --- | --- | --- |
-| `dim_state` | 6 | `state_id` | State names |
-| `dim_city` | 18 | `city_id` | City, with FK to state |
-| `dim_customer` | 807 | `customer_id` | Customer, with FK to city |
-| `dim_category` | 3 | `category_id` | Electronics, Furniture, Office Supplies |
-| `dim_sub_category` | 12 | `sub_category_id` | 12 sub-categories, FK to category |
-| `dim_payment_mode` | 5 | `payment_mode_id` | COD, Credit Card, Debit Card, EMI, UPI |
-| `dim_date` | 648 | `order_date` | One row per date, with year/quarter/month parts |
-| `fact_sales` | 1,194 | `sale_id` | The transactions |
+| `states` | 6 | `state_id` | State names |
+| `cities` | 18 | `city_id` | City, with FK to state |
+| `customers` | 807 | `customer_id` | Customer, with FK to city |
+| `categories` | 3 | `category_id` | Electronics, Furniture, Office Supplies |
+| `sub_categories` | 12 | `sub_category_id` | 12 sub-categories, FK to category |
+| `payment_modes` | 5 | `payment_mode_id` | COD, Credit Card, Debit Card, EMI, UPI |
+| `dates` | 648 | `order_date` | One row per date, with year/quarter/month parts |
+| `sales` | 1,194 | `sale_id` | The transactions |
 
-`fact_sales` has exactly the 1,194 rows of the raw file. **No transaction was
+`sales` has exactly the 1,194 rows of the raw file. **No transaction was
 lost or invented in normalisation** — that is a checkable claim, and a good one
 to state in the defense.
 
@@ -364,17 +376,17 @@ kind of thing the Data Preparation criterion rewards.
 
 ### Why geography and product are separate tables
 
-We could have put `state` straight into `dim_customer` as text. Splitting into
-`dim_state → dim_city → dim_customer` instead means:
+We could have put `state` straight into `customers` as text. Splitting into
+`states → cities → customers` instead means:
 
 - "Miami" is stored **once**, not on all 66 Miami transactions. If it is
   misspelled, you fix one row. This is what **normalisation** is for — removing
   the redundancy that causes update anomalies.
 - It creates genuine multi-table joins for Task 1.4, which the rubric requires.
 
-Same reasoning for `dim_category → dim_sub_category`.
+Same reasoning for `categories → sub_categories`.
 
-### Why `dim_date` exists
+### Why `dates` exists
 
 We could read the year straight off `order_date` with MySQL's `YEAR()`
 function. We built a date table instead because:
@@ -426,7 +438,7 @@ each: the SQL, the result, and a 2–3 sentence business interpretation.
 
 ```sql
 SELECT sale_id, order_ref, order_date, quantity, amount, profit
-FROM fact_sales
+FROM sales
 WHERE order_date >= '2024-01-01'
   AND order_date <= '2024-12-31'
 ORDER BY amount DESC
@@ -434,7 +446,7 @@ LIMIT 15;
 ```
 
 - `SELECT …` — the six columns we want back.
-- `FROM fact_sales` — one table only; this is deliberately the simplest query.
+- `FROM sales` — one table only; this is deliberately the simplest query.
 - `WHERE … AND …` — restricts to the 2024 calendar year. Two conditions joined
   with `AND`, so both must be true.
 - `ORDER BY amount DESC` — sorts biggest first. `DESC` = descending.
@@ -451,7 +463,7 @@ guide to which orders are actually valuable.
 ```sql
 SELECT sale_id, order_date, quantity, amount, profit,
        ROUND(100.0 * profit / amount, 2) AS margin_pct
-FROM fact_sales
+FROM sales
 WHERE quantity >= 15
   AND profit < 0.15 * amount
 ORDER BY margin_pct ASC, amount DESC
@@ -487,16 +499,16 @@ SELECT d.year_number AS year,
        ROUND(SUM(f.profit), 2) AS profit,
        ROUND(AVG(f.amount), 2) AS avg_line_value,
        ROUND(100.0 * SUM(f.profit) / SUM(f.amount), 2) AS margin_pct
-FROM fact_sales AS f
-JOIN dim_date AS d ON d.order_date = f.order_date
+FROM sales AS f
+JOIN dates AS d ON d.order_date = f.order_date
 WHERE d.is_complete_year = 1
 GROUP BY d.year_number
 ORDER BY d.year_number;
 ```
 
 - `AS f`, `AS d` — **table aliases**, so you write `f.amount` not
-  `fact_sales.amount`.
-- `JOIN dim_date AS d ON d.order_date = f.order_date` — matches each sale to
+  `sales.amount`.
+- `JOIN dates AS d ON d.order_date = f.order_date` — matches each sale to
   its calendar row. The `ON` clause is the matching rule.
 - `WHERE d.is_complete_year = 1` — **the partial-2025 guard**. Without this line
   the chart shows a fake collapse.
@@ -536,12 +548,12 @@ SELECT d.month_number AS month_no, d.month_name AS month,
        ROUND(SUM(f.amount), 2) AS revenue,
        ROUND(AVG(f.amount), 2) AS avg_line_value,
        ROUND(100.0 * SUM(f.amount) / (
-           SELECT SUM(f2.amount) FROM fact_sales AS f2
-           JOIN dim_date AS d2 ON d2.order_date = f2.order_date
+           SELECT SUM(f2.amount) FROM sales AS f2
+           JOIN dates AS d2 ON d2.order_date = f2.order_date
            WHERE d2.is_complete_year = 1
        ), 2) AS pct_of_total_revenue
-FROM fact_sales AS f
-JOIN dim_date AS d ON d.order_date = f.order_date
+FROM sales AS f
+JOIN dates AS d ON d.order_date = f.order_date
 WHERE d.is_complete_year = 1
 GROUP BY d.month_number, d.month_name
 ORDER BY d.month_number;
@@ -571,17 +583,17 @@ Both queries here join **four** tables; the requirement was two.
 #### Q5 — revenue by category per year
 
 ```sql
-FROM fact_sales AS f
-JOIN dim_date         AS d ON d.order_date      = f.order_date
-JOIN dim_sub_category AS s ON s.sub_category_id = f.sub_category_id
-JOIN dim_category     AS c ON c.category_id     = s.category_id
+FROM sales AS f
+JOIN dates         AS d ON d.order_date      = f.order_date
+JOIN sub_categories AS s ON s.sub_category_id = f.sub_category_id
+JOIN categories     AS c ON c.category_id     = s.category_id
 WHERE d.is_complete_year = 1
 GROUP BY c.category_name, d.year_number
 ```
 
-Note the **chain**: `fact_sales` has no direct link to `dim_category`. It knows
+Note the **chain**: `sales` has no direct link to `categories`. It knows
 its sub-category, and the sub-category knows its category. So you hop
-`fact_sales → dim_sub_category → dim_category`. Being able to trace that path
+`sales → sub_categories → categories`. Being able to trace that path
 is the point of the exercise.
 
 **Result:**
@@ -602,10 +614,10 @@ both.
 #### Q6 — top cities by revenue and revenue per customer
 
 ```sql
-FROM fact_sales   AS f
-JOIN dim_customer AS cu ON cu.customer_id = f.customer_id
-JOIN dim_city     AS ci ON ci.city_id     = cu.city_id
-JOIN dim_state    AS st ON st.state_id    = ci.state_id
+FROM sales   AS f
+JOIN customers AS cu ON cu.customer_id = f.customer_id
+JOIN cities     AS ci ON ci.city_id     = cu.city_id
+JOIN states    AS st ON st.state_id    = ci.state_id
 GROUP BY st.state_name, ci.city_name
 ORDER BY revenue DESC
 LIMIT 10;
@@ -782,6 +794,14 @@ index. That carries directly into Checkpoint 2's regression and forecasting work
 
 ## 9. Likely defense questions
 
+**Which is the fact table, and how do you know?**
+`sales`. Two tests. First, the grain: one row is one product line on one order.
+Second, the measures are additive at that grain — `SUM(amount)`, `SUM(profit)`
+and `SUM(quantity)` all mean something. The other seven tables describe and
+label rather than measure; summing a `customer_id` would be meaningless. The
+tables are named plainly rather than with `fact_`/`dim_` prefixes, so the role
+comes from the design, not the name.
+
 **Why a star schema and not one flat table?**
 The business questions are all "a measure by a dimension over time", which a
 star answers in one join. A flat table repeats "Miami" on all 66 Miami rows —
@@ -793,7 +813,7 @@ different dates *and* different customers. The first three rows of the raw file
 show one ID across three dates, three customers and three states. We kept it as
 `order_ref` and used a surrogate `sale_id`.
 
-**Why does `dim_customer` have 807 rows when there are 802 names?**
+**Why does `customers` have 807 rows when there are 802 names?**
 Five names appear in more than one city. Keying on name alone would merge two
 different people, so the key is (name, city), which correctly splits those five.
 
@@ -807,9 +827,9 @@ the comparison is fair on its face.
 
 **Why does the schema have backticks around `year_month`?**
 Because `YEAR_MONTH` is a **reserved word** in MySQL and MariaDB — it is the
-unit in `INTERVAL 1 YEAR_MONTH`. Writing `SELECT year_month FROM dim_date` is a
+unit in `INTERVAL 1 YEAR_MONTH`. Writing `SELECT year_month FROM dates` is a
 syntax error. Two things fix it: qualify it with the table name
-(`dim_date.year_month`) or wrap it in backticks (`` `year_month` ``). Every
+(`dates.year_month`) or wrap it in backticks (`` `year_month` ``). Every
 query in this project does one or the other, which is why they all run. This is
 worth knowing generally: reserved words are the commonest reason a
 perfectly-sensible column name refuses to work.
@@ -887,7 +907,8 @@ each fact is stored once.
 **Referential integrity** — the guarantee that every foreign key points at a row
 that actually exists.
 
-**Star schema** — one fact table surrounded by dimension tables.
+**Star schema** — one fact table surrounded by dimension tables. Here `sales`
+is the fact table and the other seven are dimensions, regardless of naming.
 
 **Window function** — an aggregate computed across a set of rows *without*
 collapsing them, written with `OVER (PARTITION BY …)`.

@@ -119,7 +119,7 @@ def profile(rows):
 
 
 def build_tables(rows):
-    """Turn the flat file into the six tables of the star schema."""
+    """Turn the flat file into the eight tables of the star schema."""
     states, cities, categories, subcats, payments, customers, dates_seen = (
         {}, {}, {}, {}, {}, {}, {},
     )
@@ -159,29 +159,29 @@ def build_tables(rows):
 
     tables = {}
 
-    tables["dim_state"] = (
+    tables["states"] = (
         ["state_id", "state_name"],
         [[sid, name] for name, sid in sorted(states.items(), key=lambda x: x[1])],
     )
-    tables["dim_city"] = (
+    tables["cities"] = (
         ["city_id", "city_name", "state_id"],
         [[cid, city, states[state]]
          for (city, state), cid in sorted(cities.items(), key=lambda x: x[1])],
     )
-    tables["dim_category"] = (
+    tables["categories"] = (
         ["category_id", "category_name"],
         [[cid, name] for name, cid in sorted(categories.items(), key=lambda x: x[1])],
     )
-    tables["dim_sub_category"] = (
+    tables["sub_categories"] = (
         ["sub_category_id", "sub_category_name", "category_id"],
         [[sid, sub, categories[cat]]
          for (sub, cat), sid in sorted(subcats.items(), key=lambda x: x[1])],
     )
-    tables["dim_payment_mode"] = (
+    tables["payment_modes"] = (
         ["payment_mode_id", "payment_mode_name"],
         [[pid, name] for name, pid in sorted(payments.items(), key=lambda x: x[1])],
     )
-    tables["dim_customer"] = (
+    tables["customers"] = (
         ["customer_id", "customer_name", "city_id"],
         [[cid, name, cities[(city, state)]]
          for (name, city, state), cid in sorted(customers.items(), key=lambda x: x[1])],
@@ -205,29 +205,29 @@ def build_tables(rows):
             1 if d.year <= LAST_COMPLETE_YEAR else 0,
             1 if month_is_complete(d) else 0,
         ])
-    tables["dim_date"] = (
+    tables["dates"] = (
         ["order_date", "year_number", "quarter_number", "month_number",
          "month_name", "year_month", "is_complete_year", "is_complete_month"],
         date_rows,
     )
 
-    fact_rows = []
+    sales_rows = []
     for i, f in enumerate(sorted(facts, key=lambda x: (x["order_date"], x["order_ref"])), 1):
-        fact_rows.append([
+        sales_rows.append([
             i, f["order_ref"], f["order_date"], f["customer_id"],
             f["sub_category_id"], f["payment_mode_id"],
             f["quantity"], f["amount"], f["profit"],
         ])
-    tables["fact_sales"] = (
+    tables["sales"] = (
         ["sale_id", "order_ref", "order_date", "customer_id", "sub_category_id",
          "payment_mode_id", "quantity", "amount", "profit"],
-        fact_rows,
+        sales_rows,
     )
     return tables
 
 
-LOAD_ORDER = ["dim_state", "dim_city", "dim_category", "dim_sub_category",
-              "dim_payment_mode", "dim_customer", "dim_date", "fact_sales"]
+LOAD_ORDER = ["states", "cities", "categories", "sub_categories",
+              "payment_modes", "customers", "dates", "sales"]
 
 
 def write_csvs(tables):
@@ -333,7 +333,7 @@ def write_full_import(tables):
         fh.write(
             "-- =====================================================================\n"
             "-- VERIFICATION - the last result should read exactly:\n"
-            f"--   {len(tables['fact_sales'][1]):,} | 6182639.00 | 547 | 57 | 0 | 0\n"
+            f"--   {len(tables['sales'][1]):,} | 6182639.00 | 547 | 57 | 0 | 0\n"
             "-- =====================================================================\n\n"
         )
         fh.write("SELECT 'Import complete. Row counts:' AS status;\n\n")
@@ -345,16 +345,16 @@ def write_full_import(tables):
         )
         fh.write(
             "SELECT\n"
-            "    (SELECT COUNT(*)  FROM fact_sales)                       AS fact_rows,\n"
-            "    (SELECT SUM(amount) FROM fact_sales)                     AS total_revenue,\n"
-            "    (SELECT COUNT(DISTINCT order_ref) FROM fact_sales)       AS distinct_order_refs,\n"
-            "    (SELECT COUNT(DISTINCT dim_date.year_month) FROM dim_date\n"
+            "    (SELECT COUNT(*)  FROM sales)                       AS sales_rows,\n"
+            "    (SELECT SUM(amount) FROM sales)                     AS total_revenue,\n"
+            "    (SELECT COUNT(DISTINCT order_ref) FROM sales)       AS distinct_order_refs,\n"
+            "    (SELECT COUNT(DISTINCT dates.year_month) FROM dates\n"
             "      WHERE is_complete_year = 1 AND is_complete_month = 1)  AS analysis_months,\n"
-            "    (SELECT COUNT(*) FROM fact_sales f\n"
-            "       LEFT JOIN dim_customer c ON c.customer_id = f.customer_id\n"
+            "    (SELECT COUNT(*) FROM sales f\n"
+            "       LEFT JOIN customers c ON c.customer_id = f.customer_id\n"
             "      WHERE c.customer_id IS NULL)                           AS orphan_customers,\n"
-            "    (SELECT COUNT(*) FROM fact_sales f\n"
-            "       LEFT JOIN dim_date d ON d.order_date = f.order_date\n"
+            "    (SELECT COUNT(*) FROM sales f\n"
+            "       LEFT JOIN dates d ON d.order_date = f.order_date\n"
             "      WHERE d.order_date IS NULL)                            AS orphan_dates;\n"
         )
 
@@ -438,7 +438,7 @@ def write_quality_report(issues, tables):
         "",
         f"- `Year-Month` is fully derivable from `Order Date` "
         f"({issues['ym_mismatch']} mismatches), so it is redundant and is "
-        "recomputed in `dim_date` rather than stored twice.",
+        "recomputed in `dates` rather than stored twice.",
         f"- `CustomerName` is not a reliable identifier: "
         f"{issues['names_in_multiple_cities']} names appear in more than one "
         "city, so the customer key is (name, city).",
@@ -449,7 +449,7 @@ def write_quality_report(issues, tables):
         "internally consistent.",
         "- The 2025 rows stop on 15 March. Any year-on-year trend statement "
         "must exclude 2025 or label it as a partial year; "
-        "`dim_date.is_complete_year` flags this.",
+        "`dates.is_complete_year` flags this.",
         "",
         "### Evidence that the dataset is synthetic",
         "",
@@ -485,10 +485,10 @@ def write_quality_report(issues, tables):
         "2. Cast `Amount`, `Profit` and `Quantity` to integers and `Order Date` "
         "to a true date type.",
         "3. Dropped the redundant `Year-Month` column and rebuilt the calendar "
-        "attributes in `dim_date`.",
+        "attributes in `dates`.",
         "4. Replaced the unreliable `Order ID` key with a surrogate primary key "
         "`sale_id`, retaining the original value as `order_ref`.",
-        "5. Split the flat file into six dimension tables and one fact table, "
+        "5. Split the flat file into seven dimension tables and one fact table, "
         "assigning surrogate keys and enforcing foreign keys.",
         "6. Verified referential integrity with `PRAGMA foreign_key_check` "
         "after load; the build fails if any violation is found.",

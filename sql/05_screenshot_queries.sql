@@ -26,8 +26,8 @@ USE sales_trend;
 
 -- ---------------------------------------------------------------------
 -- S1. All tables in the database.
---     EXPECT: exactly 8 rows - dim_category, dim_city, dim_customer,
---     dim_date, dim_payment_mode, dim_state, dim_sub_category, fact_sales
+--     EXPECT: exactly 8 rows - categories, cities, customers,
+--     dates, payment_modes, states, sub_categories, sales
 -- ---------------------------------------------------------------------
 SHOW TABLES;
 
@@ -36,9 +36,9 @@ SHOW TABLES;
 -- S2. Structure of the fact table, showing data types and the primary key.
 --     EXPECT: 9 columns; sale_id marked PRI.
 --     Repeat for any dimension you also want to show, e.g.
---     DESCRIBE dim_customer;
+--     DESCRIBE customers;
 -- ---------------------------------------------------------------------
-DESCRIBE fact_sales;
+DESCRIBE sales;
 
 
 -- ---------------------------------------------------------------------
@@ -47,7 +47,7 @@ DESCRIBE fact_sales;
 --     most useful image for the "schema" slot.
 --     EXPECT: 4 FOREIGN KEY clauses and 2 CHECK constraints.
 -- ---------------------------------------------------------------------
-SHOW CREATE TABLE fact_sales;
+SHOW CREATE TABLE sales;
 
 
 -- ---------------------------------------------------------------------
@@ -73,33 +73,33 @@ ORDER BY kcu.REFERENCED_TABLE_NAME, kcu.TABLE_NAME;
 --     screenshot.
 --     EXPECT, in this order: 3, 18, 807, 648, 5, 6, 12, 1194
 -- ---------------------------------------------------------------------
-SELECT 'dim_category'     AS table_name, COUNT(*) AS row_count FROM dim_category
-UNION ALL SELECT 'dim_city',             COUNT(*) FROM dim_city
-UNION ALL SELECT 'dim_customer',         COUNT(*) FROM dim_customer
-UNION ALL SELECT 'dim_date',             COUNT(*) FROM dim_date
-UNION ALL SELECT 'dim_payment_mode',     COUNT(*) FROM dim_payment_mode
-UNION ALL SELECT 'dim_state',            COUNT(*) FROM dim_state
-UNION ALL SELECT 'dim_sub_category',     COUNT(*) FROM dim_sub_category
-UNION ALL SELECT 'fact_sales',           COUNT(*) FROM fact_sales;
+SELECT 'categories'     AS table_name, COUNT(*) AS row_count FROM categories
+UNION ALL SELECT 'cities',             COUNT(*) FROM cities
+UNION ALL SELECT 'customers',         COUNT(*) FROM customers
+UNION ALL SELECT 'dates',             COUNT(*) FROM dates
+UNION ALL SELECT 'payment_modes',     COUNT(*) FROM payment_modes
+UNION ALL SELECT 'states',            COUNT(*) FROM states
+UNION ALL SELECT 'sub_categories',     COUNT(*) FROM sub_categories
+UNION ALL SELECT 'sales',           COUNT(*) FROM sales;
 
 
 -- ---------------------------------------------------------------------
 -- S6. Data-integrity proof. Every number here should match the comment;
 --     the two orphan counts MUST be 0. Screenshot this to show the load
 --     was clean, not just that rows exist.
---     EXPECT: 1194 | 6182639 | 547 | 57 | 0 | 0
+--     EXPECT: 1194 | 6182639.00 | 547 | 57 | 0 | 0
 -- ---------------------------------------------------------------------
 SELECT
-    (SELECT COUNT(*)  FROM fact_sales)                       AS fact_rows,
-    (SELECT SUM(amount) FROM fact_sales)                     AS total_revenue,
-    (SELECT COUNT(DISTINCT order_ref) FROM fact_sales)       AS distinct_order_refs,
-    (SELECT COUNT(DISTINCT dim_date.year_month) FROM dim_date
+    (SELECT COUNT(*)  FROM sales)                       AS sales_rows,
+    (SELECT SUM(amount) FROM sales)                     AS total_revenue,
+    (SELECT COUNT(DISTINCT order_ref) FROM sales)       AS distinct_order_refs,
+    (SELECT COUNT(DISTINCT dates.year_month) FROM dates
       WHERE is_complete_year = 1 AND is_complete_month = 1)  AS analysis_months,
-    (SELECT COUNT(*) FROM fact_sales f
-       LEFT JOIN dim_customer c ON c.customer_id = f.customer_id
+    (SELECT COUNT(*) FROM sales f
+       LEFT JOIN customers c ON c.customer_id = f.customer_id
       WHERE c.customer_id IS NULL)                           AS orphan_customers,
-    (SELECT COUNT(*) FROM fact_sales f
-       LEFT JOIN dim_date d ON d.order_date = f.order_date
+    (SELECT COUNT(*) FROM sales f
+       LEFT JOIN dates d ON d.order_date = f.order_date
       WHERE d.order_date IS NULL)                            AS orphan_dates;
 
 
@@ -116,11 +116,11 @@ SELECT
     cu.customer_name,
     ci.city_name,
     f.amount
-FROM fact_sales   AS f
-JOIN dim_customer AS cu ON cu.customer_id = f.customer_id
-JOIN dim_city     AS ci ON ci.city_id     = cu.city_id
+FROM sales   AS f
+JOIN customers AS cu ON cu.customer_id = f.customer_id
+JOIN cities     AS ci ON ci.city_id     = cu.city_id
 WHERE f.order_ref = 'B-26776'
-  AND f.sub_category_id = (SELECT sub_category_id FROM dim_sub_category
+  AND f.sub_category_id = (SELECT sub_category_id FROM sub_categories
                             WHERE sub_category_name = 'Electronic Games')
 ORDER BY f.order_date;
 
@@ -144,7 +144,7 @@ SELECT
     quantity,
     amount,
     profit
-FROM fact_sales
+FROM sales
 WHERE order_date >= '2024-01-01'
   AND order_date <= '2024-12-31'
 ORDER BY amount DESC
@@ -163,7 +163,7 @@ SELECT
     amount,
     profit,
     ROUND(100.0 * profit / amount, 2) AS margin_pct
-FROM fact_sales
+FROM sales
 WHERE quantity >= 15
   AND profit < 0.15 * amount
 -- sale_id breaks ties: three rows share the same margin AND amount, so
@@ -190,8 +190,8 @@ SELECT
                                                     AS revenue_per_month,
     ROUND(AVG(f.amount), 2)                         AS avg_line_value,
     ROUND(100.0 * SUM(f.profit) / SUM(f.amount), 2) AS margin_pct
-FROM fact_sales AS f
-JOIN dim_date AS d
+FROM sales AS f
+JOIN dates AS d
       ON d.order_date = f.order_date
 WHERE d.is_complete_year = 1
   AND d.is_complete_month = 1
@@ -213,13 +213,13 @@ SELECT
     ROUND(
         100.0 * SUM(f.amount) / (
             SELECT SUM(f2.amount)
-            FROM fact_sales AS f2
-            JOIN dim_date AS d2 ON d2.order_date = f2.order_date
+            FROM sales AS f2
+            JOIN dates AS d2 ON d2.order_date = f2.order_date
             WHERE d2.is_complete_year = 1
               AND d2.is_complete_month = 1
         ), 2)                       AS pct_of_total_revenue
-FROM fact_sales AS f
-JOIN dim_date AS d
+FROM sales AS f
+JOIN dates AS d
       ON d.order_date = f.order_date
 WHERE d.is_complete_year = 1
   AND d.is_complete_month = 1
@@ -229,7 +229,7 @@ ORDER BY d.month_number;
 
 -- ---------------------------------------------------------------------
 -- Q5. JOIN (4 tables) - revenue by product category per year.
---     fact_sales -> dim_date, and -> dim_sub_category -> dim_category
+--     sales -> dates, and -> sub_categories -> categories
 --     EXPECT: 15 rows; Electronics drops from 538,319 (2023) to 318,630 (2024).
 -- ---------------------------------------------------------------------
 SELECT
@@ -239,10 +239,10 @@ SELECT
     ROUND(SUM(f.amount), 2)                         AS revenue,
     ROUND(SUM(f.profit), 2)                         AS profit,
     ROUND(100.0 * SUM(f.profit) / SUM(f.amount), 2) AS margin_pct
-FROM fact_sales AS f
-JOIN dim_date         AS d ON d.order_date       = f.order_date
-JOIN dim_sub_category AS s ON s.sub_category_id  = f.sub_category_id
-JOIN dim_category     AS c ON c.category_id      = s.category_id
+FROM sales AS f
+JOIN dates         AS d ON d.order_date       = f.order_date
+JOIN sub_categories AS s ON s.sub_category_id  = f.sub_category_id
+JOIN categories     AS c ON c.category_id      = s.category_id
 WHERE d.is_complete_year = 1
 GROUP BY c.category_name, d.year_number
 ORDER BY c.category_name, d.year_number;
@@ -250,7 +250,7 @@ ORDER BY c.category_name, d.year_number;
 
 -- ---------------------------------------------------------------------
 -- Q6. JOIN (4 tables) - top 10 cities by revenue.
---     fact_sales -> dim_customer -> dim_city -> dim_state
+--     sales -> customers -> cities -> states
 --     EXPECT: 10 rows; Orlando first at 452,158 and 9,829.52 per customer.
 -- ---------------------------------------------------------------------
 SELECT
@@ -262,10 +262,10 @@ SELECT
     ROUND(SUM(f.amount) / COUNT(DISTINCT cu.customer_id), 2)
                                                     AS revenue_per_customer,
     ROUND(100.0 * SUM(f.profit) / SUM(f.amount), 2) AS margin_pct
-FROM fact_sales   AS f
-JOIN dim_customer AS cu ON cu.customer_id = f.customer_id
-JOIN dim_city     AS ci ON ci.city_id     = cu.city_id
-JOIN dim_state    AS st ON st.state_id    = ci.state_id
+FROM sales   AS f
+JOIN customers AS cu ON cu.customer_id = f.customer_id
+JOIN cities     AS ci ON ci.city_id     = cu.city_id
+JOIN states    AS st ON st.state_id    = ci.state_id
 GROUP BY st.state_name, ci.city_name
 ORDER BY revenue DESC
 LIMIT 10;
@@ -292,10 +292,10 @@ SELECT
        - SUM(CASE WHEN d.year_number = 2023 THEN f.amount ELSE 0 END))
         / NULLIF(SUM(CASE WHEN d.year_number = 2023 THEN f.amount ELSE 0 END), 0), 1)
         AS change_pct
-FROM fact_sales       AS f
-JOIN dim_date         AS d ON d.order_date      = f.order_date
-JOIN dim_sub_category AS s ON s.sub_category_id = f.sub_category_id
-JOIN dim_category     AS c ON c.category_id     = s.category_id
+FROM sales       AS f
+JOIN dates         AS d ON d.order_date      = f.order_date
+JOIN sub_categories AS s ON s.sub_category_id = f.sub_category_id
+JOIN categories     AS c ON c.category_id     = s.category_id
 WHERE d.year_number IN (2023, 2024)
 GROUP BY c.category_name, s.sub_category_name
 ORDER BY change_abs ASC;
@@ -317,10 +317,10 @@ SELECT
     ROUND(100.0 * SUM(f.amount) / SUM(SUM(f.amount)) OVER (
               PARTITION BY c.category_name), 2)
                             AS pct_of_category_revenue
-FROM fact_sales       AS f
-JOIN dim_date         AS d ON d.order_date      = f.order_date
-JOIN dim_sub_category AS s ON s.sub_category_id = f.sub_category_id
-JOIN dim_category     AS c ON c.category_id     = s.category_id
+FROM sales       AS f
+JOIN dates         AS d ON d.order_date      = f.order_date
+JOIN sub_categories AS s ON s.sub_category_id = f.sub_category_id
+JOIN categories     AS c ON c.category_id     = s.category_id
 WHERE d.is_complete_year = 1
   AND d.is_complete_month = 1
 GROUP BY c.category_name, d.quarter_number
@@ -340,17 +340,17 @@ SELECT
     ROUND(SUM(f.amount), 2) AS revenue,
     ROUND(100.0 * SUM(f.amount) / (
         SELECT SUM(f2.amount)
-        FROM fact_sales       AS f2
-        JOIN dim_date         AS d2 ON d2.order_date      = f2.order_date
-        JOIN dim_sub_category AS s2 ON s2.sub_category_id = f2.sub_category_id
+        FROM sales       AS f2
+        JOIN dates         AS d2 ON d2.order_date      = f2.order_date
+        JOIN sub_categories AS s2 ON s2.sub_category_id = f2.sub_category_id
         WHERE s2.category_id = c.category_id
           AND d2.is_complete_year = 1
           AND d2.is_complete_month = 1
     ), 2)                   AS pct_of_category_revenue
-FROM fact_sales       AS f
-JOIN dim_date         AS d ON d.order_date      = f.order_date
-JOIN dim_sub_category AS s ON s.sub_category_id = f.sub_category_id
-JOIN dim_category     AS c ON c.category_id     = s.category_id
+FROM sales       AS f
+JOIN dates         AS d ON d.order_date      = f.order_date
+JOIN sub_categories AS s ON s.sub_category_id = f.sub_category_id
+JOIN categories     AS c ON c.category_id     = s.category_id
 WHERE d.is_complete_year = 1
   AND d.is_complete_month = 1
 GROUP BY c.category_name, c.category_id, d.quarter_number
