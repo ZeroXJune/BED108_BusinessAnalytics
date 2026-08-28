@@ -19,13 +19,13 @@ can supply.
 | **1.3** ERD with at least 2 related tables | Exceeded | 7 tables, `docs/erd.md` |
 | **1.3** Tables with appropriate types and PK/FK | Done | `sql/01_schema_mysql.sql` |
 | **1.3** Import and load cleaned data | Done | `sql/03_insert_data.sql`, 1,194 fact rows |
-| **1.3** Screenshots of schema and populated tables | Not done | **ACTION: screenshot your own RDBMS run** |
+| **1.3** Screenshots of schema and populated tables | Script ready | Blocks S1–S7 of `sql/05_screenshot_queries.sql`, mapped in `docs/screenshot_guide.md` — **ACTION: capture the images** |
 | **1.4** ≥2 SELECT with WHERE and ORDER BY | Done | Q1, Q2 |
 | **1.4** ≥2 GROUP BY with aggregates | Done | Q3, Q4 (COUNT, SUM, AVG) |
 | **1.4** ≥2 JOIN queries, 2+ tables | Exceeded | Q5, Q6 — four tables each |
 | **1.4** ≥2 business-relevant queries answering the key questions | Done | Q7, Q8 |
 | **1.4** For each query: SQL code | Done | `sql/04_queries.sql`, commented |
-| **1.4** For each query: output/result screenshot | Partial | Full result sets in `reports/query_results.md` — **ACTION: screenshot your own run** |
+| **1.4** For each query: output/result screenshot | Script ready | Blocks Q1–Q8 of `sql/05_screenshot_queries.sql`, each stating its expected result — **ACTION: capture the images** |
 | **1.4** For each query: 2–3 sentence business interpretation | See note | Present, but longer than 2–3 sentences — **see the note below** |
 
 ## General guidelines (Section 3.1)

@@ -51,6 +51,7 @@ sql/01_schema_mysql.sql                      DDL for MySQL 8 (the deliverable)
 sql/01_schema_sqlite.sql                     mirror used for the local run
 sql/03_insert_data.sql                       generated INSERT statements
 sql/04_queries.sql                           the 8 Task 1.4 queries
+sql/05_screenshot_queries.sql                run-in-order script for screenshots
 scripts/clean_and_load.py                    clean → normalise → load → verify
 scripts/run_queries.py                       run all queries, capture results
 scripts/make_figures.py                      regenerate the report charts
@@ -119,9 +120,9 @@ The five things only the group can supply:
 2. Fill in the cover page: group name/number, submission date, member names.
 3. Confirm the dataset's exact licence on its source page and record it in the
    Task 1.2 table.
-4. Take your own screenshots of the schema, populated tables and query results
-   in phpMyAdmin or MySQL Workbench — the full result sets are already in the
-   report, but the brief asks for screenshots of *your* run.
+4. Take your own screenshots: run `sql/05_screenshot_queries.sql` block by block
+   and follow [`docs/screenshot_guide.md`](docs/screenshot_guide.md), which maps
+   each block to its report slot and gives the result to expect.
 5. Complete and sign `reports/Form_A_Individual_Contribution.md`, one per
    member. This is required with every checkpoint.
 
