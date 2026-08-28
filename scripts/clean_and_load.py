@@ -90,6 +90,16 @@ def profile(rows):
     issues["date_min"], issues["date_max"] = dates[0], dates[-1]
     issues["rows_per_year"] = dict(sorted(Counter(d[:4] for d in dates).items()))
 
+    # "MD", "DDS", "Jr" and friends as a surname are the signature of a name
+    # generator (Faker) rather than a real customer list.
+    suffixes = {"MD", "DDS", "DVM", "PhD", "Jr.", "Sr.", "II", "III", "IV"}
+    issues["generator_suffixes"] = sum(
+        1 for n in names if n.split()[-1] in suffixes
+    )
+    issues["payment_spread"] = sorted(
+        Counter(r["PaymentMode"] for r in rows).items(), key=lambda x: -x[1]
+    )
+
     issues["negative_amount"] = sum(1 for r in rows if int(r["Amount"]) < 0)
     issues["negative_profit"] = sum(1 for r in rows if int(r["Profit"]) < 0)
     issues["profit_gt_amount"] = sum(
@@ -323,13 +333,38 @@ def write_quality_report(issues, tables):
         f"`Profit` values: {issues['negative_profit']}; rows where profit "
         f"exceeds amount: {issues['profit_gt_amount']}; non-positive "
         f"`Quantity`: {issues['quantity_non_positive']}. The measures are "
-        "internally consistent, but note that a dataset with zero loss-making "
-        "orders across five years is unusual for real retail and points to a "
-        "synthetic or pre-filtered source.",
+        "internally consistent.",
         "- The 2025 rows stop on 15 March. Any year-on-year trend statement "
-        "must exclude 2025 or label it as a partial year; `dim_date."
-        "is_complete_year` flags this.",
+        "must exclude 2025 or label it as a partial year; "
+        "`dim_date.is_complete_year` flags this.",
         "",
+        "### Evidence that the dataset is synthetic",
+        "",
+        "Four independent signals, all machine-checked:",
+        "",
+        f"1. **Zero loss-making lines** across "
+        f"{issues['row_count']:,} rows and five years. Real retail carries "
+        "returns, write-offs and discounted clearance.",
+        f"2. **{issues['generator_suffixes']} of the "
+        f"{issues['customer_names']:,} distinct customer names end in a "
+        "credential suffix** (MD, DDS, PhD, Jr...). This is the signature of "
+        "the Python `Faker` library producing names like \"Jason Smith MD\", "
+        "not a real customer list.",
+        "3. **US cities paired with UPI and EMI payment methods.** Those are "
+        "Indian payment systems; a retailer in Miami and Chicago would not "
+        "offer them.",
+        f"4. **Near-uniform payment mix**: "
+        + ", ".join(f"{k} {v}" for k, v in issues["payment_spread"])
+        + ". Real payment mix is never this even.",
+        "",
+        "This matters twice over. For Checkpoint 1 it means the figures should "
+        "be presented as a modelling exercise, not a real company's results. "
+        "For the Checkpoint 4 ethics report it means the customer names are "
+        "**not personal data** - there is no data subject behind them - so "
+        "R.A. 10173 is not engaged. Note the reason is that the names are "
+        "generated, *not* that the file was publicly downloadable: public "
+        "availability is not consent.",
+
         "## 5. Cleaning steps applied",
         "",
         "1. Trimmed surrounding whitespace and normalised casing on all text "

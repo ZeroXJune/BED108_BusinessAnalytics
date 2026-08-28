@@ -1,16 +1,19 @@
 """
-Renders reports/Checkpoint_1_Report.md into a Word document that follows the
-section order of the supplied Checkpoint 1 template.
+Renders a project markdown file into a Word document formatted to the
+Section 3.1 standard of the BED 106 brief (Arial 12pt, 1-inch margins,
+1.5 line spacing, numbered figure and table captions).
 
 Handles the subset of markdown the report actually uses: ATX headings, pipe
 tables, fenced code blocks, bullet and numbered lists, images, blockquotes,
 horizontal rules, and inline **bold** / *italic* / `code`.
 
-Run:  python3 scripts/build_docx.py
+Run:  python3 scripts/build_docx.py            # builds every document
+      python3 scripts/build_docx.py IN.md OUT.docx
 """
 
 import os
 import re
+import sys
 
 from docx import Document
 from docx.enum.table import WD_TABLE_ALIGNMENT
@@ -18,8 +21,12 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Inches, Pt, RGBColor
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SRC = os.path.join(ROOT, "reports", "Checkpoint_1_Report.md")
-OUT = os.path.join(ROOT, "reports", "Checkpoint_1_Report.docx")
+DOCUMENTS = [
+    (os.path.join(ROOT, "reports", "Checkpoint_1_Report.md"),
+     os.path.join(ROOT, "reports", "Checkpoint_1_Report.docx")),
+    (os.path.join(ROOT, "docs", "checkpoint1_explained.md"),
+     os.path.join(ROOT, "docs", "Checkpoint_1_Explained.docx")),
+]
 
 INK = RGBColor(0x1F, 0x29, 0x33)
 ACCENT = RGBColor(0x2F, 0x6F, 0x9F)
@@ -225,16 +232,24 @@ def convert(md, doc):
         add_runs(doc.add_paragraph(), text)
 
 
-def main():
+def build(src, out):
     doc = Document()
     setup_styles(doc)
     for section in doc.sections:
         section.left_margin = section.right_margin = Inches(1.0)
         section.top_margin = section.bottom_margin = Inches(1.0)
 
-    convert(open(SRC, encoding="utf-8").read(), doc)
-    doc.save(OUT)
-    print("wrote", OUT)
+    convert(open(src, encoding="utf-8").read(), doc)
+    doc.save(out)
+    print("wrote", out)
+
+
+def main():
+    if len(sys.argv) == 3:
+        build(sys.argv[1], sys.argv[2])
+        return
+    for src, out in DOCUMENTS:
+        build(src, out)
 
 
 if __name__ == "__main__":

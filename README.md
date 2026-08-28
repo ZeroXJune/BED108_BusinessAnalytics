@@ -20,6 +20,12 @@ Markdown source: [`reports/Checkpoint_1_Report.md`](reports/Checkpoint_1_Report.
 > longer — rewriting them shorter and in your own voice fixes both at once.
 > Full detail in [`docs/rubric_compliance.md`](docs/rubric_compliance.md).
 
+**Understanding it:** [`docs/checkpoint1_explained.md`](docs/checkpoint1_explained.md)
+(also as `docs/Checkpoint_1_Explained.docx`) explains every part of Checkpoint 1
+— the rubric, every file, every design decision, all eight queries line by line,
+and likely defense questions. Read it before the checkpoint: Section 1.4 of the
+brief lets the instructor ask any member to explain any part of the project.
+
 ## Headline findings
 
 | # | Finding | Evidence |

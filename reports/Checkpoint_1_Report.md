@@ -156,12 +156,19 @@ no imputation or row-dropping was required.
 - **The 2025 window is incomplete.** Data stops on 15 March 2025, giving only 44
   rows for that year. Read naively this looks like an 80% collapse in demand. It
   is a file cut-off, not a business event.
-- **Limitation worth stating.** There are zero loss-making lines in five years,
-  profit never exceeds amount, and the five payment methods are split almost
-  evenly (206–260 lines each). Real retail data of this size would normally
-  contain returns, discounts and loss-making orders. This dataset is very likely
-  synthetic or pre-filtered, so the *methodology* here is sound but the specific
-  figures should not be presented as a real company's results.
+- **Limitation worth stating — the dataset is synthetic.** Four independent
+  signals: zero loss-making lines across 1,194 rows and five years; 22 of the 802
+  distinct customer names ending in a credential suffix (MD, DDS, PhD), the
+  signature of a name generator rather than a real customer list; US cities paired with UPI and EMI,
+  which are Indian payment systems; and a near-uniform payment mix (206–260
+  lines each). Real retail data of this size would contain returns, discounts
+  and loss-making orders. The *methodology* here is sound, but the specific
+  figures should be presented as a modelling exercise rather than a real
+  company's results.
+- **Privacy note.** Because the customer names are generated, there is no data
+  subject behind them and they are not personal data, so R.A. 10173 (Data
+  Privacy Act) is not engaged. The reason is that the names are synthetic, not
+  that the file was publicly downloadable — public availability is not consent.
 
 **Cleaning Steps Applied.**
 

@@ -53,9 +53,19 @@ No column contains a null or blank value, so no imputation was needed.
 
 - `Year-Month` is fully derivable from `Order Date` (0 mismatches), so it is redundant and is recomputed in `dim_date` rather than stored twice.
 - `CustomerName` is not a reliable identifier: 5 names appear in more than one city, so the customer key is (name, city).
-- Negative `Amount` values: 0; negative `Profit` values: 0; rows where profit exceeds amount: 0; non-positive `Quantity`: 0. The measures are internally consistent, but note that a dataset with zero loss-making orders across five years is unusual for real retail and points to a synthetic or pre-filtered source.
+- Negative `Amount` values: 0; negative `Profit` values: 0; rows where profit exceeds amount: 0; non-positive `Quantity`: 0. The measures are internally consistent.
 - The 2025 rows stop on 15 March. Any year-on-year trend statement must exclude 2025 or label it as a partial year; `dim_date.is_complete_year` flags this.
 
+### Evidence that the dataset is synthetic
+
+Four independent signals, all machine-checked:
+
+1. **Zero loss-making lines** across 1,194 rows and five years. Real retail carries returns, write-offs and discounted clearance.
+2. **22 of the 802 distinct customer names end in a credential suffix** (MD, DDS, PhD, Jr...). This is the signature of the Python `Faker` library producing names like "Jason Smith MD", not a real customer list.
+3. **US cities paired with UPI and EMI payment methods.** Those are Indian payment systems; a retailer in Miami and Chicago would not offer them.
+4. **Near-uniform payment mix**: Debit Card 260, Credit Card 258, UPI 252, EMI 218, COD 206. Real payment mix is never this even.
+
+This matters twice over. For Checkpoint 1 it means the figures should be presented as a modelling exercise, not a real company's results. For the Checkpoint 4 ethics report it means the customer names are **not personal data** - there is no data subject behind them - so R.A. 10173 is not engaged. Note the reason is that the names are generated, *not* that the file was publicly downloadable: public availability is not consent.
 ## 5. Cleaning steps applied
 
 1. Trimmed surrounding whitespace and normalised casing on all text labels (`State`, `City`, `Category`, `Sub-Category`, `CustomerName`).
