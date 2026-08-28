@@ -11,7 +11,7 @@ copy per member.
 
 Group Name / Number: ______________________________
 
-Checkpoint No.: __1__
+Checkpoint No.: ______
 
 Member Name: ______________________________
 
@@ -34,8 +34,10 @@ Signature: ________________________     Date: ________________
 
 ## Prompts for filling this in
 
-Checkpoint 1 work divides along the four roles as follows. Write your own
-entries — these are only reminders of what the checkpoint contained.
+Write your own entries — these are only reminders of what each checkpoint
+contained.
+
+### Checkpoint 1 — Data Fundamentals & SQL Querying
 
 | Role | Work in Checkpoint 1 |
 | --- | --- |
@@ -43,3 +45,12 @@ entries — these are only reminders of what the checkpoint contained.
 | Data Engineer | Dataset sourcing and documentation, data quality assessment, cleaning steps, ERD, schema creation, data load. |
 | Statistician / Modeler | Aggregate and trend queries, year-on-year and seasonality calculations, verification that reported figures match the data. |
 | BI Developer / Visualizer | Charts and figures, table formatting, report layout and presentation of results. |
+
+### Checkpoint 2 — Spreadsheet & Statistical Analysis
+
+| Role | Work in Checkpoint 2 |
+| --- | --- |
+| Project Lead / Analyst | Choice of variables for correlation and regression, written interpretations, report assembly, the Checkpoint 1 correction. |
+| Data Engineer | Export of the cleaned dataset into the workbook, named ranges, pivot cross-tabs and formula showcase, workbook self-checks. |
+| Statistician / Modeler | Descriptive statistics, frequency distribution, correlation coefficients, the regression and its significance test, the trend and seasonality analysis and its holdout check. |
+| BI Developer / Visualizer | Pivot charts, histogram, scatter plots with trendlines, forecast chart, workbook formatting and layout. |

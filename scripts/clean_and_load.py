@@ -13,6 +13,7 @@ star schema. Produces:
 Run:  python3 scripts/clean_and_load.py
 """
 
+import calendar
 import csv
 import os
 import re
@@ -31,6 +32,12 @@ QUALITY_MD = os.path.join(ROOT, "reports", "data_quality_report.md")
 # The raw file ends mid-March 2025, so the final year is incomplete. Trend
 # work reports it separately instead of reading the drop as a real decline.
 LAST_COMPLETE_YEAR = 2024
+
+# The file also STARTS mid-month, on 22 March 2020. Both the first and last
+# calendar months are therefore partial, and a partial month is not a valid
+# monthly observation: including March 2020 drags that month's seasonal index
+# down by 15% and inflates apparent growth out of 2020. is_complete_month
+# marks the months that are fully covered by the data.
 
 MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July",
                "August", "September", "October", "November", "December"]
@@ -178,16 +185,27 @@ def build_tables(rows):
          for (name, city, state), cid in sorted(customers.items(), key=lambda x: x[1])],
     )
 
+    all_dates = sorted(dates_seen.values())
+    first_day, last_day = all_dates[0], all_dates[-1]
+
+    def month_is_complete(d):
+        """True when the whole calendar month lies inside the data range."""
+        month_start = date(d.year, d.month, 1)
+        month_end = date(d.year, d.month,
+                         calendar.monthrange(d.year, d.month)[1])
+        return month_start >= first_day and month_end <= last_day
+
     date_rows = []
     for iso, d in sorted(dates_seen.items()):
         date_rows.append([
             iso, d.year, (d.month - 1) // 3 + 1, d.month, MONTH_NAMES[d.month - 1],
             f"{d.year:04d}-{d.month:02d}",
             1 if d.year <= LAST_COMPLETE_YEAR else 0,
+            1 if month_is_complete(d) else 0,
         ])
     tables["dim_date"] = (
         ["order_date", "year_number", "quarter_number", "month_number",
-         "month_name", "year_month", "is_complete_year"],
+         "month_name", "year_month", "is_complete_year", "is_complete_month"],
         date_rows,
     )
 

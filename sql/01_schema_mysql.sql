@@ -83,7 +83,11 @@ CREATE TABLE dim_payment_mode (
 
 -- ---------------------------------------------------------------------
 -- Calendar. Pre-computing the parts of the date keeps the trend queries
--- readable and lets is_complete_year fence off the partial 2025 window.
+-- readable and lets the two flags fence off partial windows:
+--   is_complete_year  - 2025 stops on 15 March, so it is not a full year.
+--   is_complete_month - the file also STARTS on 22 March 2020, so both the
+--                       first and last calendar months are partial. A partial
+--                       month is not a valid monthly observation.
 -- ---------------------------------------------------------------------
 CREATE TABLE dim_date (
     order_date       DATE        NOT NULL,
@@ -93,6 +97,7 @@ CREATE TABLE dim_date (
     month_name       VARCHAR(12) NOT NULL,
     year_month       CHAR(7)     NOT NULL,
     is_complete_year TINYINT     NOT NULL,
+    is_complete_month TINYINT    NOT NULL,
     CONSTRAINT pk_dim_date PRIMARY KEY (order_date),
     CONSTRAINT ck_dim_date_quarter CHECK (quarter_number BETWEEN 1 AND 4),
     CONSTRAINT ck_dim_date_month   CHECK (month_number BETWEEN 1 AND 12)

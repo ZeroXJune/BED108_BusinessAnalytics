@@ -37,10 +37,13 @@ Caption: Group members and assigned project roles.
 supplies) operating across six US states — California, Florida, Illinois, New
 York, Ohio and Texas.
 
-**Core business problem.** The company grew quickly out of 2020 and then
-stopped. Revenue rose 69.9% between 2020 and 2022, from 859,401 to 1,459,775,
-but has fallen in each of the two years since, ending 2024 at 1,202,478 —
-17.6% below the 2022 peak. Overall margin has stayed flat in a narrow
+**Core business problem.** The company grew out of 2020 and then stopped.
+On a like-for-like monthly basis revenue rose 30.9% between 2020 and 2022,
+from 92,934 to 121,648 per month, but has fallen in each of the two years
+since, ending 2024 at 100,207 per month — **17.6% below the 2022 peak**.
+(2020 is measured per month because the dataset begins on 22 March 2020 and
+covers only nine complete months of that year; comparing its part-year total
+against a full year would overstate the growth.) Overall margin has stayed flat in a narrow
 23.97%–26.93% band throughout, so the problem is not that the company is selling
 at worse prices; it is that the *volume and mix of what it sells* have shifted
 in a way management has not yet diagnosed.
@@ -61,9 +64,10 @@ aggregate.
 
 - **Revenue.** The gap between the 2022 peak and 2024 actuals is 257,297 per
   year. Recovering even half of it is worth roughly 128,000 annually, which is
-  material against a five-year total of 5.93 million.
+  material against a five-year total of 5.91 million across the 57 complete
+  months analysed.
 - **Inventory efficiency.** Demand is heavily concentrated: October and December
-  alone carry 21.7% of annual revenue, and Q4 as a whole carries 29.3%. Stocking
+  alone carry 21.8% of annual revenue, and Q4 as a whole carries 29.4%. Stocking
   to a flat monthly average guarantees both stockouts in the peak and dead
   capital in January, the weakest month at 4.72% of the year.
 - **Purchasing decisions.** Category performance has diverged sharply. Knowing
@@ -153,9 +157,15 @@ no imputation or row-dropping was required.
   across 1,194 rows) — redundant storage and a future update anomaly.
 - `CustomerName` is not a reliable identifier: 5 names appear in more than one
   city, so name alone cannot key a customer.
-- **The 2025 window is incomplete.** Data stops on 15 March 2025, giving only 44
-  rows for that year. Read naively this looks like an 80% collapse in demand. It
-  is a file cut-off, not a business event.
+- **Both ends of the series are partial.** Data runs 22 March 2020 to 15 March
+  2025, so **March 2020 and March 2025 are part-months** and **2020 is a
+  nine-month year**. Two distinct traps follow. Read naively, the 44 rows of
+  2025 look like an 80% collapse in demand; and comparing 2020's part-year
+  total against a full 2021 overstates growth (69.9% raw versus 30.9% on a
+  like-for-like monthly basis). Including the 10-day March 2020 in a monthly
+  average also drags that month's seasonal index down by 15%. `dim_date` carries
+  two flags, `is_complete_year` and `is_complete_month`, and every trend query
+  filters on them.
 - **Limitation worth stating — the dataset is synthetic.** Four independent
   signals: zero loss-making lines across 1,194 rows and five years; 22 of the 802
   distinct customer names ending in a credential suffix (MD, DDS, PhD), the
@@ -181,8 +191,9 @@ no imputation or row-dropping was required.
 4. Replaced `Order ID` as a key with the surrogate primary key `sale_id`,
    retaining the original value as the descriptive column `order_ref`.
 5. Keyed customers on (name, city) rather than name alone.
-6. Added `dim_date.is_complete_year` so every trend query can exclude the
-   partial 2025 window explicitly.
+6. Added `dim_date.is_complete_year` and `dim_date.is_complete_month` so every
+   trend query excludes the partial 2025 year and the two part-months
+   (March 2020, March 2025) explicitly rather than by convention.
 7. Split the flat file into six dimension tables and one fact table with
    enforced foreign keys; the build fails on any referential-integrity
    violation (`PRAGMA foreign_key_check`).
@@ -328,23 +339,26 @@ cause of the trend break identified in Q3.
 
 Caption: Q3 — annual sales trend, 2020–2024.
 
-| year | lines | units | revenue | profit | avg_line_value | margin_pct |
-| --- | --- | --- | --- | --- | --- | --- |
-| 2020 | 171 | 1,695 | 859,401 | 224,103 | 5,025.74 | 26.08 |
-| 2021 | 217 | 2,358 | 1,181,446 | 283,231 | 5,444.45 | 23.97 |
-| 2022 | 288 | 3,234 | 1,459,775 | 393,113 | 5,068.66 | 26.93 |
-| 2023 | 234 | 2,497 | 1,229,723 | 321,671 | 5,255.23 | 26.16 |
-| 2024 | 240 | 2,523 | 1,202,478 | 308,336 | 5,010.32 | 25.64 |
+| year | months | lines | units | revenue | profit | revenue_per_month | avg_line_value | margin_pct |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2020 | 9 | 167 | 1,651 | 836,410 | 217,911 | 92,934.44 | 5,008.44 | 26.05 |
+| 2021 | 12 | 217 | 2,358 | 1,181,446 | 283,231 | 98,453.83 | 5,444.45 | 23.97 |
+| 2022 | 12 | 288 | 3,234 | 1,459,775 | 393,113 | 121,647.92 | 5,068.66 | 26.93 |
+| 2023 | 12 | 234 | 2,497 | 1,229,723 | 321,671 | 102,476.92 | 5,255.23 | 26.16 |
+| 2024 | 12 | 240 | 2,523 | 1,202,478 | 308,336 | 100,206.50 | 5,010.32 | 25.64 |
 
 **Business Interpretation — answers Business Question 1.** Growth stopped in
-2022. Revenue climbed 69.9% over 2020–2022, then fell 15.8% in 2023 and a
-further 2.2% in 2024, finishing 17.6% below the peak. The decisive detail is
-that **average line value barely moved** across all five years (5,010–5,444, a
-9% spread) while **transaction count moved a lot** (171 → 288 → 240). The
-company is not being forced into smaller or cheaper orders; it is simply writing
-fewer of them. That points the investigation at demand and product availability,
-not at pricing. Margin held between 23.97% and 26.93% throughout, confirming
-that profitability per sale was never the issue.
+2022. Note the `months` column: 2020 holds only nine complete months, because
+the file begins on 22 March 2020, so the comparison must be made on
+`revenue_per_month`. On that basis revenue climbed 30.9% from 2020 to the 2022
+peak, then fell 15.8% in 2023 and a further 2.2% in 2024, finishing **17.6%
+below the peak**. The decisive detail is that **average line value barely moved**
+across all five years (5,008–5,444, a 9% spread) while **transaction count moved
+a lot** (18.6 lines per month in 2020, 24.0 in 2022, 20.0 in 2024). The company
+is not being forced into smaller or cheaper orders; it is simply writing fewer
+of them. That points the investigation at demand and product availability, not
+at pricing. Margin held between 23.97% and 26.93% throughout, confirming that
+profitability per sale was never the issue.
 
 Caption: Annual revenue and profit, 2020–2024. Revenue peaked in 2022.
 
@@ -354,10 +368,10 @@ Caption: Annual revenue and profit, 2020–2024. Revenue peaked in 2022.
 `GROUP BY` month with a share-of-total subquery.
 
 **Business Interpretation — answers Business Question 3 (part 1).** Demand is
-strongly seasonal and the peak is late. December (11.05% of annual revenue) and
-October (10.66%) are the two strongest months; Q4 as a whole carries 29.3% of
+strongly seasonal and the peak is late. December (11.09% of annual revenue) and
+October (10.70%) are the two strongest months; Q4 as a whole carries 29.4% of
 the year against the 25% a flat distribution would give. January is the trough
-at 4.72% — barely 43% of a December. Notably the peak is driven by **order count,
+at 4.73% — barely 43% of a December. Notably the peak is driven by **order count,
 not basket size**: December records the most transaction lines of any month
 (133) on an average line value of 4,928 — *below* the 5,010–5,444 range of the
 annual averages in Q3. October is the same story, 120 lines at 5,271. The
@@ -466,15 +480,15 @@ Caption: Q8 — each quarter's share of its own category's annual revenue.
 
 | category | Q1 | Q2 | Q3 | Q4 |
 | --- | --- | --- | --- | --- |
-| Electronics | 20.76% | **30.61%** | 23.55% | 25.09% |
+| Electronics | 20.28% | **30.79%** | 23.69% | 25.24% |
 | Furniture | 16.96% | 29.46% | 22.74% | **30.84%** |
-| Office Supplies | 17.47% | 24.86% | 25.68% | **31.98%** |
+| Office Supplies | 17.01% | 25.00% | 25.83% | **32.16%** |
 
 **Business Interpretation.** The company-wide Q4 peak is **not universal**, and
 this is the finding most likely to change how the business plans. Furniture and
-Office Supplies both peak in Q4 (30.8% and 32.0% of their own annual revenue),
+Office Supplies both peak in Q4 (30.8% and 32.2% of their own annual revenue),
 consistent with holiday and new-fiscal-year buying. **Electronics does not** —
-it peaks in Q2 at 30.61% and Q4 is only its second-best quarter. Planning
+it peaks in Q2 at 30.79% and Q4 is only its second-best quarter. Planning
 Electronics inventory against the blended company seasonal curve therefore
 over-stocks it in Q4 and under-stocks it in Q2, every year.
 
@@ -487,9 +501,9 @@ natural window for clearance and maintenance.
 
 # Summary of Findings
 
-1. **Growth stopped in 2022.** Revenue is 17.6% below its peak, but margin never
-   moved and average order value never moved — the company is writing fewer
-   orders, not worse ones. *(Q3)*
+1. **Growth stopped in 2022.** Revenue per month is 17.6% below its peak, but
+   margin never moved and average order value never moved — the company is
+   writing fewer orders, not worse ones. *(Q3)*
 2. **One sub-category explains most of it.** Printers lost 136,865 between 2023
    and 2024, over half the entire peak-to-2024 gap. All Electronics fell; all
    Office Supplies grew. *(Q5, Q7)*

@@ -43,10 +43,14 @@ def save(fig, name):
 
 
 def fig_annual_trend(con):
+    # Per month, not per year: 2020 holds only nine complete months, so raw
+    # annual totals would overstate the growth out of 2020.
     rows = con.execute("""
-        SELECT d.year_number, SUM(f.amount), SUM(f.profit)
+        SELECT d.year_number,
+               SUM(f.amount) / COUNT(DISTINCT d.year_month),
+               SUM(f.profit) / COUNT(DISTINCT d.year_month)
         FROM fact_sales f JOIN dim_date d ON d.order_date = f.order_date
-        WHERE d.is_complete_year = 1
+        WHERE d.is_complete_year = 1 AND d.is_complete_month = 1
         GROUP BY d.year_number ORDER BY d.year_number
     """).fetchall()
     years = [str(r[0]) for r in rows]
@@ -57,14 +61,17 @@ def fig_annual_trend(con):
     ax.bar(years, revenue, color=ACCENT, width=0.6, label="Revenue")
     ax.bar(years, profit, color="#9fc3dd", width=0.6, label="Profit")
     for x, v in zip(years, revenue):
-        ax.text(x, v + 25000, f"{v/1000:,.0f}k", ha="center",
-                fontsize=9, color=INK)
+        label = f"{v/1000:,.0f}k" + ("*" if x == "2020" else "")
+        ax.text(x, v + 2500, label, ha="center", fontsize=9, color=INK)
     style(ax)
     ax.yaxis.set_major_formatter(thousands)
     ax.set_ylim(0, max(revenue) * 1.15)
-    ax.set_title("Revenue peaked in 2022 and has not recovered",
+    ax.set_title("Revenue per month peaked in 2022 and has not recovered",
                  color=INK, fontsize=12, fontweight="bold", loc="left")
-    ax.set_ylabel("Amount", color=MUTED, fontsize=9)
+    ax.set_ylabel("Revenue per month", color=MUTED, fontsize=9)
+    ax.text(0, -0.20, "* 2020 covers nine complete months (the file starts "
+                      "22 March 2020), so all years are shown per month.",
+            transform=ax.transAxes, fontsize=8, color=MUTED)
     ax.legend(frameon=False, fontsize=9, labelcolor=MUTED)
     save(fig, "fig1_annual_trend.png")
 
@@ -73,7 +80,7 @@ def fig_monthly_seasonality(con):
     rows = con.execute("""
         SELECT d.month_number, d.month_name, SUM(f.amount)
         FROM fact_sales f JOIN dim_date d ON d.order_date = f.order_date
-        WHERE d.is_complete_year = 1
+        WHERE d.is_complete_year = 1 AND d.is_complete_month = 1
         GROUP BY d.month_number, d.month_name ORDER BY d.month_number
     """).fetchall()
     labels = [r[1][:3] for r in rows]

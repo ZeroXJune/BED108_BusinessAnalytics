@@ -12,9 +12,11 @@
 -- functions) so it runs unchanged on MySQL 8 and SQLite 3. Calendar parts
 -- come from dim_date rather than YEAR()/strftime() for that reason.
 --
--- 2025 is a partial year (data stops 15 March 2025). Trend queries filter
--- on dim_date.is_complete_year = 1 so the cut-off is never misread as a
--- collapse in demand.
+-- The file covers 22 March 2020 to 15 March 2025, so BOTH ends are partial:
+--   is_complete_year  = 0 for 2025, which stops on 15 March.
+--   is_complete_month = 0 for March 2020 and March 2025, the two part-months.
+-- Trend queries filter on these flags so a file cut-off is never misread as
+-- a change in demand, and so a 10-day month never sits in a monthly average.
 -- =====================================================================
 
 
@@ -69,21 +71,31 @@ LIMIT 15;
 -- ---------------------------------------------------------------------
 -- Q3. Annual sales trend, 2020-2024. The headline table for the whole
 --     project: order volume, revenue, profit, average order value and
---     margin for each complete year.
--- Clauses: GROUP BY, COUNT, SUM, AVG, MIN, MAX
+--     margin for each year.
+--
+--     IMPORTANT: the file starts on 22 March 2020, so 2020 is a SHORT year.
+--     Comparing its annual total against a full 12-month year overstates
+--     growth. This query therefore restricts to complete calendar months
+--     (is_complete_month = 1) and reports months_covered and
+--     revenue_per_month, so every comparison is like for like.
+-- Clauses: GROUP BY, COUNT, SUM, AVG
 -- ---------------------------------------------------------------------
 SELECT
     d.year_number                                   AS year,
+    COUNT(DISTINCT d.year_month)                    AS months_covered,
     COUNT(*)                                        AS transaction_lines,
     SUM(f.quantity)                                 AS units_sold,
     ROUND(SUM(f.amount), 2)                         AS revenue,
     ROUND(SUM(f.profit), 2)                         AS profit,
+    ROUND(SUM(f.amount) / COUNT(DISTINCT d.year_month), 2)
+                                                    AS revenue_per_month,
     ROUND(AVG(f.amount), 2)                         AS avg_line_value,
     ROUND(100.0 * SUM(f.profit) / SUM(f.amount), 2) AS margin_pct
 FROM fact_sales AS f
 JOIN dim_date AS d
       ON d.order_date = f.order_date
 WHERE d.is_complete_year = 1
+  AND d.is_complete_month = 1
 GROUP BY d.year_number
 ORDER BY d.year_number;
 
@@ -106,11 +118,13 @@ SELECT
             FROM fact_sales AS f2
             JOIN dim_date AS d2 ON d2.order_date = f2.order_date
             WHERE d2.is_complete_year = 1
+              AND d2.is_complete_month = 1
         ), 2)                       AS pct_of_total_revenue
 FROM fact_sales AS f
 JOIN dim_date AS d
       ON d.order_date = f.order_date
 WHERE d.is_complete_year = 1
+  AND d.is_complete_month = 1
 GROUP BY d.month_number, d.month_name
 ORDER BY d.month_number;
 
@@ -217,5 +231,6 @@ JOIN dim_date         AS d ON d.order_date      = f.order_date
 JOIN dim_sub_category AS s ON s.sub_category_id = f.sub_category_id
 JOIN dim_category     AS c ON c.category_id     = s.category_id
 WHERE d.is_complete_year = 1
+  AND d.is_complete_month = 1
 GROUP BY c.category_name, d.quarter_number
 ORDER BY c.category_name, d.quarter_number;

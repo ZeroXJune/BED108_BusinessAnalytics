@@ -84,34 +84,38 @@ LIMIT 15;
 
 ### Q3. Annual sales trend, 2020-2024.
 
-The headline table for the whole project: order volume, revenue, profit, average order value and margin for each complete year. Clauses: GROUP BY, COUNT, SUM, AVG, MIN, MAX
+The headline table for the whole project: order volume, revenue, profit, average order value and margin for each year. IMPORTANT: the file starts on 22 March 2020, so 2020 is a SHORT year. Comparing its annual total against a full 12-month year overstates growth. This query therefore restricts to complete calendar months (is_complete_month = 1) and reports months_covered and revenue_per_month, so every comparison is like for like. Clauses: GROUP BY, COUNT, SUM, AVG
 
 ```sql
 SELECT
     d.year_number                                   AS year,
+    COUNT(DISTINCT d.year_month)                    AS months_covered,
     COUNT(*)                                        AS transaction_lines,
     SUM(f.quantity)                                 AS units_sold,
     ROUND(SUM(f.amount), 2)                         AS revenue,
     ROUND(SUM(f.profit), 2)                         AS profit,
+    ROUND(SUM(f.amount) / COUNT(DISTINCT d.year_month), 2)
+                                                    AS revenue_per_month,
     ROUND(AVG(f.amount), 2)                         AS avg_line_value,
     ROUND(100.0 * SUM(f.profit) / SUM(f.amount), 2) AS margin_pct
 FROM fact_sales AS f
 JOIN dim_date AS d
       ON d.order_date = f.order_date
 WHERE d.is_complete_year = 1
+  AND d.is_complete_month = 1
 GROUP BY d.year_number
 ORDER BY d.year_number;
 ```
 
 **Result — 5 row(s):**
 
-| year | transaction_lines | units_sold | revenue | profit | avg_line_value | margin_pct |
-| --- | --- | --- | --- | --- | --- | --- |
-| 2020 | 171 | 1,695 | 859,401 | 224,103 | 5,025.74 | 26.08 |
-| 2021 | 217 | 2,358 | 1,181,446 | 283,231 | 5,444.45 | 23.97 |
-| 2022 | 288 | 3,234 | 1,459,775 | 393,113 | 5,068.66 | 26.93 |
-| 2023 | 234 | 2,497 | 1,229,723 | 321,671 | 5,255.23 | 26.16 |
-| 2024 | 240 | 2,523 | 1,202,478 | 308,336 | 5,010.32 | 25.64 |
+| year | months_covered | transaction_lines | units_sold | revenue | profit | revenue_per_month | avg_line_value | margin_pct |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2020 | 9 | 167 | 1,651 | 836,410 | 217,911 | 92,934.44 | 5,008.44 | 26.05 |
+| 2021 | 12 | 217 | 2,358 | 1,181,446 | 283,231 | 98,453.83 | 5,444.45 | 23.97 |
+| 2022 | 12 | 288 | 3,234 | 1,459,775 | 393,113 | 121,647.92 | 5,068.66 | 26.93 |
+| 2023 | 12 | 234 | 2,497 | 1,229,723 | 321,671 | 102,476.92 | 5,255.23 | 26.16 |
+| 2024 | 12 | 240 | 2,523 | 1,202,478 | 308,336 | 100,206.50 | 5,010.32 | 25.64 |
 
 ### Q4. Seasonality: revenue by calendar month pooled across the five complete years, with each month's share of the annual total.
 
@@ -130,11 +134,13 @@ SELECT
             FROM fact_sales AS f2
             JOIN dim_date AS d2 ON d2.order_date = f2.order_date
             WHERE d2.is_complete_year = 1
+              AND d2.is_complete_month = 1
         ), 2)                       AS pct_of_total_revenue
 FROM fact_sales AS f
 JOIN dim_date AS d
       ON d.order_date = f.order_date
 WHERE d.is_complete_year = 1
+  AND d.is_complete_month = 1
 GROUP BY d.month_number, d.month_name
 ORDER BY d.month_number;
 ```
@@ -143,18 +149,18 @@ ORDER BY d.month_number;
 
 | month_no | month | transaction_lines | revenue | avg_line_value | pct_of_total_revenue |
 | --- | --- | --- | --- | --- | --- |
-| 1 | January | 70 | 279,772 | 3,996.74 | 4.72 |
-| 2 | February | 75 | 365,960 | 4,879.47 | 6.17 |
-| 3 | March | 82 | 445,049 | 5,427.43 | 7.50 |
-| 4 | April | 105 | 567,882 | 5,408.40 | 9.57 |
-| 5 | May | 107 | 581,943 | 5,438.72 | 9.81 |
-| 6 | June | 100 | 529,028 | 5,290.28 | 8.92 |
-| 7 | July | 95 | 497,410 | 5,235.89 | 8.38 |
-| 8 | August | 94 | 517,830 | 5,508.83 | 8.73 |
-| 9 | September | 80 | 408,236 | 5,102.95 | 6.88 |
-| 10 | October | 120 | 632,521 | 5,271.01 | 10.66 |
-| 11 | November | 89 | 451,814 | 5,076.56 | 7.62 |
-| 12 | December | 133 | 655,378 | 4,927.65 | 11.05 |
+| 1 | January | 70 | 279,772 | 3,996.74 | 4.73 |
+| 2 | February | 75 | 365,960 | 4,879.47 | 6.19 |
+| 3 | March | 78 | 422,058 | 5,411 | 7.14 |
+| 4 | April | 105 | 567,882 | 5,408.40 | 9.61 |
+| 5 | May | 107 | 581,943 | 5,438.72 | 9.85 |
+| 6 | June | 100 | 529,028 | 5,290.28 | 8.95 |
+| 7 | July | 95 | 497,410 | 5,235.89 | 8.42 |
+| 8 | August | 94 | 517,830 | 5,508.83 | 8.76 |
+| 9 | September | 80 | 408,236 | 5,102.95 | 6.91 |
+| 10 | October | 120 | 632,521 | 5,271.01 | 10.70 |
+| 11 | November | 89 | 451,814 | 5,076.56 | 7.65 |
+| 12 | December | 133 | 655,378 | 4,927.65 | 11.09 |
 
 ### Q5. Revenue by product category per year.
 
@@ -299,6 +305,7 @@ JOIN dim_date         AS d ON d.order_date      = f.order_date
 JOIN dim_sub_category AS s ON s.sub_category_id = f.sub_category_id
 JOIN dim_category     AS c ON c.category_id     = s.category_id
 WHERE d.is_complete_year = 1
+  AND d.is_complete_month = 1
 GROUP BY c.category_name, d.quarter_number
 ORDER BY c.category_name, d.quarter_number;
 ```
@@ -307,15 +314,15 @@ ORDER BY c.category_name, d.quarter_number;
 
 | category | quarter | transaction_lines | revenue | pct_of_category_revenue |
 | --- | --- | --- | --- | --- |
-| Electronics | 1 | 82 | 406,084 | 20.76 |
-| Electronics | 2 | 106 | 598,770 | 30.61 |
-| Electronics | 3 | 86 | 460,699 | 23.55 |
-| Electronics | 4 | 96 | 490,782 | 25.09 |
+| Electronics | 1 | 80 | 394,272 | 20.28 |
+| Electronics | 2 | 106 | 598,770 | 30.79 |
+| Electronics | 3 | 86 | 460,699 | 23.69 |
+| Electronics | 4 | 96 | 490,782 | 25.24 |
 | Furniture | 1 | 68 | 337,429 | 16.96 |
 | Furniture | 2 | 118 | 585,966 | 29.46 |
 | Furniture | 3 | 84 | 452,374 | 22.74 |
 | Furniture | 4 | 127 | 613,405 | 30.84 |
-| Office Supplies | 1 | 77 | 347,268 | 17.47 |
-| Office Supplies | 2 | 88 | 494,117 | 24.86 |
-| Office Supplies | 3 | 99 | 510,403 | 25.68 |
-| Office Supplies | 4 | 119 | 635,526 | 31.98 |
+| Office Supplies | 1 | 75 | 336,089 | 17.01 |
+| Office Supplies | 2 | 88 | 494,117 | 25 |
+| Office Supplies | 3 | 99 | 510,403 | 25.83 |
+| Office Supplies | 4 | 119 | 635,526 | 32.16 |

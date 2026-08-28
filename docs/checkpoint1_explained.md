@@ -138,9 +138,12 @@ and that the data can settle.
 
 Ours: **the company grew fast, then stopped, and nobody can say why.**
 
-- Revenue rose **69.9%** from 2020 to 2022 (859,401 → 1,459,775).
-- It then fell two years running, ending 2024 at **1,202,478** — **17.6% below
-  the peak**.
+- Revenue per month rose **30.9%** from 2020 to 2022 (92,934 → 121,648). It is
+  quoted per month because the file starts on 22 March 2020, so 2020 holds only
+  nine complete months; the raw annual totals would suggest 69.9%, which is an
+  artefact of the short year.
+- It then fell two years running, ending 2024 at **100,207 per month** —
+  **17.6% below the peak**.
 - Margin never moved (23.97%–26.93% the whole time).
 
 That last point is what makes it a real analytical problem rather than an
@@ -229,15 +232,31 @@ duplication — and duplicated data is where update anomalies come from.
 
 **Resolution.** Dropped it; the calendar parts are recomputed in `dim_date`.
 
-#### Problem 4 — 2025 is a partial year
+#### Problem 4 — both ends of the series are partial
 
-The file stops on **15 March 2025**, giving only 44 rows for that year. Charted
-naively, that looks like an 80% collapse in demand. It is a file cut-off.
+The file runs **22 March 2020 to 15 March 2025**. Neither end is a whole
+period, and that creates *three* separate traps:
 
-**Resolution.** `dim_date` carries a flag, `is_complete_year`, set to 1 for
-2020–2024 and 0 for 2025. Every trend query filters on it. This is the single
-most important guard in the whole project — without it, every conclusion about
-the trend would be wrong.
+1. **2025 is a partial year** — 44 rows. Charted naively it looks like an 80%
+   collapse in demand. It is a file cut-off.
+2. **2020 is a nine-month year.** Comparing its part-year total against a full
+   2021 overstates growth: the raw totals suggest 69.9% growth from 2020 to
+   2022, but on a like-for-like monthly basis it is **30.9%**.
+3. **March 2020 and March 2025 are part-months.** March 2020 holds just 10
+   days. Dropping a 10-day month into a monthly average pulls March's seasonal
+   index down from 1.025 to 0.876 — a 15% distortion that would make an average
+   month look weak.
+
+**Resolution.** `dim_date` carries two flags:
+
+- `is_complete_year` — 1 for 2020–2024, 0 for 2025.
+- `is_complete_month` — 0 for March 2020 and March 2025, 1 elsewhere.
+
+The analysis window is therefore **57 complete months, April 2020 to December
+2024**. Q3 additionally reports `months_covered` and `revenue_per_month` so the
+short 2020 is visible in the table rather than hidden inside a total. These are
+the most important guards in the whole project: without them several
+conclusions about the trend would be wrong, and the error would be invisible.
 
 #### Problem 5 — the data is almost certainly synthetic
 
@@ -360,8 +379,9 @@ Same reasoning for `dim_category → dim_sub_category`.
 We could read the year straight off `order_date` with MySQL's `YEAR()`
 function. We built a date table instead because:
 
-1. **`is_complete_year` needs somewhere to live.** The partial-2025 guard is a
-   property of the calendar, so it belongs in the calendar table.
+1. **The completeness flags need somewhere to live.** `is_complete_year` and
+   `is_complete_month` are properties of the calendar, so they belong in the
+   calendar table rather than being re-derived in every query.
 2. **Portability.** `YEAR()` is MySQL; SQLite uses `strftime()`. By storing
    `year_number` as a column, the same query file runs on both unchanged.
 3. **Readability.** `WHERE d.year_number = 2024` reads better than
@@ -492,17 +512,18 @@ aggregate function or listed in the `GROUP BY`.
 
 **Result:**
 
-| year | lines | units | revenue | profit | avg_line_value | margin_pct |
-| --- | --- | --- | --- | --- | --- | --- |
-| 2020 | 171 | 1,695 | 859,401 | 224,103 | 5,025.74 | 26.08 |
-| 2021 | 217 | 2,358 | 1,181,446 | 283,231 | 5,444.45 | 23.97 |
-| 2022 | 288 | 3,234 | 1,459,775 | 393,113 | 5,068.66 | 26.93 |
-| 2023 | 234 | 2,497 | 1,229,723 | 321,671 | 5,255.23 | 26.16 |
-| 2024 | 240 | 2,523 | 1,202,478 | 308,336 | 5,010.32 | 25.64 |
+| year | months | lines | revenue | profit | revenue_per_month | avg_line_value | margin_pct |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2020 | 9 | 167 | 836,410 | 217,911 | 92,934.44 | 5,008.44 | 26.05 |
+| 2021 | 12 | 217 | 1,181,446 | 283,231 | 98,453.83 | 5,444.45 | 23.97 |
+| 2022 | 12 | 288 | 1,459,775 | 393,113 | 121,647.92 | 5,068.66 | 26.93 |
+| 2023 | 12 | 234 | 1,229,723 | 321,671 | 102,476.92 | 5,255.23 | 26.16 |
+| 2024 | 12 | 240 | 1,202,478 | 308,336 | 100,206.50 | 5,010.32 | 25.64 |
 
-**What it says.** Growth stopped in 2022. The decisive detail is in the last two
-columns: **average line value barely moved** (5,010–5,444, a 9% spread) while
-**line count moved a lot** (171 → 288 → 240). The company is writing *fewer*
+**What it says.** Growth stopped in 2022. Watch the `months` column first: 2020
+has only nine, so the comparison must use `revenue_per_month`. The decisive
+detail is then that **average line value barely moved** (5,008–5,444, a 9%
+spread) while **orders per month moved a lot** (18.6 → 24.0 → 20.0). The company is writing *fewer*
 orders, not smaller or cheaper ones. That points the investigation at demand and
 availability rather than pricing — and margin holding at 24–27% confirms
 profitability per sale was never the issue.
@@ -534,8 +555,8 @@ own `WHERE` filter so the denominator covers the same years as the numerator.
 `GROUP BY d.month_number, d.month_name` groups on both because `month_name` is
 in the `SELECT` and isn't aggregated.
 
-**What it says.** December is **11.05%** of annual revenue and October
-**10.66%** — together **21.7%**. January is the trough at **4.72%**, under 43%
+**What it says.** December is **11.09%** of annual revenue and October
+**10.70%** — together **21.8%**. January is the trough at **4.73%**, under 43%
 of a December. But the peak is driven by **order count, not basket size**:
 December has the most lines (133) at an average line value of 4,928, *below*
 the annual averages in Q3. So Q4 is a throughput problem — more orders to pick
@@ -680,16 +701,16 @@ group aggregate, the outer one sums those group results across the window.
 
 | category | Q1 | Q2 | Q3 | Q4 |
 | --- | --- | --- | --- | --- |
-| Electronics | 20.76% | **30.61%** | 23.55% | 25.09% |
+| Electronics | 20.28% | **30.79%** | 23.69% | 25.24% |
 | Furniture | 16.96% | 29.46% | 22.74% | **30.84%** |
-| Office Supplies | 17.47% | 24.86% | 25.68% | **31.98%** |
+| Office Supplies | 17.01% | 25.00% | 25.83% | **32.16%** |
 
 **What it says.** The company-wide Q4 peak is **not universal**. Furniture and
-Office Supplies peak in Q4 (30.8%, 32.0%). **Electronics does not** — it peaks
-in **Q2** at 30.61%, and Q4 is only its second-best quarter. Planning
+Office Supplies peak in Q4 (30.8%, 32.2%). **Electronics does not** — it peaks
+in **Q2** at 30.79%, and Q4 is only its second-best quarter. Planning
 Electronics stock against the blended company curve therefore over-stocks it in
 Q4 and under-stocks it in Q2, every single year. The recommendation is
-per-category seasonal curves. Q1 is weakest for all three (17–21%), so it is the
+per-category seasonal curves. Q1 is weakest for all three (17–20%), so it is the
 natural clearance window.
 
 ---
@@ -742,7 +763,7 @@ Quick reference for anything you might be asked to define.
 
 | # | Finding | How we know |
 | --- | --- | --- |
-| 1 | **Growth stopped in 2022.** 2024 is 17.6% below peak, but margin and average order value never moved — fewer orders, not worse ones. | Q3: revenue by year alongside `AVG(amount)` and margin. The flatness of the last two columns is the evidence. |
+| 1 | **Growth stopped in 2022.** 2024 is 17.6% below peak per month, but margin and average order value never moved — fewer orders, not worse ones. | Q3: revenue per month by year alongside `AVG(amount)` and margin. The flatness of the last two columns is the evidence. |
 | 2 | **One sub-category explains most of it.** Printers lost 136,865, over half the whole gap. | Q7: conditional aggregation comparing 2023 with 2024 for all 12 sub-categories, ranked by change. |
 | 3 | **Seasonality is category-specific.** Electronics peaks Q2; Furniture and Office Supplies peak Q4. | Q8: window function giving each quarter's share of its own category, which exposes what the company-wide average in Q4 hides. |
 | 4 | **Geography is not a factor.** State revenue spans only 28% over five years. | Q6: revenue by city and state; the narrow spread is the finding. |
@@ -776,10 +797,19 @@ show one ID across three dates, three customers and three states. We kept it as
 Five names appear in more than one city. Keying on name alone would merge two
 different people, so the key is (name, city), which correctly splits those five.
 
-**Why exclude 2025?**
-The file stops on 15 March 2025 — 44 rows. Including it shows a fake ~80%
-collapse. `dim_date.is_complete_year` fences it off so a file cut-off is never
-read as a business event.
+**Why exclude 2025, and why is 2020 shown per month?**
+The file stops on 15 March 2025 — 44 rows — so including 2025 shows a fake ~80%
+collapse. It also *starts* on 22 March 2020, so 2020 holds only nine complete
+months: comparing its part-year total against a full 2021 would suggest 69.9%
+growth when the like-for-like figure is 30.9%. `is_complete_year` and
+`is_complete_month` fence off both ends, and Q3 reports `revenue_per_month` so
+the comparison is fair on its face.
+
+**What is the difference between the two date flags?**
+`is_complete_year` excludes 2025 entirely, for anything compared year on year.
+`is_complete_month` excludes just the two part-months at the ends of the file
+(March 2020, March 2025), so a 10-day month never enters a monthly average.
+Together they define the 57-month analysis window, April 2020 to December 2024.
 
 **Your dataset looks fake. Doesn't that invalidate the project?**
 It invalidates the *figures*, not the *method*. We state it plainly: zero

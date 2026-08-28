@@ -1,11 +1,14 @@
 # BED 106 Business Analytics — Mini Capstone: Sales Trend Analysis
 
-Checkpoint 1 (Data Fundamentals & SQL Querying) for a sales-trend study of a
-multi-category US retailer, 2020–2025.
+A sales-trend study of a multi-category US retailer, 2020–2025.
+Checkpoints 1 and 2 of 4 are complete.
 
-**Deliverable:** [`reports/Checkpoint_1_Report.docx`](reports/Checkpoint_1_Report.docx)
-— the supplied template filled in end to end.
-Markdown source: [`reports/Checkpoint_1_Report.md`](reports/Checkpoint_1_Report.md).
+| Checkpoint | Phase | Deliverables |
+| --- | --- | --- |
+| **CP1** — Data Fundamentals & SQL | Preliminary | [Report](reports/Checkpoint_1_Report.docx) · [SQL](sql/) · [ERD](docs/erd.md) · [Explainer](docs/Checkpoint_1_Explained.docx) |
+| **CP2** — Spreadsheet & Statistics | Midterm | [Report](reports/Checkpoint_2_Report.docx) · [Workbook](reports/Checkpoint_2_Workbook.xlsx) · [Excel guide](docs/checkpoint2_excel_guide.md) |
+| CP3 — BI Dashboard | Semi-Final | not started |
+| CP4 — Predictive & Defense | Final | not started |
 
 > ### Read before submitting
 >
@@ -30,10 +33,13 @@ brief lets the instructor ask any member to explain any part of the project.
 
 | # | Finding | Evidence |
 | --- | --- | --- |
-| 1 | Growth stopped in 2022. Revenue is 17.6% below peak, but margin (24–27%) and average order value (5,010–5,444) never moved — the company writes **fewer** orders, not worse ones. | Q3 |
+| 1 | Growth stopped in 2022. Revenue per month is 17.6% below peak, but margin (24–27%) and average order value (5,008–5,444) never moved — the company writes **fewer** orders, not worse ones. | Q3 |
 | 2 | One sub-category explains most of it: **Printers lost 136,865** between 2023 and 2024 — over half the entire peak-to-2024 gap. All Electronics fell; all Office Supplies grew. | Q5, Q7 |
 | 3 | Seasonality is **category-specific**: Electronics peaks in Q2, Furniture and Office Supplies in Q4. The single blended planning curve is wrong for all three. | Q4, Q8 |
 | 4 | Geography is not a factor — state revenue spans only 28% across five years. | Q6 |
+| 5 | **Order count drives revenue**, now proven not inferred: r = 0.923, R² = 0.851, p < 0.001 over 57 months. | CP2 regression |
+| 6 | **Units sold predicts nothing** (r = 0.045, p = 0.123). Volume-based targets would not move revenue. | CP2 correlation |
+| 7 | **No linear trend exists** to project — time explains under 1% of variation (p = 0.515). The series is growth then plateau. | CP2 trend test |
 
 ## Repository layout
 
@@ -95,9 +101,13 @@ Two decisions worth knowing before reading the SQL:
   194 of them recur against different dates *and* different customers. It is
   kept as the descriptive column `order_ref`; the fact table is keyed on the
   surrogate `sale_id`.
-- **2025 is a partial year** — the file stops on 15 March 2025. Every trend
-  query filters on `dim_date.is_complete_year = 1` so the cut-off is never
-  misread as a collapse in demand.
+- **Both ends of the series are partial.** The file runs 22 March 2020 to
+  15 March 2025, so 2025 is a part-year, 2020 is a *nine-month* year, and
+  March 2020 and March 2025 are part-months. `dim_date` carries
+  `is_complete_year` and `is_complete_month`; the analysis window is the 57
+  complete months from April 2020 to December 2024. Q3 also reports
+  `revenue_per_month` so the short 2020 cannot be compared unfairly against a
+  full year.
 
 ## Before you submit
 
