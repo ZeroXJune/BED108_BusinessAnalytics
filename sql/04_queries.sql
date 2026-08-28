@@ -60,7 +60,9 @@ SELECT
 FROM fact_sales
 WHERE quantity >= 15
   AND profit < 0.15 * amount
-ORDER BY margin_pct ASC, amount DESC
+-- sale_id breaks ties: three rows share the same margin AND amount, so
+-- without it the row order is left to the database engine.
+ORDER BY margin_pct ASC, amount DESC, sale_id ASC
 LIMIT 15;
 
 

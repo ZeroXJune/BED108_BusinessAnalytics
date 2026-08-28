@@ -93,7 +93,7 @@ SELECT
     (SELECT COUNT(*)  FROM fact_sales)                       AS fact_rows,
     (SELECT SUM(amount) FROM fact_sales)                     AS total_revenue,
     (SELECT COUNT(DISTINCT order_ref) FROM fact_sales)       AS distinct_order_refs,
-    (SELECT COUNT(DISTINCT year_month) FROM dim_date
+    (SELECT COUNT(DISTINCT dim_date.year_month) FROM dim_date
       WHERE is_complete_year = 1 AND is_complete_month = 1)  AS analysis_months,
     (SELECT COUNT(*) FROM fact_sales f
        LEFT JOIN dim_customer c ON c.customer_id = f.customer_id
@@ -166,7 +166,9 @@ SELECT
 FROM fact_sales
 WHERE quantity >= 15
   AND profit < 0.15 * amount
-ORDER BY margin_pct ASC, amount DESC
+-- sale_id breaks ties: three rows share the same margin AND amount, so
+-- without it the row order is left to the database engine.
+ORDER BY margin_pct ASC, amount DESC, sale_id ASC
 LIMIT 15;
 
 

@@ -18,7 +18,7 @@ can supply.
 | **1.2** Raw dataset preview, first 10–20 rows | Partial | Table 4 — **ACTION: paste your own screenshot** |
 | **1.3** ERD with at least 2 related tables | Exceeded | 7 tables, `docs/erd.md` |
 | **1.3** Tables with appropriate types and PK/FK | Done | `sql/01_schema_mysql.sql` |
-| **1.3** Import and load cleaned data | Done | `sql/03_insert_data.sql`, 1,194 fact rows |
+| **1.3** Import and load cleaned data | Done | `sql/02_mysql_full_import.sql` — one-file import, verified on MariaDB 10.11 |
 | **1.3** Screenshots of schema and populated tables | Script ready | Blocks S1–S7 of `sql/05_screenshot_queries.sql`, mapped in `docs/screenshot_guide.md` — **ACTION: capture the images** |
 | **1.4** ≥2 SELECT with WHERE and ORDER BY | Done | Q1, Q2 |
 | **1.4** ≥2 GROUP BY with aggregates | Done | Q3, Q4 (COUNT, SUM, AVG) |
@@ -45,7 +45,7 @@ can supply.
 | Requirement | Status |
 | --- | --- |
 | Printed and bound report (Tasks 1.1–1.4) | Ready to print — `reports/Checkpoint_1_Report.docx` |
-| SQL script file (.sql) via class portal | Ready — `sql/01_schema_mysql.sql`, `sql/03_insert_data.sql`, `sql/04_queries.sql` |
+| SQL script file (.sql) via class portal | Ready — `sql/02_mysql_full_import.sql` (schema + data in one), `sql/04_queries.sql`, `sql/05_screenshot_queries.sql` |
 | Signed Individual Contribution Form | Template at `reports/Form_A_Individual_Contribution.md` — **ACTION: complete and sign, one per member** |
 | Deadline: end of Week 4 laboratory session | — |
 

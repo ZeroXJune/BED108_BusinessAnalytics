@@ -263,11 +263,18 @@ DDL: `sql/01_schema_mysql.sql` (MySQL 8, InnoDB, with `PRIMARY KEY`,
 columns the Task 1.4 queries filter and group by).
 Data: `sql/03_insert_data.sql` (generated, portable `INSERT` statements).
 
+A single file, `sql/02_mysql_full_import.sql`, creates the database, all eight
+tables with their constraints, and loads all the data. In phpMyAdmin it goes
+through the Import tab; from a terminal:
+
 ```
-mysql -u root -p < sql/01_schema_mysql.sql
-mysql -u root -p sales_trend < sql/03_insert_data.sql
+mysql -u root -p < sql/02_mysql_full_import.sql
 mysql -u root -p sales_trend < sql/04_queries.sql
 ```
+
+The import ends with its own verification block, whose final row must read
+`1194 | 6182639.00 | 547 | 57 | 0 | 0` — the last two columns are orphan-row
+counts, so zeros are proof of referential integrity.
 
 **Populated row counts (verified after load):**
 
@@ -283,6 +290,10 @@ Caption: Populated row counts verified after load.
 | `dim_customer` | 807 |
 | `dim_date` | 648 |
 | `fact_sales` | 1,194 |
+
+The schema creates **8 primary keys, 7 foreign keys, 6 unique constraints and
+4 check constraints**, all verified on a live MySQL-compatible server; both
+foreign keys and check constraints were confirmed to reject invalid rows.
 
 `fact_sales` holds exactly the 1,194 rows of the raw file — no transaction was
 lost or invented in normalisation. `dim_customer` has 807 rows against 802
@@ -345,7 +356,10 @@ Caption: Q3 — annual sales trend, 2020–2024.
 | 2021 | 12 | 217 | 2,358 | 1,181,446 | 283,231 | 98,453.83 | 5,444.45 | 23.97 |
 | 2022 | 12 | 288 | 3,234 | 1,459,775 | 393,113 | 121,647.92 | 5,068.66 | 26.93 |
 | 2023 | 12 | 234 | 2,497 | 1,229,723 | 321,671 | 102,476.92 | 5,255.23 | 26.16 |
-| 2024 | 12 | 240 | 2,523 | 1,202,478 | 308,336 | 100,206.50 | 5,010.32 | 25.64 |
+| 2024 | 12 | 240 | 2,523 | 1,202,478 | 308,336 | 100,206.50 | 5,010.33 | 25.64 |
+
+_The 2024 average line value is exactly 5,010.325. MySQL rounds half away from
+zero and reports 5,010.33; tools that round half to even report 5,010.32._
 
 **Business Interpretation — answers Business Question 1.** Growth stopped in
 2022. Note the `months` column: 2020 holds only nine complete months, because

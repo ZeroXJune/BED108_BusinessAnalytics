@@ -5,12 +5,35 @@ result should say. The script is **`sql/05_screenshot_queries.sql`**.
 
 ## Before you start
 
-Load the database, once:
+Load the database. **One file does everything** — creates the database, all 8
+tables with their keys and constraints, and all the data:
 
-```bash
-mysql -u root -p < sql/01_schema_mysql.sql
-mysql -u root -p sales_trend < sql/03_insert_data.sql
+**phpMyAdmin:** *Import* tab → *Choose File* → `sql/02_mysql_full_import.sql`
+→ *Go*. No database needs to exist first; the file creates it.
+
+**Workbench:** *File → Open SQL Script* → `sql/02_mysql_full_import.sql` →
+click the lightning bolt.
+
+**Terminal:** `mysql -u root -p < sql/02_mysql_full_import.sql`
+
+It ends with its own verification. The final result must read exactly:
+
 ```
+1194 | 6182639.00 | 547 | 57 | 0 | 0
+```
+
+If it does, the load is correct and you can start capturing.
+
+> The two-file route still works if you prefer it —
+> `01_schema_mysql.sql` then `03_insert_data.sql` — but note the second file
+> has no `USE` statement (so that it also runs on SQLite), so you must select
+> the database yourself:
+> `mysql -u root -p sales_trend < sql/03_insert_data.sql`.
+
+> **All of this was tested.** The import and all sixteen blocks below were run
+> against a real MariaDB 10.11 server, not just checked by eye. The row counts
+> and every figure in the "Expected result" columns are what the server
+> actually returned.
 
 In **phpMyAdmin**: select the `sales_trend` database → **SQL** tab → paste one
 block → **Go**. In **MySQL Workbench**: open the script, put the cursor in a
@@ -68,6 +91,33 @@ Each needs three things per the brief: **(a)** the SQL, **(b)** the result,
 | **Q6** | Join (4 tables) | 2+ tables joined | 10 rows; Orlando first, 452,158 and 9,829.52/customer |
 | **Q7** | Business insight | Answers question 2 | 12 rows; Printers **−136,865 (−71.0%)**, Paper **+85,689 (+149.4%)** |
 | **Q8** | Business insight | Answers question 3 | 12 rows; Electronics peaks **Q2 (30.79%)**, others Q4 |
+
+> **One cell differs between engines, by design of their rounding.** In Q3 the
+> 2024 `avg_line_value` is exactly 5010.325. MySQL's `ROUND` rounds half away
+> from zero and shows **5010.33**; SQLite and Python round half to even and show
+> **5010.32**. Your MySQL screenshot showing 5010.33 is correct. Every other
+> value across all eight queries is identical on both engines.
+
+### A trap worth knowing: `year_month` is a reserved word
+
+`YEAR_MONTH` is a reserved word in MySQL and MariaDB — it is the unit in
+`INTERVAL 1 YEAR_MONTH`. So this **fails**:
+
+```sql
+SELECT year_month FROM dim_date;          -- syntax error
+```
+
+and these both **work**:
+
+```sql
+SELECT dim_date.year_month FROM dim_date; -- qualified with the table name
+SELECT `year_month` FROM dim_date;        -- wrapped in backticks
+```
+
+Every query in this project qualifies or backticks it, so the supplied scripts
+run fine. It only bites if you type a quick query of your own. It is also a
+good thing to be able to explain if you are asked why the schema has backticks
+in it.
 
 ### If Q8 fails
 

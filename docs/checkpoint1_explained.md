@@ -518,7 +518,7 @@ aggregate function or listed in the `GROUP BY`.
 | 2021 | 12 | 217 | 1,181,446 | 283,231 | 98,453.83 | 5,444.45 | 23.97 |
 | 2022 | 12 | 288 | 1,459,775 | 393,113 | 121,647.92 | 5,068.66 | 26.93 |
 | 2023 | 12 | 234 | 1,229,723 | 321,671 | 102,476.92 | 5,255.23 | 26.16 |
-| 2024 | 12 | 240 | 1,202,478 | 308,336 | 100,206.50 | 5,010.32 | 25.64 |
+| 2024 | 12 | 240 | 1,202,478 | 308,336 | 100,206.50 | 5,010.33 | 25.64 |
 
 **What it says.** Growth stopped in 2022. Watch the `months` column first: 2020
 has only nine, so the comparison must use `revenue_per_month`. The decisive
@@ -804,6 +804,15 @@ months: comparing its part-year total against a full 2021 would suggest 69.9%
 growth when the like-for-like figure is 30.9%. `is_complete_year` and
 `is_complete_month` fence off both ends, and Q3 reports `revenue_per_month` so
 the comparison is fair on its face.
+
+**Why does the schema have backticks around `year_month`?**
+Because `YEAR_MONTH` is a **reserved word** in MySQL and MariaDB — it is the
+unit in `INTERVAL 1 YEAR_MONTH`. Writing `SELECT year_month FROM dim_date` is a
+syntax error. Two things fix it: qualify it with the table name
+(`dim_date.year_month`) or wrap it in backticks (`` `year_month` ``). Every
+query in this project does one or the other, which is why they all run. This is
+worth knowing generally: reserved words are the commonest reason a
+perfectly-sensible column name refuses to work.
 
 **What is the difference between the two date flags?**
 `is_complete_year` excludes 2025 entirely, for anything compared year on year.

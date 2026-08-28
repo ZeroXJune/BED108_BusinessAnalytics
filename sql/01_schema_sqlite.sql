@@ -84,6 +84,10 @@ CREATE TABLE dim_payment_mode (
 --   is_complete_month - the file also STARTS on 22 March 2020, so both the
 --                       first and last calendar months are partial. A partial
 --                       month is not a valid monthly observation.
+--
+-- NOTE: `year_month` is backticked because YEAR_MONTH is a reserved word in
+-- MySQL and MariaDB (the INTERVAL ... YEAR_MONTH unit). Unqualified and
+-- unquoted it is a syntax error; write dim_date.year_month or `year_month`.
 -- ---------------------------------------------------------------------
 CREATE TABLE dim_date (
     order_date       TEXT        NOT NULL,
@@ -91,7 +95,7 @@ CREATE TABLE dim_date (
     quarter_number   INTEGER     NOT NULL,
     month_number     INTEGER     NOT NULL,
     month_name       TEXT NOT NULL,
-    year_month       TEXT     NOT NULL,
+    `year_month`     TEXT     NOT NULL,
     is_complete_year INTEGER     NOT NULL,
     is_complete_month INTEGER    NOT NULL,
     CONSTRAINT pk_dim_date PRIMARY KEY (order_date),

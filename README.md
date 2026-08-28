@@ -47,6 +47,7 @@ brief lets the instructor ask any member to explain any part of the project.
 data/raw/          sales_dataset_raw.csv     the source export, unmodified
 data/processed/    one CSV per table         cleaned, normalised output
 data/sales_trend.db                          populated SQLite build (generated)
+sql/02_mysql_full_import.sql                 ONE-FILE IMPORT: database + tables + data
 sql/01_schema_mysql.sql                      DDL for MySQL 8 (the deliverable)
 sql/01_schema_sqlite.sql                     mirror used for the local run
 sql/03_insert_data.sql                       generated INSERT statements
@@ -73,13 +74,32 @@ python3 scripts/make_figures.py     # → docs/figures/*.png
 python3 scripts/build_docx.py       # → reports/Checkpoint_1_Report.docx
 ```
 
-To build in MySQL instead:
+### Loading it into MySQL
+
+One file creates the database, all 8 tables and all the data:
 
 ```bash
-mysql -u root -p < sql/01_schema_mysql.sql
-mysql -u root -p sales_trend < sql/03_insert_data.sql
+mysql -u root -p < sql/02_mysql_full_import.sql
+```
+
+In phpMyAdmin: *Import* tab → choose `sql/02_mysql_full_import.sql` → *Go*.
+Nothing needs to exist first. The file ends with a verification block whose
+last row must read `1194 | 6182639.00 | 547 | 57 | 0 | 0`.
+
+Then run the analysis queries:
+
+```bash
 mysql -u root -p sales_trend < sql/04_queries.sql
 ```
+
+The modular route still works — `01_schema_mysql.sql` then
+`03_insert_data.sql` — but the insert file carries no `USE` statement so that
+it also runs on SQLite, so name the database on the command line.
+
+**Verified, not assumed:** the import and all sixteen screenshot blocks were
+executed against a real MariaDB 10.11 server. The schema creates 8 primary
+keys, 7 foreign keys, 6 unique constraints and 4 check constraints, and both
+constraint types were confirmed to reject invalid rows.
 
 The queries avoid dialect-specific date functions (calendar parts come from
 `dim_date`), so the same `04_queries.sql` runs unchanged on MySQL 8 and SQLite 3.
