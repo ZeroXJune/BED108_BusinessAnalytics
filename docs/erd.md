@@ -4,6 +4,11 @@ Checkpoint 1, Task 1.3. Star schema: one fact table (`sales`) at the grain of a
 single transaction line, surrounded by seven dimensions. `PK` marks a
 primary key, `FK` a foreign key.
 
+![Entity-Relationship Diagram](figures/erd.png)
+
+_Rendered by `scripts/make_erd.py` from the schema itself. Vector copy:
+`figures/erd.svg`. Mermaid source below, for GitHub's inline renderer._
+
 ```mermaid
 erDiagram
     states ||--o{ cities : "is located in"

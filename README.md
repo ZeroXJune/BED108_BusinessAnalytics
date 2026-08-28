@@ -57,7 +57,9 @@ scripts/clean_and_load.py                    clean → normalise → load → ve
 scripts/run_queries.py                       run all queries, capture results
 scripts/make_figures.py                      regenerate the report charts
 scripts/build_docx.py                        render the report to .docx
-docs/erd.md                                  ERD (Mermaid, renders on GitHub)
+docs/erd.md                                  ERD (image + Mermaid source)
+docs/figures/erd.png|.svg                    rendered ERD for the report
+scripts/make_erd.py                          generates the ERD from the schema
 docs/figures/                                Figures 1–3
 reports/                                     report, query results, QA evidence
 ```

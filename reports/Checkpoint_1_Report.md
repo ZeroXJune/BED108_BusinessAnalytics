@@ -80,12 +80,12 @@ aggregate.
 ## Key Business Questions
 
 1. **How have revenue and profit trended year over year from 2020 to 2024, and
-   is the company still growing?** *(Answered by Q3, Figure 1.)*
+   is the company still growing?** *(Answered by Q3, Figure 2.)*
 2. **Which product categories and sub-categories are driving the trend, and
    which ones reversed direction most recently?** *(Answered by Q5, Q7,
-   Figure 3.)*
+   Figure 4.)*
 3. **When during the year does demand concentrate, and is that seasonal pattern
-   the same for every category?** *(Answered by Q4, Q8, Figure 2.)*
+   the same for every category?** *(Answered by Q4, Q8, Figure 3.)*
 
 Supporting questions: which cities return the most revenue per customer (Q6),
 and which bulk orders are being sold at the thinnest margins (Q2).
@@ -221,18 +221,15 @@ states. Insert the full 10–20 row screenshot from your CSV viewer here.)_
 
 ## Entity-Relationship Diagram (ERD)
 
-The full diagram, in Mermaid source that renders directly on GitHub, is in
-`docs/erd.md`. Structure:
+Caption: Entity-Relationship Diagram of the sales_trend database. PK marks a primary key, FK a foreign key; the bar denotes the "one" side of a relationship and the crow's foot the "many" side.
 
-```
-states ──< cities ──< customers ──┐
-                                          │
-categories ──< sub_categories ────────┼──< sales
-                                          │
-payment_modes ─────────────────────────┤
-                                          │
-dates ─────────────────────────────────┘
-```
+![](../docs/figures/erd.png)
+
+The diagram is generated directly from the schema by `scripts/make_erd.py`,
+which cross-checks the parsed DDL against the built database before drawing,
+so it cannot drift out of step with the tables it documents. A vector copy for
+printing is at `docs/figures/erd.svg`, and Mermaid source that renders on
+GitHub is in `docs/erd.md`.
 
 **Star schema, 8 tables.** `sales` is the **fact table** — it holds the additive
 measures (`quantity`, `amount`, `profit`) at a grain of one transaction line.

@@ -159,9 +159,9 @@ Each one is answered by named queries. This matters: the rubric wants queries
 
 | # | Question | Answered by |
 | --- | --- | --- |
-| 1 | How have revenue and profit trended 2020–2024, and is the company still growing? | Q3, Figure 1 |
-| 2 | Which categories and sub-categories drive the trend, and which reversed most recently? | Q5, Q7, Figure 3 |
-| 3 | When does demand concentrate, and is the pattern the same for every category? | Q4, Q8, Figure 2 |
+| 1 | How have revenue and profit trended 2020–2024, and is the company still growing? | Q3, Figure 2 |
+| 2 | Which categories and sub-categories drive the trend, and which reversed most recently? | Q5, Q7, Figure 4 |
+| 3 | When does demand concentrate, and is the pattern the same for every category? | Q4, Q8, Figure 3 |
 
 ### Why the impact section uses numbers
 
