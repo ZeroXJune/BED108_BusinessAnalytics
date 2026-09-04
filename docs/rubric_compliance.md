@@ -79,10 +79,10 @@ group can supply.
 | Brief requirement | Status | Where |
 | --- | --- | --- |
 | Sheet 1 — Cleaned Data | Done | `Cleaned Data`, 1,194 rows × 19 columns |
-| Sheet 2 — at least 3 pivot tables | Exceeded | `Pivot Analysis`, four cross-tabs |
-| Sheet 3 — at least 3 pivot charts, titled, labelled, annotated | Exceeded | `Pivot Charts`, four charts |
+| Sheet 2 — at least 3 pivot tables | Exceeded | `Pivot Analysis`, four SUMIFS cross-tabs, **plus** three native PivotTables on `PivotTable 1–3` |
+| Sheet 3 — at least 3 pivot charts, titled, labelled, annotated | Exceeded | `Pivot Charts`, four charts, **plus** a PivotChart on each of `PivotTable 1–3` |
 | Sheet 4 — at least 5 Excel functions | Exceeded | `Formulas Showcase`, eight functions |
-| Native PivotTable objects | See note | Cross-tabs are formula-driven; `docs/checkpoint2_excel_guide.md` §2 gives the procedure — **ACTION if your instructor wants the objects** |
+| Native PivotTable objects | Done | Three PivotTables sharing one pivot cache, each with a bound PivotChart — **ACTION: confirm they populate on first open** |
 
 ## Task 2.2 — Descriptive Statistics
 
@@ -143,14 +143,22 @@ group can supply.
 
 ## Actions for the group
 
-1. **Open the workbook in Excel and confirm all seven Read Me self-checks say
-   OK.** It was built on Linux and has never been opened in Excel.
+1. **Open the workbook in Excel.** It was built on Linux and has never been
+   opened in Excel. Confirm three things: all seven Read Me self-checks read
+   **OK**; the three PivotTables and their PivotCharts appear populated; and
+   Excel does not offer to "repair" the file. This is the one item that could
+   still change what you submit.
 2. **Rewrite the interpretations in your own words** (Section 3.2), as with
-   Checkpoint 1.
-3. Fill the cover page blanks.
-4. Screenshot your own outputs — the ToolPak regression especially.
-5. Add native PivotTables if your instructor wants the objects (guide §2).
-6. Complete and sign Form A for Checkpoint 2.
+   Checkpoint 1. Worth 30 of the 100 points.
+3. Fill the cover page blanks — group name/number, date, member names.
+4. Screenshot your own outputs — the ToolPak regression especially
+   (Excel guide §3 lists the numbers it should produce).
+5. Complete and sign Form A for Checkpoint 2, one per member.
+6. Keep the workbook named `Checkpoint_2_Workbook.xlsx`, or ask for it to be
+   regenerated under the name you will submit — the PivotCharts store the
+   filename in their source reference.
+7. Decide with your instructor what to do about the Checkpoint 1 correction
+   (see the note below).
 
 ## Note on the Checkpoint 1 correction
 
