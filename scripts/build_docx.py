@@ -35,6 +35,8 @@ DOCUMENTS = [
      os.path.join(ROOT, "docs", "Checkpoint_2_Explained.docx")),
     (os.path.join(ROOT, "docs", "contribution_guide.md"),
      os.path.join(ROOT, "docs", "Contribution_Guide.docx")),
+    (os.path.join(ROOT, "docs", "project_explained.md"),
+     os.path.join(ROOT, "docs", "Project_Explained.docx")),
 ]
 
 INK = RGBColor(0x1F, 0x29, 0x33)
@@ -227,13 +229,20 @@ def convert(md, doc):
             add_runs(doc.add_paragraph(style=style), text)
             continue
 
-        if stripped.startswith("> "):
+        if stripped.startswith(">"):
+            # A blockquote wraps like a paragraph, so gather its continuation
+            # lines before parsing inline markup - otherwise bold or a link
+            # spanning two lines survives as literal asterisks.
+            block = [stripped.lstrip(">").strip()]
+            i += 1
+            while i < len(lines) and lines[i].strip().startswith(">"):
+                block.append(lines[i].strip().lstrip(">").strip())
+                i += 1
             par = doc.add_paragraph()
             par.paragraph_format.left_indent = Inches(0.3)
-            add_runs(par, stripped[2:])
+            add_runs(par, " ".join(x for x in block if x))
             for run in par.runs:
                 run.italic = True
-            i += 1
             continue
 
         # Ordinary paragraph: join the soft-wrapped lines that follow it.
