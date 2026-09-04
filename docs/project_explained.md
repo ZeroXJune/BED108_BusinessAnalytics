@@ -753,8 +753,10 @@ Each month's average revenue ÷ the overall average month. 1.00 = average.
 
 ### Step 3 — the forecast
 
-With no reliable trend, the forecast is **recent level × seasonal index**, the
-level being the mean of the last 24 months (**101,342**).
+Because the recent regime is flat rather than sloping, the forecast is
+**recent level × seasonal index** — the standard construction for a series
+stable in level but strongly seasonal. The level is the mean of the last 24
+months (**101,342**), a window confirmed flat (p = 0.857).
 
 | Period | Index | Forecast | Actual | Error |
 | --- | --- | --- | --- | --- |
@@ -871,7 +873,7 @@ any Excel version and in Google Sheets. Newer functions such as `XLOOKUP`,
 | 5 | **Order count drives revenue** — now proven, not inferred. r = 0.923, R² = 0.851, p < 0.001. | CP2 regression |
 | 6 | **Units sold predicts nothing.** r = 0.045, p = 0.123. Volume-based targets would not move revenue. | CP2 correlation |
 | 7 | **Revenue is a poor proxy for profit.** Profit skew +0.94, CV 82.9% vs 54.2%; only 46% of profit variation tracks revenue. | CP2 |
-| 8 | **No linear trend exists to project.** Time explains under 1% (p = 0.515). | CP2 trend test |
+| 8 | **The trend runs in two regimes — growth to 2022, then plateau.** A single line across both explains under 1% (p = 0.515), so the forecast uses level and seasonality instead of a growth rate. | CP2 trend test |
 | 9 | **The four-order gap is worth ~250,000 a year**, corroborating CP1's 257,297 independently. | CP2 regression |
 | 10 | **The seasonal forecast did not beat a flat average** over the two holdout months. | CP2 forecast |
 
@@ -975,9 +977,18 @@ Two independent routes to the same number.
 **Pair 2 has r = 0.045. Why include a correlation that shows nothing?**
 Because "nothing" is the finding. It rules out a units-based sales target.
 
+**Did you actually analyse the sales trend?**
+Yes, in five ways: year-on-year (Q3), monthly seasonality (Q4), category
+trajectory (Q5), sub-category change (Q7), quarterly pattern (Q8), plus a
+57-month series and a six-month forecast in Task 2.5. The trend itself is
+**two regimes — growth to 2022, then plateau** — which is a more useful answer
+than one growth percentage.
+
 **Why did you not project a trend line?**
-The trend test does not support one: R² = 0.008, p = 0.515. The series is
-growth then plateau, and one line describes neither.
+Because the series has a structural break. A line fitted across both regimes
+gives R² = 0.008, p = 0.515 — it describes neither. We forecast on level and
+seasonality instead, which is the correct construction for a flat, seasonal
+series, and it still produced six months of projections.
 
 **Your forecast lost to a naive average. Is that not a failure?**
 It is an honest result over the only two complete holdout months, driven by

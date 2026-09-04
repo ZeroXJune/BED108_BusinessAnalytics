@@ -364,11 +364,32 @@ Caption: Monthly orders against monthly revenue, with the fitted regression line
 
 # Task 2.5 — Trend and Seasonality Analysis
 
-The dataset is a time series, so this task applies. The analysis window is the
-57 complete months from April 2020 to December 2024. **January and February
-2025 are held back** and used to check the forecast.
+The dataset is a time series, so this task applies in full. The analysis window
+is the 57 complete months from April 2020 to December 2024. **January and
+February 2025 are held back** and used to check the forecast.
 
-## Step 1 — Is there a linear trend to project?
+## Step 1 — The trend pattern: growth, then plateau
+
+**The sales trend has two distinct regimes.** Revenue per month grew 30.9% from
+2020 to a peak of 121,647.92 in 2022, then fell back and flattened at roughly
+100,000 a month across 2023 and 2024 — 17.6% below the peak. The break occurs
+in 2022 and is visible in Figure 4 without any statistics.
+
+Caption: The trend in two regimes, measured on revenue per month.
+
+| Phase | Period | Revenue per month | Change |
+| --- | --- | --- | --- |
+| **Growth** | 2020 → 2022 | 92,934.44 → 121,647.92 | **+30.9%** |
+| **Plateau** | 2022 → 2024 | 121,647.92 → 100,206.50 | **−17.6%**, then flat |
+
+**This two-regime shape is the trend finding**, and it is what a single growth
+percentage would have concealed. It also has a cause, established in Task 2.3
+and Checkpoint 1: the plateau is not a broad slowdown but the loss of one
+sub-category, Printers, offset by growth in Office Supplies.
+
+### Why no single growth rate is projected forward
+
+A straight line fitted across both regimes describes neither:
 
 Caption: Regression of monthly revenue on a simple time index.
 
@@ -377,16 +398,17 @@ Caption: Regression of monthly revenue on a simple time index.
 | Slope | +206.0 per month |
 | R² | **0.0078** |
 | p-value | **0.515** |
-| Verdict | **No significant trend** |
+| Verdict | **Not significant** |
 
-Time explains **less than 1%** of the variation in monthly revenue, and at
-p = 0.515 the apparent upward slope is indistinguishable from noise.
+Time explains **less than 1%** of the variation, and at p = 0.515 the apparent
+slope is indistinguishable from noise — because averaging a rising regime with
+a flat one produces a slope belonging to neither.
 
-This is a genuine finding, not a failure. The series is not a trend — it is a
-**growth phase followed by a plateau**. Fitting one straight line across a
-structural break produces a slope that describes neither regime. Projecting
-that slope forward would be the single easiest way to be badly wrong, so **no
-growth rate is projected**.
+To confirm this is a property of the series rather than of the window chosen,
+the same test was run on four windows. None shows a significant slope
+(p = 0.31 to 0.86). **The forecast in Step 3 is therefore built on the level
+and the seasonal pattern rather than on a growth rate** — projecting a slope
+this weak would be the easiest way to be badly wrong.
 
 ## Step 2 — The seasonal index
 
@@ -409,8 +431,10 @@ is the weakest, at barely half a December.
 
 ## Step 3 — The forecast
 
-With no reliable trend, the forecast is **recent level × seasonal index**, where
-the level is the mean of the last 24 months (101,342).
+Because the recent regime is flat rather than sloping, the forecast is built as
+**recent level × seasonal index** — the standard construction for a series that
+is stable in level but strongly seasonal. The level is the mean of the last 24
+months (**101,342**), a window confirmed flat by the trend test (p = 0.857).
 
 Caption: Six-period forecast with the two complete holdout months compared.
 
@@ -425,7 +449,7 @@ Caption: Six-period forecast with the two complete holdout months compared.
 
 ![](../docs/figures/cp2_fig4_forecast.png)
 
-Caption: Monthly revenue with the six-period forecast and the two holdout months marked.
+Caption: The sales trend in two regimes. The 12-month rolling average shows growth to a late-2022 peak, then a plateau; the six-month forecast and the two holdout months are at the right.
 
 ## Step 4 — How reliable is it? An honest assessment
 
@@ -480,9 +504,11 @@ plans inventory on it.
 3. **Revenue is a poor proxy for profit.** Profit is right-skewed (+0.94) with a
    coefficient of variation of 82.9% against Amount's 54.2%, and only 46% of
    profit variation tracks revenue. *(Tasks 2.2, 2.3)*
-4. **There is no linear trend to project.** Time explains under 1% of variation
-   (p = 0.515). The series is a growth phase followed by a plateau, and one
-   straight line describes neither. *(Task 2.5)*
+4. **The sales trend runs in two regimes: growth then plateau.** Revenue per
+   month rose 30.9% to a 2022 peak, then fell 17.6% and flattened. A single
+   straight line fitted across both explains under 1% of the variation
+   (p = 0.515), which is why the six-month forecast is built on level and
+   seasonality rather than on a growth rate. *(Task 2.5)*
 5. **The four-order-per-month gap is worth about 250,000 a year** by the
    regression, independently corroborating the 257,297 shortfall measured
    directly in Checkpoint 1. *(Task 2.4)*

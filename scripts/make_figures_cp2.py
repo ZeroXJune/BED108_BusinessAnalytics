@@ -130,7 +130,14 @@ def fig_forecast(con):
 
     fig, ax = plt.subplots(figsize=(9.5, 4.2))
     n = len(rev)
-    ax.plot(range(n), rev, color=ACCENT, linewidth=1.6, label="Actual (complete months)")
+    ax.plot(range(n), rev, color=ACCENT, linewidth=1.1, alpha=0.45,
+            label="Actual (complete months)")
+    # A 12-month rolling mean: monthly noise is large enough to hide the
+    # trend, and the two regimes are the point of this chart.
+    w = 12
+    roll = [np.mean(rev[max(0, i - w + 1):i + 1]) for i in range(n)]
+    ax.plot(range(w - 1, n), roll[w - 1:], color=INK, linewidth=2.4,
+            label="12-month rolling average")
     ax.plot(range(n, n + 6), fc, color=WARM, linewidth=2, linestyle="--",
             marker="o", markersize=4, label="Forecast")
     obs = [act.get(f) for f in fut]
@@ -138,6 +145,16 @@ def fig_forecast(con):
     ys = [obs[i] for i in range(len(obs)) if obs[i] is not None and i < 2]
     ax.scatter(xs, ys, color=INK, s=44, zorder=5, label="Actual 2025 (holdout)")
     ax.axvline(n - 0.5, color=MUTED, linestyle=":", linewidth=1)
+
+    # The structural break: growth to the 2022 peak, then a flat regime.
+    break_i = labels.index("2022-12") if "2022-12" in labels else 33
+    ax.axvspan(0, break_i, color="#2f6f9f", alpha=0.05)
+    ax.axvspan(break_i, n - 0.5, color="#c96f3f", alpha=0.05)
+    top = max(rev.max(), max(fc)) * 1.03
+    ax.text(break_i / 2, top, "GROWTH  +30.9%", ha="center", fontsize=8.5,
+            color=ACCENT, fontweight="bold")
+    ax.text((break_i + n) / 2, top, "PLATEAU  \u221217.6%", ha="center",
+            fontsize=8.5, color=WARM, fontweight="bold")
     style(ax)
     ax.yaxis.set_major_formatter(thousands)
     step = 6
@@ -145,10 +162,11 @@ def fig_forecast(con):
     ax.set_xticks(ticks)
     ax.set_xticklabels([(labels + fut)[t] for t in ticks], rotation=45,
                        ha="right", fontsize=8)
-    ax.set_title("Six-month forecast, with the two holdout months marked",
+    ax.set_title("The trend in two regimes, with a six-month forecast",
                  color=INK, fontsize=12, fontweight="bold", loc="left")
     ax.set_ylabel("Monthly revenue", color=MUTED, fontsize=9)
-    ax.legend(frameon=False, fontsize=9, labelcolor=MUTED, loc="upper left")
+    ax.legend(frameon=False, fontsize=8.5, labelcolor=MUTED, loc="lower left",
+              ncol=2)
     save(fig, "cp2_fig4_forecast.png")
 
 

@@ -39,7 +39,7 @@ brief lets the instructor ask any member to explain any part of the project.
 | 4 | Geography is not a factor — state revenue spans only 28% across five years. | Q6 |
 | 5 | **Order count drives revenue**, now proven not inferred: r = 0.923, R² = 0.851, p < 0.001 over 57 months. | CP2 regression |
 | 6 | **Units sold predicts nothing** (r = 0.045, p = 0.123). Volume-based targets would not move revenue. | CP2 correlation |
-| 7 | **No linear trend exists** to project — time explains under 1% of variation (p = 0.515). The series is growth then plateau. | CP2 trend test |
+| 7 | **The trend runs in two regimes** — growth to 2022, then plateau. A single line across both explains under 1% (p = 0.515), so the six-month forecast uses level and seasonality rather than a growth rate. | CP2 trend test |
 
 ## Repository layout
 

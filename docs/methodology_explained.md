@@ -390,10 +390,14 @@ they sum to `COUNT(Amount)`.
 This is the section where our chosen method **did not win**, and the honest
 account is more useful than a tidy one.
 
-### 6.1 Why no trend was projected
+### 6.1 Why the trend is described as two regimes rather than one slope
 
-**What we did.** Tested for a linear trend, found none, and projected no growth
-rate.
+**What we did.** Characterised the trend as **growth to 2022, then plateau**,
+and built the forecast on level and seasonality rather than on a growth rate.
+
+**What it means.** The trend question is answered — the series rises 30.9% to a
+2022 peak, then falls 17.6% and flattens. What is *not* answered with a single
+number is "the growth rate", because there are two of them.
 
 **How we tested it.** Regressed revenue on a time index — and, because
 "no trend" could be an artifact of the window chosen, repeated it on four
@@ -406,9 +410,12 @@ windows:
 | Last 36 months | −666.6 | 0.314 | Flat |
 | All 57 months | +206.0 | 0.515 | Flat |
 
-**Why this method.** No window shows a significant slope, so "there is no
-trend" is a property of the series and not of our choice of window. Projecting
-a slope this weak forward would compound a number indistinguishable from noise.
+**Why this method.** No window shows a significant slope, so the absence of a
+*single* slope is a property of the series and not of our choice of window.
+That is the evidence for the two-regime description: averaging a rising regime
+with a flat one produces a slope belonging to neither, which is exactly what
+R² = 0.008 reports. Projecting it forward would compound a number
+indistinguishable from noise.
 
 **What we rejected.** *Fitting the trend anyway* — it is the expected thing to
 do and would have produced a confident, wrong line through a structural break.
