@@ -46,7 +46,7 @@ can supply.
 | --- | --- |
 | Printed and bound report (Tasks 1.1–1.4) | Ready to print — `reports/Checkpoint_1_Report.docx` |
 | SQL script file (.sql) via class portal | Ready — `sql/02_mysql_full_import.sql` (schema + data in one), `sql/04_queries.sql`, `sql/05_screenshot_queries.sql` |
-| Signed Individual Contribution Form | Template at `reports/Form_A_Individual_Contribution.md` — **ACTION: complete and sign, one per member** |
+| Signed Individual Contribution Form | Printable form at `reports/Form_A_Individual_Contribution.docx`, four signable copies — **ACTION: complete and sign, one per member** |
 | Deadline: end of Week 4 laboratory session | — |
 
 ## Note on the written interpretations
@@ -138,7 +138,7 @@ group can supply.
 | --- | --- |
 | Printed report with interpretations and screenshots | Ready — `reports/Checkpoint_2_Report.docx` |
 | Excel workbook (.xlsx) submitted digitally | Ready — `reports/Checkpoint_2_Workbook.xlsx` |
-| Updated signed Individual Contribution Form | Template updated for CP2 — **ACTION: complete and sign** |
+| Updated signed Individual Contribution Form | `reports/Form_A_Individual_Contribution.docx` covers both checkpoints — **ACTION: complete and sign, one per member** |
 | Deadline: end of Week 9 laboratory session | — |
 
 ## Actions for the group
