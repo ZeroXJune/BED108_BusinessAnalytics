@@ -37,6 +37,8 @@ DOCUMENTS = [
      os.path.join(ROOT, "docs", "Contribution_Guide.docx")),
     (os.path.join(ROOT, "docs", "project_explained.md"),
      os.path.join(ROOT, "docs", "Project_Explained.docx")),
+    (os.path.join(ROOT, "docs", "methodology_explained.md"),
+     os.path.join(ROOT, "docs", "Methodology_Explained.docx")),
 ]
 
 INK = RGBColor(0x1F, 0x29, 0x33)

@@ -64,6 +64,7 @@ docs/figures/                                Figures 1–3
 reports/                                     report, query results, QA evidence
 reports/Form_A_Individual_Contribution.docx  printable form, 4 signable copies
 docs/project_explained.md                    EVERYTHING explained in one document
+docs/methodology_explained.md                WHY each method was chosen, with the alternatives measured
 docs/contribution_guide.md                   what each role did, for filling in Form A
 scripts/build_form_a.py                      builds the contribution form
 ```
