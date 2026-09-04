@@ -11,9 +11,12 @@ Run:  python3 scripts/build_docx.py            # builds every document
       python3 scripts/build_docx.py IN.md OUT.docx
 """
 
+import hashlib
+import io
 import os
 import re
 import sys
+import zipfile
 
 from docx import Document
 from docx.enum.table import WD_TABLE_ALIGNMENT
@@ -236,6 +239,21 @@ def convert(md, doc):
         add_runs(doc.add_paragraph(), text)
 
 
+def content_digest(data):
+    """Hash a .docx by its internal parts, ignoring zip container framing.
+
+    python-docx writes fresh timestamps and part ordering on every save, so
+    two byte-different files can hold identical documents. Comparing the parts
+    is what tells you whether anything actually changed.
+    """
+    with zipfile.ZipFile(io.BytesIO(data)) as z:
+        h = hashlib.sha256()
+        for name in sorted(z.namelist()):
+            h.update(name.encode())
+            h.update(hashlib.sha256(z.read(name)).digest())
+        return h.digest()
+
+
 def build(src, out):
     doc = Document()
     setup_styles(doc)
@@ -244,7 +262,21 @@ def build(src, out):
         section.top_margin = section.bottom_margin = Inches(1.0)
 
     convert(open(src, encoding="utf-8").read(), doc)
-    doc.save(out)
+
+    buf = io.BytesIO()
+    doc.save(buf)
+    new = buf.getvalue()
+
+    # Leave the file alone when the document is unchanged, so rebuilding does
+    # not show up as a modification in git.
+    if os.path.exists(out):
+        with open(out, "rb") as fh:
+            if content_digest(fh.read()) == content_digest(new):
+                print("unchanged", out)
+                return
+
+    with open(out, "wb") as fh:
+        fh.write(new)
     print("wrote", out)
 
 
