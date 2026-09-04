@@ -20,6 +20,7 @@ FIG_DIR = os.path.join(ROOT, "docs", "figures")
 INK = "#1f2933"
 MUTED = "#7b8794"
 ACCENT = "#2f6f9f"
+WARM = "#c96f3f"
 SERIES = ["#2f6f9f", "#c96f3f", "#5c9e73"]
 
 thousands = FuncFormatter(lambda v, _: f"{v/1000:,.0f}k")
@@ -58,21 +59,39 @@ def fig_annual_trend(con):
     profit = [r[2] for r in rows]
 
     fig, ax = plt.subplots(figsize=(7.5, 4))
+
+    # The same two regimes marked on the Checkpoint 2 forecast chart: growth
+    # to the 2022 peak, then a plateau. 2022 is the boundary, so it belongs to
+    # both and the bands meet at its centre.
+    peak = years.index("2022")
+    ax.axvspan(-0.5, peak, color=ACCENT, alpha=0.06)
+    ax.axvspan(peak, len(years) - 0.5, color=WARM, alpha=0.06)
+
     ax.bar(years, revenue, color=ACCENT, width=0.6, label="Revenue")
     ax.bar(years, profit, color="#9fc3dd", width=0.6, label="Profit")
     for x, v in zip(years, revenue):
         label = f"{v/1000:,.0f}k" + ("*" if x == "2020" else "")
         ax.text(x, v + 2500, label, ha="center", fontsize=9, color=INK)
+    growth = 100 * (revenue[peak] / revenue[0] - 1)
+    plateau = 100 * (revenue[-1] / revenue[peak] - 1)
+    ax.text((peak - 0.5) / 2, max(revenue) * 1.09, f"GROWTH  +{growth:.1f}%",
+            ha="center", fontsize=9, color=ACCENT, fontweight="bold")
+    ax.text((peak + len(years) - 0.5) / 2, max(revenue) * 1.09,
+            f"PLATEAU  \u2212{abs(plateau):.1f}%", ha="center", fontsize=9,
+            color=WARM, fontweight="bold")
+
     style(ax)
     ax.yaxis.set_major_formatter(thousands)
-    ax.set_ylim(0, max(revenue) * 1.15)
-    ax.set_title("Revenue per month peaked in 2022 and has not recovered",
+    ax.set_ylim(0, max(revenue) * 1.18)
+    ax.set_xlim(-0.5, len(years) - 0.5)
+    ax.set_title("The trend in two regimes: growth to 2022, then plateau",
                  color=INK, fontsize=12, fontweight="bold", loc="left")
     ax.set_ylabel("Revenue per month", color=MUTED, fontsize=9)
-    ax.text(0, -0.20, "* 2020 covers nine complete months (the file starts "
+    ax.text(0, -0.27, "* 2020 covers nine complete months (the file starts "
                       "22 March 2020), so all years are shown per month.",
             transform=ax.transAxes, fontsize=8, color=MUTED)
-    ax.legend(frameon=False, fontsize=9, labelcolor=MUTED)
+    ax.legend(frameon=False, fontsize=9, labelcolor=MUTED, ncol=2,
+              loc="upper center", bbox_to_anchor=(0.5, -0.10))
     save(fig, "fig1_annual_trend.png")
 
 

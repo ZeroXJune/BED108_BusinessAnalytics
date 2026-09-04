@@ -336,7 +336,11 @@ the trend break.
 | 2021 | 12 | 217 | 1,181,446 | 283,231 | 98,453.83 | 5,444.45 | 23.97 |
 | 2022 | 12 | 288 | 1,459,775 | 393,113 | 121,647.92 | 5,068.66 | 26.93 |
 | 2023 | 12 | 234 | 1,229,723 | 321,671 | 102,476.92 | 5,255.23 | 26.16 |
-| 2024 | 12 | 240 | 1,202,478 | 308,336 | 100,206.50 | 5,010.32 | 25.64 |
+| 2024 | 12 | 240 | 1,202,478 | 308,336 | 100,206.50 | 5,010.33 | 25.64 |
+
+_The 2024 average line value is exactly 5,010.325. MySQL rounds half away from
+zero and reports 5,010.33; tools that round half to even, including SQLite,
+report 5,010.32. Your MySQL screenshot showing 5,010.33 is correct._
 
 **Rule to remember:** every column in the `SELECT` must either sit inside an
 aggregate or be listed in the `GROUP BY`.

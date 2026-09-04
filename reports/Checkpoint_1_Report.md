@@ -374,7 +374,7 @@ of them. That points the investigation at demand and product availability, not
 at pricing. Margin held between 23.97% and 26.93% throughout, confirming that
 profitability per sale was never the issue.
 
-Caption: Annual revenue and profit, 2020–2024. Revenue peaked in 2022.
+Caption: The sales trend in two regimes, measured per month so the nine-month 2020 compares fairly: growth of 30.9% to the 2022 peak, then a 17.6% fall to a plateau.
 
 ![](../docs/figures/fig1_annual_trend.png)
 
