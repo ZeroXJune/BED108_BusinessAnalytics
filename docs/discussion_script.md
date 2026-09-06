@@ -31,18 +31,65 @@ Every figure quoted here has been checked against the database. If you are
 asked where a number comes from, the answer is always a specific query or a
 specific worksheet cell, and those are named in the margin notes.
 
+### Recording it
+
+Your instructor asked for a recording, so a few things change. Read this before
+you press record, not after the first take.
+
+**Say your name the first time you speak.** "I'm Julebeth, I handled the data
+and the database." On a recording your instructor is matching a voice to a name
+for a mark under Section 1.4 — do not make them guess. Say the segment number
+or task too if the recording will be scrubbed through: "Task 1.2, the dataset."
+
+**Record in segments, not one continuous take.** Ten short recordings you can
+re-take individually beat one fifteen-minute take that gets ruined at minute
+twelve. Stitch them, or submit them numbered. If it has to be one take, agree
+in advance that small stumbles are not worth restarting for — nobody is marking
+fluency.
+
+**One person talks at a time.** Overlapping voices are fine in a room and
+unintelligible on a recording. Leave a beat after each speaker finishes before
+the next one starts; it also gives you clean cut points.
+
+**Screen-record with audio rather than filming a monitor.** Every exhibit in
+this project is on a screen — the ERD, the query output, the workbook, the
+figures. If you film a laptop the numbers will not be readable, and unreadable
+evidence is the same as no evidence. Whoever drives the screen should not also
+be the one speaking, if you can spare the person.
+
+**Do a thirty-second test first.** Record, play it back, check three things:
+every voice is audible, the screen text is legible at the recording's
+resolution, and there is no room echo or fan noise drowning you. Fixing this
+after a full take is the most common way groups lose an evening.
+
+**A recording is permanent, so the honest parts matter more, not less.** The
+synthetic data, the Checkpoint 1 correction, the forecast that lost — say all
+three out loud, on the record, before anyone asks. A recording where you
+volunteer your own error reads as competence; one where the error surfaces
+later reads very differently.
+
+**Q&A on a recording.** There is nobody to ask questions, so use the Q&A table
+two ways: rehearse with it, then record a short closing where each speaker
+answers one or two of the questions from their own area. It shows you can
+defend the work, which is what the live version would have tested.
+
+**Before you submit:** play the whole thing back once, end to end. Check the
+file opens, the audio does not cut out, and the length fits any limit you were
+given. Name the file with your group and the checkpoint.
+
 ### The speakers
 
-| Label | Role from the brief | Covers |
+| Speaker | Role from the brief | Covers |
 | --- | --- | --- |
-| **LEAD** | Project Lead / Analyst | The business problem, the findings, what the business should do |
-| **DATA** | Data Engineer | The dataset, its quality, the ERD, the database, the workbook build |
-| **STATS** | Statistician / Modeler | The queries, descriptive statistics, correlation, regression, forecasting |
+| **Alber** | Project Lead / Analyst | The business problem, the findings, what the business should do |
+| **Julebeth** | Data Engineer | The dataset, its quality, the ERD, the database, the workbook build |
+| **Mardy** | Statistician / Modeler | The queries, descriptive statistics, correlation, regression, forecasting |
 
-If your group has four members, the **BI Developer / Visualizer** takes the
-figures and charts: split segment 4 (the queries) and segment 9 (the forecast
-chart) so that the visualiser presents each chart and STATS presents the number
-behind it.
+Julebeth and Mardy can swap roles if the other split suits you better — the
+segments move as blocks, so trading segments 2, 3, 5 for segments 4, 6, 7, 8, 9
+is the whole change. If a fourth member joins as **BI Developer / Visualizer**,
+give them the charts: split segments 4 and 9 so they present each figure and
+Mardy presents the number behind it.
 
 ### What to have on screen
 
@@ -63,9 +110,9 @@ behind it.
 
 ## Segment 1 — The business problem (Task 1.1)
 
-*About 2 minutes. LEAD opens.*
+*About 2 minutes. Alber opens.*
 
-**LEAD.** Our domain is Retail and Sales Analytics, and our topic is sales
+**Alber.** Our domain is Retail and Sales Analytics, and our topic is sales
 trend analysis. The subject is a multi-category retailer — electronics,
 furniture and office supplies — trading across six US states between 2020 and
 2025.
@@ -75,10 +122,10 @@ then stopped**. On a like-for-like monthly basis, revenue rose 30.9% from 2020
 to the 2022 peak, then fell in each of the next two years and finished 2024 at
 17.6% below that peak.
 
-**DATA.** Why is that an analytical problem? Falling sales is not exactly a
+**Julebeth.** Why is that an analytical problem? Falling sales is not exactly a
 mystery.
 
-**LEAD.** Because of what *didn't* move. Margin held between 23.97% and 26.93%
+**Alber.** Because of what *didn't* move. Margin held between 23.97% and 26.93%
 for the whole five years, and average order value stayed between 5,008 and
 5,444. If margin had collapsed, the answer would be "we discounted too hard"
 and nobody would need a database to find that. Margin held steady while revenue
@@ -86,9 +133,9 @@ fell, which means the company is writing **fewer orders**, not worse ones. And
 "fewer orders of what, when, and where" is a question a single annual revenue
 figure cannot answer.
 
-**STATS.** So the business questions.
+**Mardy.** So the business questions.
 
-**LEAD.** Three of them, and every deliverable in this project maps back to
+**Alber.** Three of them, and every deliverable in this project maps back to
 one:
 
 | # | Question | Answered by |
@@ -105,9 +152,9 @@ inventory that does not sell and campaigns that land in the wrong quarter.
 
 ## Segment 2 — The dataset and what was wrong with it (Task 1.2)
 
-*About 2.5 minutes. DATA leads.*
+*About 2.5 minutes. Julebeth leads.*
 
-**DATA.** The dataset is a retail sales export, 1,194 transaction lines and 12
+**Julebeth.** The dataset is a retail sales export, 1,194 transaction lines and 12
 columns, covering 22 March 2020 to 15 March 2025. The brief asks for at least
 200 rows. The grain — and this is the word to remember — is **one row per
 product line on an order**, not one row per order.
@@ -121,9 +168,9 @@ appears on different dates, for different customers. So it does not identify an
 order either. We kept it as a plain attribute and issued our own surrogate key,
 `sale_id`.
 
-**LEAD.** Why not repair it instead?
+**Alber.** Why not repair it instead?
 
-**DATA.** Because repairing it means deciding which of two rows with the same
+**Julebeth.** Because repairing it means deciding which of two rows with the same
 ID is the "real" one, and we have no evidence for that decision. Inventing that
 evidence is data fabrication, which the brief says is grounds for a failing
 mark. Documenting the defect costs us nothing analytically — no question we ask
@@ -150,9 +197,9 @@ real trading data. We have five machine-checked signals:
 - The payment mix is near-uniform, 206 to 260 across every method
 - The Amount histogram is flat, not normal — real transaction values are right-skewed
 
-**STATS.** And we did not fix any of it.
+**Mardy.** And we did not fix any of it.
 
-**DATA.** We did not. Fixing it would mean inventing numbers. What we did
+**Julebeth.** We did not. Fixing it would mean inventing numbers. What we did
 instead was state it, prove it, and carry the limitation into every conclusion.
 The method is unaffected — every query and every statistic in this project
 would run identically against a real export.
@@ -161,18 +208,18 @@ would run identically against a real export.
 
 ## Segment 3 — The database (Task 1.3)
 
-*About 2 minutes. DATA continues, with the ERD on screen.*
+*About 2 minutes. Julebeth continues, with the ERD on screen.*
 
-**DATA.** We normalised the flat file into a **star schema**: one fact table
+**Julebeth.** We normalised the flat file into a **star schema**: one fact table
 surrounded by seven dimensions, eight tables in total.
 
 `sales` is the fact table, one row per transaction line. Around it:
 `customers`, `cities`, `states`, `categories`, `sub_categories`,
 `payment_modes` and `dates`.
 
-**LEAD.** Why a star, and not just the one table we started with?
+**Alber.** Why a star, and not just the one table we started with?
 
-**DATA.** Three reasons.
+**Julebeth.** Three reasons.
 
 First, **consistency**. In the flat file, a category name is repeated on every
 row that uses it, so a typo in one row creates a category that does not exist.
@@ -189,10 +236,10 @@ Third, **it is what the queries need**. The category trend question needs
 category and date on the same row as the amount; a star gives you that in one
 join.
 
-**STATS.** Say something about the `dates` table, because that is the one that
+**Mardy.** Say something about the `dates` table, because that is the one that
 looks like overkill.
 
-**DATA.** It looks like overkill until you try to write the queries. Two
+**Julebeth.** It looks like overkill until you try to write the queries. Two
 reasons it earns its place. One, it keeps the SQL portable — we never call
 `YEAR()` or `strftime()`, so the same query file runs unchanged on MySQL and on
 SQLite, and we verified that. Two, it carries two flags the raw dates cannot:
@@ -214,9 +261,9 @@ whose last row must read 1,194 rows, 6,182,639.00 in revenue, 547 order IDs and
 
 ## Segment 4 — The eight queries (Task 1.4)
 
-*About 3 minutes. STATS leads. Have the Q3, Q5 and Q8 screenshots ready.*
+*About 3 minutes. Mardy leads. Have the Q3, Q5 and Q8 screenshots ready.*
 
-**STATS.** Eight queries in four groups: two basic retrievals with `WHERE` and
+**Mardy.** Eight queries in four groups: two basic retrievals with `WHERE` and
 `ORDER BY`, two aggregates with `GROUP BY`, two multi-table joins — ours join
 four tables each — and two business-insight queries. I will skip the mechanics
 and go to what they found, which is four things.
@@ -229,19 +276,19 @@ the 2022 peak, then down to 100,207 in 2024. Meanwhile margin never left the
 combination is the whole diagnosis: fewer orders, not cheaper or less
 profitable ones.
 
-**LEAD.** Which is actionable in a way that "revenue fell" is not. It points at
+**Alber.** Which is actionable in a way that "revenue fell" is not. It points at
 demand generation, not at pricing.
 
-**STATS.** **Finding two — one sub-category explains most of the gap.** Query 5
+**Mardy.** **Finding two — one sub-category explains most of the gap.** Query 5
 and Query 7 break the trend down by category and sub-category. Printers lost
 136,865 between 2023 and 2024, a 71.0% collapse — that single line item is over
 half of the entire peak-to-2024 gap. Every Electronics sub-category fell, and
 the category as a whole is down 40.8%. Every Office Supplies sub-category grew;
 Paper is up 85,689, or 149.4%.
 
-**DATA.** So it is not a general slowdown.
+**Julebeth.** So it is not a general slowdown.
 
-**STATS.** It is not. Two opposite trends are running at once, and the
+**Mardy.** It is not. Two opposite trends are running at once, and the
 company-wide figure is their average, which describes neither. That is the
 single most useful thing Checkpoint 1 produced.
 
@@ -261,9 +308,9 @@ tells the business where *not* to spend its analytical effort.
 
 ## Segment 5 — The workbook (Task 2.1)
 
-*About 1.5 minutes. DATA leads, workbook on screen.*
+*About 1.5 minutes. Julebeth leads, workbook on screen.*
 
-**DATA.** Checkpoint 2 takes the same dataset — the brief requires the same
+**Julebeth.** Checkpoint 2 takes the same dataset — the brief requires the same
 dataset — out of the database and into Excel. The workbook has thirteen sheets.
 
 The one design decision to be able to defend: **everything is live formulas,
@@ -285,9 +332,9 @@ way. If someone edits a cell they should not have, the workbook says so.
 
 ## Segment 6 — Descriptive statistics (Task 2.2)
 
-*About 1.5 minutes. STATS.*
+*About 1.5 minutes. Mardy.*
 
-**STATS.** Three numerical variables: Amount, Profit and Quantity. Mean,
+**Mardy.** Three numerical variables: Amount, Profit and Quantity. Mean,
 median, mode, standard deviation, variance, range, quartiles, IQR and
 coefficient of variation for each, plus a frequency distribution and a
 histogram.
@@ -300,9 +347,9 @@ more variable *and* asymmetric — a long right tail of a few very profitable
 lines. Practically: a revenue target does not manage profit, because the two do
 not move together tightly enough for one to stand in for the other.
 
-**LEAD.** That is the point that changes what we recommend for the dashboard.
+**Alber.** That is the point that changes what we recommend for the dashboard.
 
-**STATS.** It is. **Two — the histogram is the real finding.** Amount is
+**Mardy.** It is. **Two — the histogram is the real finding.** Amount is
 distributed almost flat across its range. Real transaction values are
 right-skewed: many small sales, few large ones. A flat distribution is what a
 random number generator produces. So our own descriptive statistics
@@ -313,9 +360,9 @@ report it as evidence rather than hiding it.
 
 ## Segment 7 — Correlation (Task 2.3)
 
-*About 1.5 minutes. STATS, scatter plots on screen.*
+*About 1.5 minutes. Mardy, scatter plots on screen.*
 
-**STATS.** Two required pairs plus a third for support. Pearson's r, with
+**Mardy.** Two required pairs plus a third for support. Pearson's r, with
 scatter plots and fitted trendlines.
 
 **Pair one — monthly order count against monthly revenue: r = 0.9227.** Strong
@@ -333,9 +380,9 @@ than units per line.
 variation tracks revenue. Moderate, not strong. Same conclusion as the CV
 figures from the previous segment, reached a different way.
 
-**DATA.** And the caveat.
+**Julebeth.** And the caveat.
 
-**STATS.** Correlation is not causation, and we say so explicitly. Order count
+**Mardy.** Correlation is not causation, and we say so explicitly. Order count
 and revenue could both be driven by something else — market conditions, a
 campaign we cannot see in this data. What we can say is that the association is
 strong and consistent over 57 months, not that one causes the other.
@@ -344,9 +391,9 @@ strong and consistent over 57 months, not that one causes the other.
 
 ## Segment 8 — Regression (Task 2.4)
 
-*About 2 minutes. STATS, ToolPak output on screen.*
+*About 2 minutes. Mardy, ToolPak output on screen.*
 
-**STATS.** We regressed monthly revenue on monthly order count over the 57
+**Mardy.** We regressed monthly revenue on monthly order count over the 57
 complete months. The equation:
 
 **Revenue = −1,353.65 + 5,224.25 × Orders**
@@ -366,9 +413,9 @@ Reading it properly:
   negative revenue. It is where the fitted line crosses the axis, extrapolated
   outside the range of the data, and we do not interpret it.
 
-**LEAD.** And the forecast the brief asks for.
+**Alber.** And the forecast the brief asks for.
 
-**STATS.** The company is running about four orders per month below its 2022
+**Mardy.** The company is running about four orders per month below its 2022
 level. At 5,224 per order, closing that gap is worth roughly **250,000 a
 year**. Checkpoint 1 arrived at 257,297 by an entirely different route —
 summing the actual category shortfalls. Two independent methods landing within
@@ -383,9 +430,9 @@ extrapolated beyond the observed range of order counts.
 
 ## Segment 9 — Trend and seasonality (Task 2.5)
 
-*About 2.5 minutes. STATS and LEAD share this. Figure 2 on screen, then the forecast chart.*
+*About 2.5 minutes. Mardy and Alber share this. Figure 2 on screen, then the forecast chart.*
 
-**STATS.** This is the segment that carries our topic, so I want to be precise
+**Mardy.** This is the segment that carries our topic, so I want to be precise
 about what we did and did not find.
 
 The trend is real and it is the finding: **the series runs in two regimes.**
@@ -393,9 +440,9 @@ Growth from 2020 to 2022 — 92,934 up to 121,648 per month, +30.9%. Then a
 plateau from 2022 to 2024 — down to 100,207, −17.6%. You can see both on
 Figure 2; the shading marks where one ends and the other begins.
 
-**LEAD.** Then why is there no growth rate in the forecast?
+**Alber.** Then why is there no growth rate in the forecast?
 
-**STATS.** Because we tested for one and there isn't a single one. We fitted a
+**Mardy.** Because we tested for one and there isn't a single one. We fitted a
 straight line across all 57 months and it explains **under 1% of the variation
 — R² = 0.0078, p = 0.515.** We ran it on four different windows and got the
 same answer each time.
@@ -412,9 +459,9 @@ line. We computed monthly seasonal indices — January runs at 0.679 of an
 average month, October at 1.229, December at 1.273 — and applied them to the
 recent level to project the six months from January to June 2025.
 
-**DATA.** And you tested whether that actually worked.
+**Julebeth.** And you tested whether that actually worked.
 
-**STATS.** We did, and it is the part of this project I would most want the
+**Mardy.** We did, and it is the part of this project I would most want the
 instructor to see. We held out the two months we could check and compared the
 seasonal forecast against a naive flat average. **The seasonal forecast lost.**
 Mean absolute error 22.7% against the flat average's 14.9%. It ranks fifth of
@@ -424,9 +471,9 @@ The reason is visible: January 2025 came in at 112,906 against our prediction of
 68,853. January's seasonal index says January is the weakest month of the year,
 and this January was not.
 
-**LEAD.** So why keep the seasonal method?
+**Alber.** So why keep the seasonal method?
 
-**STATS.** Because switching methods on the strength of two observations is
+**Mardy.** Because switching methods on the strength of two observations is
 overfitting the holdout — you would be choosing the model that happened to win
 on a two-month sample, which is not evidence. We report the result, we keep the
 method, and we say plainly that our forecast reliability over this horizon is
@@ -437,9 +484,9 @@ have measured our own error and it is 22.7%.
 
 ## Segment 10 — The correction, and what we would tell the business
 
-*About 2 minutes. LEAD closes, with DATA on the correction.*
+*About 2 minutes. Alber closes, with Julebeth on the correction.*
 
-**DATA.** Before the conclusion, one thing we have to put on the record
+**Julebeth.** Before the conclusion, one thing we have to put on the record
 ourselves. Building the Checkpoint 2 monthly series exposed an **error in our
 own Checkpoint 1**.
 
@@ -459,7 +506,7 @@ reissued Checkpoint 1 with an `is_complete_month` flag and a per-month column
 in Query 3 so the mistake cannot recur, and it is documented in the Checkpoint
 2 report either way.
 
-**LEAD.** Three recommendations come out of this, and each one is tied to a
+**Alber.** Three recommendations come out of this, and each one is tied to a
 measurement rather than an opinion.
 
 **One — track order count, not revenue.** Revenue is the lagging indicator;
@@ -475,9 +522,9 @@ the gap. Whether that is a supply problem, a competitive loss, or a category in
 structural decline is not something this dataset can tell us — but it tells us
 where to look, and that is what the analysis was for.
 
-**STATS.** And the honest summary of the limitations.
+**Mardy.** And the honest summary of the limitations.
 
-**LEAD.** Three. The data is synthetic, so the *figures* illustrate the method
+**Alber.** Three. The data is synthetic, so the *figures* illustrate the method
 rather than describe a real company. The forecast is weak — 22.7% error against
 a flat average's 14.9%, and we say so rather than quietly dropping the test.
 And correlation is not causation: we have shown that order count and revenue
@@ -497,20 +544,20 @@ should be able to take it too.*
 
 | Question | Who | The short answer |
 | --- | --- | --- |
-| Your dataset looks fake — doesn't that invalidate the project? | DATA | It invalidates the figures, not the method. We proved it with five signals and did not fabricate corrections, which would be worse. |
-| Why didn't you use `Order ID` as the primary key? | DATA | 1,194 rows, 547 distinct IDs, and the repeats span different dates and customers. It identifies neither a row nor an order. |
-| Why eight tables instead of one? | DATA | Consistency, enforced constraints, and because the queries need category and date on the same row as the amount. |
-| Why a `dates` table? | DATA | Portability — no `YEAR()` or `strftime()`, so the same SQL runs on MySQL and SQLite — plus the two completeness flags. |
-| Why exclude 2025 and show 2020 per month? | DATA | Both ends are partial. Including them whole would show a fake collapse and fake growth. This is exactly the mistake we made and corrected. |
-| Is R² = 0.85 good? | STATS | For cross-sectional business data, yes — but R² alone is not the test. The p-value of 1.98 × 10⁻²⁴ is what says the slope is not zero. |
-| Your trend test found nothing. Doesn't that sink a *trend* project? | STATS | It found that no single line fits both regimes, which is itself the finding. The trend is real; it is just piecewise, and Figure 2 shows it. |
-| Why not project a growth rate anyway? | STATS | Because we cannot demonstrate one. Projecting a number we tested for and did not find would be inventing it. |
-| Your forecast lost to a flat average. Why keep it? | STATS | Choosing a method on two observations is overfitting the holdout. We report the loss and state the reliability honestly. |
-| Correlation or causation? | STATS | Association only. Strong and consistent over 57 months; not proof of a mechanism. |
-| What does the intercept mean? | STATS | Nothing usable. Zero orders cannot produce negative revenue — it is an extrapolation outside the data. |
-| Why is the workbook all formulas? | DATA | So the analysis is reproducible and auditable. Pasted values would look identical and prove nothing; the seven self-checks would not work. |
-| What would you do differently? | LEAD | Validate the source before building on it, and check the completeness of both ends of the date range first — that is what caused our one real error. |
-| What is next? | LEAD | Checkpoint 3: a dashboard built on order count as the primary KPI and margin as the segmentation, because revenue is a poor proxy for profit here. |
+| Your dataset looks fake — doesn't that invalidate the project? | Julebeth | It invalidates the figures, not the method. We proved it with five signals and did not fabricate corrections, which would be worse. |
+| Why didn't you use `Order ID` as the primary key? | Julebeth | 1,194 rows, 547 distinct IDs, and the repeats span different dates and customers. It identifies neither a row nor an order. |
+| Why eight tables instead of one? | Julebeth | Consistency, enforced constraints, and because the queries need category and date on the same row as the amount. |
+| Why a `dates` table? | Julebeth | Portability — no `YEAR()` or `strftime()`, so the same SQL runs on MySQL and SQLite — plus the two completeness flags. |
+| Why exclude 2025 and show 2020 per month? | Julebeth | Both ends are partial. Including them whole would show a fake collapse and fake growth. This is exactly the mistake we made and corrected. |
+| Is R² = 0.85 good? | Mardy | For cross-sectional business data, yes — but R² alone is not the test. The p-value of 1.98 × 10⁻²⁴ is what says the slope is not zero. |
+| Your trend test found nothing. Doesn't that sink a *trend* project? | Mardy | It found that no single line fits both regimes, which is itself the finding. The trend is real; it is just piecewise, and Figure 2 shows it. |
+| Why not project a growth rate anyway? | Mardy | Because we cannot demonstrate one. Projecting a number we tested for and did not find would be inventing it. |
+| Your forecast lost to a flat average. Why keep it? | Mardy | Choosing a method on two observations is overfitting the holdout. We report the loss and state the reliability honestly. |
+| Correlation or causation? | Mardy | Association only. Strong and consistent over 57 months; not proof of a mechanism. |
+| What does the intercept mean? | Mardy | Nothing usable. Zero orders cannot produce negative revenue — it is an extrapolation outside the data. |
+| Why is the workbook all formulas? | Julebeth | So the analysis is reproducible and auditable. Pasted values would look identical and prove nothing; the seven self-checks would not work. |
+| What would you do differently? | Alber | Validate the source before building on it, and check the completeness of both ends of the date range first — that is what caused our one real error. |
+| What is next? | Alber | Checkpoint 3: a dashboard built on order count as the primary KPI and margin as the segmentation, because revenue is a poor proxy for profit here. |
 
 ---
 
