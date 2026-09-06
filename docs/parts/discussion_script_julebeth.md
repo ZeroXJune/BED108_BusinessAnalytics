@@ -50,11 +50,15 @@ worksheet cell, and those are named beside each section.
 
 ## How to record your part
 
-**Do not introduce yourself, and do not say who did what.** The recording is
-about the project, not about the group. Open every part on the material itself.
-Your instructor still needs to know whose voice is whose for Section 1.4 — the
-title card at the head of each part carries the name, so nothing is lost by not
-saying it.
+**Say your name once, at the start of your first part** — your instructor is
+matching a voice to a name for a mark under Section 1.4, and the video may not
+show your face. Alber records three parts and only needs to do this in Part 1;
+the later two just continue.
+
+**Say nothing about who did what.** Your name, then straight into the material.
+Nobody claims a task, a role, or a contribution — the recording discusses the
+project, not the group. Everything you say is about Checkpoint 1 and Checkpoint
+2 and how the work progressed.
 
 **Record straight through.** Your part is one continuous explanation. If you
 stumble, do not stop the recording: pause, take a breath, and repeat that
@@ -98,8 +102,8 @@ from each other, so treat them as one talk with three topics.*
 
 *Task 1.2 · on screen: the raw CSV, first 15–20 rows*
 
-Pick the thread up on the file itself: here is the raw export, and here is what
-was wrong with it.
+Say your name, then pick the thread up on the file itself: here is the raw
+export, and here is what was wrong with it.
 
 - The dataset is a retail sales export, **1,194 transaction lines and 12
   columns**, covering **22 March 2020 to 15 March 2025**. The brief asks for at
@@ -263,7 +267,7 @@ Alber, before you submit:
 
 - All five parts present and in order, no task missing
 - Audio levels normalised across all three speakers
-- Every part carries a title card naming its speaker, since nobody says it aloud
+- Each speaker names themselves once, and nobody claims a task or a role
 - The synthetic data, the Checkpoint 1 correction and the forecast that lost are
   all audibly in the recording
 - Played back end to end — the file opens, the audio does not cut out, the

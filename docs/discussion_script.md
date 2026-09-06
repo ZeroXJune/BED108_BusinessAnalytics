@@ -50,11 +50,15 @@ worksheet cell, and those are named beside each section.
 
 ## How to record your part
 
-**Do not introduce yourself, and do not say who did what.** The recording is
-about the project, not about the group. Open every part on the material itself.
-Your instructor still needs to know whose voice is whose for Section 1.4 — the
-title card at the head of each part carries the name, so nothing is lost by not
-saying it.
+**Say your name once, at the start of your first part** — your instructor is
+matching a voice to a name for a mark under Section 1.4, and the video may not
+show your face. Alber records three parts and only needs to do this in Part 1;
+the later two just continue.
+
+**Say nothing about who did what.** Your name, then straight into the material.
+Nobody claims a task, a role, or a contribution — the recording discusses the
+project, not the group. Everything you say is about Checkpoint 1 and Checkpoint
+2 and how the work progressed.
 
 **Record straight through.** Your part is one continuous explanation. If you
 stumble, do not stop the recording: pause, take a breath, and repeat that
@@ -98,10 +102,9 @@ match, and a viewer reaching for the volume between speakers is the most
 noticeable flaw a stitched recording can have.
 
 **Put a title card at the head of every part** — a plain slide with the part
-number, the topic and the speaker's name, held for two seconds. This one is not
-optional: since nobody introduces themselves on camera, the card is how your
-instructor knows whose voice is whose for Section 1.4. It also hides the seam
-and doubles as your figure numbering.
+number, the topic and the speaker's name, held for two seconds. It hides the
+seam, it backs up the spoken name for Section 1.4, and it doubles as your figure
+numbering.
 
 **Keep the transitions.** The last line of each part sets up the next one. Cut
 the dead air and the stumbles; leave those lines alone, because they are what
@@ -138,7 +141,7 @@ rather than leaving a gap — a missing task is a missing mark.
 
 *On screen: the cover page*
 
-Open on the project, not on yourselves:
+Say your name, then go straight into the project:
 
 - This is our BED 106 Business Analytics mini capstone. Our domain is Retail and
   Sales Analytics, and our topic is **sales trend analysis**
@@ -195,8 +198,8 @@ from each other, so treat them as one talk with three topics.*
 
 *Task 1.2 · on screen: the raw CSV, first 15–20 rows*
 
-Pick the thread up on the file itself: here is the raw export, and here is what
-was wrong with it.
+Say your name, then pick the thread up on the file itself: here is the raw
+export, and here is what was wrong with it.
 
 - The dataset is a retail sales export, **1,194 transaction lines and 12
   columns**, covering **22 March 2020 to 15 March 2025**. The brief asks for at
@@ -347,7 +350,8 @@ can be predicted.
 
 # Part 3 — Alber
 
-*About 1.5 minutes. A short bridge between the two checkpoints.*
+*About 1.5 minutes. A short bridge between the two checkpoints — no need to say
+your name again.*
 
 ## The workbook
 
@@ -384,7 +388,8 @@ statistics could be run on it.
 
 *Task 2.2 · on screen: the Amount histogram*
 
-Pick the thread up: the first thing asked of that data was what it looks like.
+Say your name, then pick the thread up: the first thing asked of that data was
+what it looks like.
 
 - Three numerical variables — Amount, Profit and Quantity — with mean, median,
   mode, standard deviation, variance, range, quartiles, IQR and coefficient of
@@ -521,7 +526,7 @@ something nobody expected — and it was a mistake of our own.
 
 # Part 5 — Alber
 
-*About 6 minutes. Record straight through.*
+*About 6 minutes. Record straight through — no need to say your name again.*
 
 ## The correction
 
@@ -632,8 +637,9 @@ weakly those two turned out to be related.
 - One sentence on what the project found: growth stopped in 2022, it was driven
   by a small number of sub-categories rather than a general slowdown, and order
   count is the measurable driver
-- Thank the instructor, and close on the project rather than on the group — the
-  work is what is being marked
+- Thank the instructor, name the three of you, and state that any member can
+  answer questions on any part of the project — which is what Section 1.4 asks
+  for, and which is true if you have rehearsed
 
 ---
 
@@ -652,7 +658,7 @@ Alber, before you submit:
 
 - All five parts present and in order, no task missing
 - Audio levels normalised across all three speakers
-- Every part carries a title card naming its speaker, since nobody says it aloud
+- Each speaker names themselves once, and nobody claims a task or a role
 - The synthetic data, the Checkpoint 1 correction and the forecast that lost are
   all audibly in the recording
 - Played back end to end — the file opens, the audio does not cut out, the
