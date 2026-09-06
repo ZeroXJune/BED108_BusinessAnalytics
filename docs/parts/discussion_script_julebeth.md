@@ -3,273 +3,176 @@
 **BED 106 Business Analytics — Mini Capstone Project**
 Talibon Polytechnic College
 
-**Julebeth's part.** Each speaker records their own part straight through, in their own time and
-place. Nobody waits for a cue, nobody answers anybody, and nobody states a role
-— each part simply continues the explanation where the last one stopped. Alber
-joins them in order afterwards.
+**Julebeth reads the parts below.** The full running order:
 
 | Part | Speaker | Covers | Approx |
 | --- | --- | --- | --- |
-| 1 | Alber | Opening; the business problem and the three questions | 3:00 |
-| 2 | Julebeth | Checkpoint 1 — the dataset, the database, the eight queries and what they found | 6:40 |
+| 1 | Alber | Opening; the business problem | 3:00 |
+| 2 | Julebeth | Checkpoint 1 — the dataset, the database, the queries | 8:45 |
 | 3 | Alber | The Checkpoint 2 workbook | 1:30 |
-| 4 | Mardy | Checkpoint 2 — descriptive statistics, correlation, regression, the trend and the forecast | 6:25 |
-| 5 | Alber | The correction, what it means for the business, the questions, the close | 6:00 |
+| 4 | Mardy | Checkpoint 2 — statistics, correlation, regression, the trend | 8:30 |
+| 5 | Alber | The correction, what it means, the questions, the close | 6:00 |
 
-Roughly **23 minutes** assembled — about **10:30** of it Alber, and **6:30**
-each for Julebeth and Mardy. Alber records three separate files; Julebeth and
-Mardy record one each.
+About **28 minutes** at a normal speaking pace — Alber 10:30 across his three
+parts, Julebeth 8:45, Mardy 8:30. If you need it shorter, cut the six
+limitations down to one line in Part 4 and drop three of the eight questions in
+Part 5; that takes off about three minutes without losing a task.
 
-If you were given a time limit shorter than that, the two places to cut are the
-descriptive statistics and the correlation in Part 4 — each survives as two
-sentences. Do not cut a whole task; the brief's tasks are what is being marked.
+*Lines in italics inside brackets are stage directions — what to have on screen.
+Do not read them aloud.*
 
----
+**One thing before you record.** Section 3.2 of the brief says AI-generated
+analysis is not permitted. This script was drafted with AI help, so change the
+wording as you go — say it the way you would say it, swap sentences around, cut
+what feels stiff. The numbers and the reasoning have to stay; the phrasing
+should become yours. Read it through once, then record without staring at the
+page.
 
-## Before you record
-
-**Read this part first. It affects your marks.**
-
-Section 3.2 of the brief states that AI-generated analysis is not permitted and
-that insights must be derived by the students themselves. This script was
-drafted with AI assistance, so **do not read it out as written**. Use it the way
-you would use a lecture outline: it tells you *what to cover, in what order, and
-which number belongs where*. The sentences that come out of your mouth have to
-be yours.
-
-The practical test: read a section's beats, close the script, and say the same
-thing in your own words. If you cannot say it without looking, you do not
-understand it yet — and Section 1.4 lets the instructor ask **any member** to
-explain **any part** of the project, recording or no recording.
-
-Every figure quoted here has been checked against the database. If you are asked
-where a number comes from, the answer is always a specific query or a specific
-worksheet cell, and those are named beside each section.
-
----
-
-## How to record your part
-
-**Say your name once, at the start of your first part** — your instructor is
-matching a voice to a name for a mark under Section 1.4, and the video may not
-show your face. Alber records three parts and only needs to do this in Part 1;
-the later two just continue.
-
-**Say nothing about who did what.** Your name, then straight into the material.
-Nobody claims a task, a role, or a contribution — the recording discusses the
-project, not the group. Everything you say is about Checkpoint 1 and Checkpoint
-2 and how the work progressed.
-
-**Record straight through.** Your part is one continuous explanation. If you
-stumble, do not stop the recording: pause, take a breath, and repeat that
-sentence from the beginning. Alber cuts the repeat out. Restarting from the top
-every time you fluff a word is how a twenty-minute job becomes an evening.
-
-**Leave two seconds of silence at the start and the end.** Press record, wait,
-then speak. At the end, stop talking and let it run for two seconds before you
-stop recording. Cuts made against silence are clean; cuts made against a breath
-are not.
-
-**Screen-record with audio; do not film a monitor.** Every exhibit in this
-project is on a screen — the ERD, the query output, the workbook, the figures.
-Filmed off a monitor the numbers are unreadable, and unreadable evidence is the
-same as no evidence.
-
-**Have your exhibits open before you press record**, in the order the script
-lists them, so you are not hunting for a window mid-sentence.
-
-**Agree three settings before anyone records:** screen resolution (1920 × 1080
-is the safe choice), video format, and roughly how close you sit to the mic.
-Three parts recorded at three different volumes is the one problem that is
-genuinely annoying to fix afterwards.
-
-**Do a thirty-second test first.** Record, play it back, and check three things:
-your voice is audible, the on-screen text is legible at that resolution, and no
-fan or echo is drowning you. Finding this out after you have recorded everything
-is the most common way groups lose an evening.
-
-**Name your file by part number** — `Part2_Julebeth.mp4` — and send Alber the
-take you want used, not every take you shot.
+**Recording notes.** Record your part in one take, screen-recording with audio
+rather than filming a monitor. If you stumble, don't stop — pause and repeat the
+sentence, and Alber cuts it. Leave two seconds of silence at each end. Agree on
+screen resolution and mic distance beforehand so the three parts match. Alber
+joins the five files in order, normalises the audio, and puts a two-second title
+card at the head of each part.
 
 ---
 
 # Part 2 — Julebeth
 
-*About 6.5 minutes. Record straight through — the three sections below run on
-from each other, so treat them as one talk with three topics.*
+*[The raw CSV on screen, first 15–20 rows.]*
 
-## The dataset and what was wrong with it
+I'm Julebeth, and I'll take it from the raw file.
 
-*Task 1.2 · on screen: the raw CSV, first 15–20 rows*
+This is the export we started with — 1,194 transaction lines, 12 columns,
+running from 22 March 2020 to 15 March 2025. The brief asks for at least 200
+rows, so we're well past that.
 
-Say your name, then pick the thread up on the file itself: here is the raw
-export, and here is what was wrong with it.
+One thing to be clear about first: the grain. Each row here is one product line
+on an order, not one order. Three products on an order means three rows.
+Everything we do later depends on that.
 
-- The dataset is a retail sales export, **1,194 transaction lines and 12
-  columns**, covering **22 March 2020 to 15 March 2025**. The brief asks for at
-  least 200 rows
-- The word to stress: the **grain** is one row per *product line on an order*,
-  not one row per order. Everything downstream depends on that
-- A quality assessment was run before anything was touched, and it found **five
-  problems**, in order of how much trouble they caused
+We ran a quality assessment before touching anything, and we found five
+problems.
 
-**One — `Order ID` is not a primary key.** 1,194 rows, only **547 distinct
-order IDs**, and the repeats are not duplicate rows: the same ID appears on
-different dates, for different customers. So it does not identify an order
-either. It was kept as a plain attribute and a surrogate key, `sale_id`, was
-issued instead.
+**First, the Order ID column is not a primary key.** 1,194 rows, but only 547
+distinct order IDs — and these aren't duplicate rows. The same ID shows up on
+different dates, for different customers. So it identifies neither a row nor an
+order.
 
-Then answer the obvious objection before it is asked — *why not repair it?*
-Because repairing it means deciding which of two rows sharing an ID is the real
-one, and there is no evidence for that decision. Inventing that evidence is data
-fabrication, which the brief says is grounds for a failing mark. Documenting the
-defect costs nothing analytically, because no question in this project needs
-order identity.
+Why not just repair it? Because repairing it means deciding which of two rows
+sharing an ID is the real one, and we have no evidence for that decision. Making
+that evidence up is data fabrication, and the brief says that's grounds for a
+failing mark. So we kept it as a plain attribute and issued our own key, called
+sale_id. It costs us nothing, because no question we ask needs order identity.
 
-**Two — customer name is not an identifier either.** **807 customers** resolve
-from **802 distinct names**, because five names appear in more than one city.
-The customer key is the pair (name, city).
+**Second, the customer name isn't an identifier either.** 807 customers resolve
+from 802 distinct names, because five names appear in more than one city. So our
+customer key is the pair — name and city together.
 
-**Three — `Year-Month` is redundant.** It is derivable from the date, so it does
-not belong in a normalised schema. It was rebuilt in the `dates` table.
+**Third, the Year-Month column is redundant.** You can derive it from the date,
+so it doesn't belong in a normalised schema. We rebuilt it in a dates table.
 
-**Four — both ends of the file are partial.** It starts 22 March 2020 and stops
-15 March 2025. Say that this matters more than it sounds and that it comes back
-later — it is where the project's one significant error came from.
+**Fourth, both ends of the file are partial.** It starts on 22 March 2020 and
+stops on 15 March 2025. That sounds minor. It isn't — it's where the one real
+error in this project came from, and we'll come back to it.
 
-**Five — the dataset is synthetic.** Say this plainly and do not bury it. Five
-machine-checked signals:
+**And fifth, the dataset is synthetic.** It's not real trading data, and we're
+saying that up front rather than burying it. We have five pieces of evidence.
 
-- Not one loss-making line in five years — no real retailer has that
-- 22 of the 802 names end in credential suffixes like "MD" or "DDS", which is a
-  Faker library artefact
-- US cities paired with UPI and EMI payment methods, which are Indian payment rails
-- The payment mix is near-uniform, 206 to 260 across every method
-- The Amount histogram is flat, not normal — real transaction values are right-skewed
+There isn't one loss-making line in five years — no real retailer has that. 22
+of the 802 names end in credential suffixes like MD or DDS, which is what the
+Faker library produces. There are US cities paired with UPI and EMI payment
+methods, and those are Indian payment rails. The payment mix is almost perfectly
+uniform — 206 to 260 across every single method. And the Amount histogram comes
+out flat instead of right-skewed, which is what a random number generator looks
+like.
 
-Then the point that matters: **none of it was fixed.** Fixing it would mean
-inventing numbers. It was stated, proved, and carried into every conclusion as a
-limitation. The method is unaffected — every query and every statistic in this
-project would run identically against a real export.
+And we didn't fix any of it. Fixing it would mean inventing numbers. So we
+stated it, we proved it, and we carried it through as a limitation. The method
+isn't affected — every query and every statistic in this project would run
+exactly the same way on real data.
 
-*Move straight on:* with the defects documented, the next step was turning that
-flat file into a proper database.
+*[Switch to the ERD.]*
 
-## The database
+So we normalised that flat file into a star schema. One fact table, seven
+dimension tables around it — eight in total. The fact table is sales, one row per
+transaction line, and around it we have customers, cities, states, categories,
+sub_categories, payment_modes and dates.
 
-*Task 1.3 · on screen: the ERD, then `SHOW TABLES`*
+Why a star, instead of the one table we started with? Three reasons.
 
-- The flat file was normalised into a **star schema**: one fact table surrounded
-  by seven dimensions, **eight tables** in total
-- `sales` is the fact table, one row per transaction line. Around it:
-  `customers`, `cities`, `states`, `categories`, `sub_categories`,
-  `payment_modes` and `dates`
-- Ask it out loud — *why a star, and not the one table we started with?* Three
-  reasons:
+Consistency — in the flat file a category name is repeated on every row that
+uses it, so one typo creates a category that doesn't exist. In the star that
+name lives in one place and the fact table just carries an integer key. A typo
+goes from unlikely to impossible.
 
-**Consistency.** In the flat file a category name is repeated on every row that
-uses it, so a typo in one row creates a category that does not exist. In the
-star the name lives once in `categories` and the fact table carries an integer
-key. A typo becomes impossible rather than merely unlikely.
+The brief — Task 1.3 wants at least two related tables with proper primary and
+foreign keys. What we built has eight tables, eight primary keys, seven foreign
+keys, six unique constraints and four check constraints. And we tested that
+those constraints actually reject bad rows; we didn't just assume it.
 
-**The brief asks for it.** Task 1.3 requires at least two related tables with
-proper primary and foreign keys. There are **eight tables, eight primary keys,
-seven foreign keys, six unique constraints and four check constraints** — and
-the constraints were tested to confirm they actually reject bad rows, rather
-than assumed to.
-
-**The queries need it.** The category trend question needs category and date on
+And the queries — the category trend question needs category and date sitting on
 the same row as the amount, and a star gives you that in one join.
 
-Then the `dates` table, which looks like overkill until you try to write the
-queries. Two reasons it earns its place:
+The dates table looks like overkill until you try to write the queries. It's
+there for two reasons. We never call YEAR or strftime anywhere, so the same
+query file runs unchanged on MySQL and on SQLite — we verified that. And it
+carries two flags the raw dates can't: is_complete_month and is_complete_year.
+Those are the fix for problem four, and they're what stops anyone from comparing
+a nine-month 2020 against a full 2021.
 
-- **Portability.** `YEAR()` and `strftime()` are never called, so the same query
-  file runs unchanged on MySQL and on SQLite, and that was verified
-- **The completeness flags.** It carries `is_complete_month` and
-  `is_complete_year`, which raw dates cannot. Those flags are the fix for
-  problem four, and they are what stops anyone comparing a nine-month 2020
-  against a full 2021
+One thing that cost us real time — year_month is a reserved word in MySQL. Our
+CREATE TABLE statement failed outright with a syntax error until we put
+backticks around it. And we only found that because we installed an actual MySQL
+server and ran the import, instead of assuming the file was fine.
 
-One trap worth telling them about, because it cost real time: **`year_month` is
-a reserved word in MySQL.** `CREATE TABLE dates` failed outright with a syntax
-error until it was backticked — and that only surfaced because a real MySQL
-server was installed and the import actually run, rather than the file being
-assumed correct.
+*[Switch to the SHOW TABLES screenshot.]*
 
-Finish the section on the loader: the whole thing loads from **one file**,
-`02_mysql_full_import.sql`, which creates the database, all eight tables and all
-the data, and ends with a verification block whose last row must read 1,194
-rows, 6,182,639.00 in revenue, 547 order IDs and 57 complete months, with zero
-orphaned rows.
+The whole thing loads from one file — the database, all eight tables, all the
+data. And it ends with a verification block whose last row has to read 1,194
+rows, 6,182,639 in revenue, 547 order IDs, 57 complete months, and zero orphaned
+rows.
 
-*Move straight on:* with the database built, the questions could finally be
-asked.
+*[Switch to the query screenshots — Q3 first.]*
 
-## The eight queries
+So with the database built, we could ask the questions. There are eight queries
+in four groups: two basic retrievals using WHERE and ORDER BY, two aggregates
+using GROUP BY, two multi-table joins — ours each join four tables — and two
+business-insight queries. Here's what they found.
 
-*Task 1.4 · on screen: Q3, Q5 and Q8 screenshots*
+**First, growth stopped in 2022, and it stopped in a specific way.** Query 3
+aggregates by year, but on a per-month basis, so the partial years can't distort
+it. Revenue per month went from 92,934 in 2020, up to 121,648 at the 2022 peak,
+then down to 100,207 in 2024. But margin never left that 24-to-27 percent band,
+and average order value never left 5,008 to 5,444. Put those together and you
+have the diagnosis — fewer orders, not cheaper ones and not less profitable
+ones. Which points at demand generation, not at pricing.
 
-- Eight queries in four groups: two basic retrievals with `WHERE` and
-  `ORDER BY`, two aggregates with `GROUP BY`, two multi-table joins — each
-  joining four tables — and two business-insight queries
-- Skip the mechanics; go to what they found, which is four things
+*[Switch to Q5.]*
 
-**Finding one — growth stopped in 2022, and in a specific way.** Query 3
-aggregates by year, but on a **per-month** basis so the partial years cannot
-distort it. Revenue per month went **92,934 in 2020 → 121,648 at the 2022 peak →
-100,207 in 2024**. Meanwhile margin never left the 24-to-27% band and average
-order value never left the 5,008-to-5,444 band. That combination is the whole
-diagnosis: fewer orders, not cheaper or less profitable ones — which points at
-demand generation rather than at pricing.
+**Second, one sub-category explains most of the gap.** Printers lost 136,865
+between 2023 and 2024 — a 71 percent collapse, and on its own that's more than
+half the entire gap between the 2022 peak and 2024. Every Electronics
+sub-category fell, and the category as a whole is down 40.8 percent. But every
+Office Supplies sub-category grew — Paper is up 85,689, which is 149.4 percent.
 
-**Finding two — one sub-category explains most of the gap.** Queries 5 and 7
-break the trend down. **Printers lost 136,865 between 2023 and 2024, a 71.0%
-collapse** — that single line item is over half the entire peak-to-2024 gap.
-Every Electronics sub-category fell, and the category as a whole is down
-**40.8%**. Every Office Supplies sub-category grew; **Paper is up 85,689, or
-149.4%**.
+And that's the point: this is not a general slowdown. Two opposite trends are
+running at the same time, and the company-wide figure is just their average,
+which describes neither of them. That's the most useful thing Checkpoint 1
+produced.
 
-Say why that matters: it is not a general slowdown. Two opposite trends are
-running at once, and the company-wide figure is their average, which describes
-neither. That is the single most useful thing Checkpoint 1 produced.
+*[Switch to Q8.]*
 
-**Finding three — seasonality is category-specific.** Queries 4 and 8. The
-blended figure says Q4 is the peak quarter. Split it out and Electronics
-actually peaks in **Q2, at 30.79%** of its annual revenue, while Furniture peaks
-in Q4 at **30.84%** and Office Supplies in Q4 at **32.16%**. So a single blended
-planning curve is wrong for all three categories — it over-stocks Electronics in
-Q4 and under-stocks it in Q2.
+**Third, seasonality is category-specific.** The blended figure tells you Q4 is
+the peak quarter. But split it out, and Electronics actually peaks in Q2, at
+30.79 percent of its annual revenue. Furniture peaks in Q4 at 30.84, and Office
+Supplies in Q4 at 32.16. So one blended planning curve is wrong for all three —
+it over-stocks Electronics in Q4 and under-stocks it in Q2.
 
-**Finding four — geography is not a factor.** Query 6. Across five years, state
-revenue spans only **28%** between highest and lowest, with no state trending
-against the others. Not every finding has to be a discovery — this one tells the
-business where *not* to spend its analytical effort.
+**And fourth, geography isn't a factor.** State revenue spans only 28 percent
+across five years, and no state trends against the others. Not every finding has
+to be a discovery — this one tells the business where not to spend its effort.
 
-**End the part on this line:** that was Checkpoint 1 — what happened. Checkpoint
-2 takes the same data into Excel and asks how strong the evidence is, and what
-can be predicted.
+So that was Checkpoint 1 — what happened. Checkpoint 2 takes the same data into
+Excel and asks how strong the evidence actually is, and what we can predict.
 
----
-
-## Checklist
-
-Each of you, before you record:
-
-- Every number you say out loud, you can point to — a query, a figure, or a cell
-- You can say your section's beats with the script closed
-- You can answer a question about any section, not only the one you recorded —
-  Section 1.4 lets the instructor ask any member about any part
-- Your exhibits are open and on the right screen before you press record
-- You have done the thirty-second test
-
-Alber, before you submit:
-
-- All five parts present and in order, no task missing
-- Audio levels normalised across all three speakers
-- Each speaker names themselves once, and nobody claims a task or a role
-- The synthetic data, the Checkpoint 1 correction and the forecast that lost are
-  all audibly in the recording
-- Played back end to end — the file opens, the audio does not cut out, the
-  on-screen numbers are legible, and the length fits any limit you were given
-- File named with your group and the checkpoint

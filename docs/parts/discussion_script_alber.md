@@ -3,387 +3,236 @@
 **BED 106 Business Analytics — Mini Capstone Project**
 Talibon Polytechnic College
 
-**Alber's part.** Each speaker records their own part straight through, in their own time and
-place. Nobody waits for a cue, nobody answers anybody, and nobody states a role
-— each part simply continues the explanation where the last one stopped. Alber
-joins them in order afterwards.
+**Alber reads the parts below.** The full running order:
 
 | Part | Speaker | Covers | Approx |
 | --- | --- | --- | --- |
-| 1 | Alber | Opening; the business problem and the three questions | 3:00 |
-| 2 | Julebeth | Checkpoint 1 — the dataset, the database, the eight queries and what they found | 6:40 |
+| 1 | Alber | Opening; the business problem | 3:00 |
+| 2 | Julebeth | Checkpoint 1 — the dataset, the database, the queries | 8:45 |
 | 3 | Alber | The Checkpoint 2 workbook | 1:30 |
-| 4 | Mardy | Checkpoint 2 — descriptive statistics, correlation, regression, the trend and the forecast | 6:25 |
-| 5 | Alber | The correction, what it means for the business, the questions, the close | 6:00 |
+| 4 | Mardy | Checkpoint 2 — statistics, correlation, regression, the trend | 8:30 |
+| 5 | Alber | The correction, what it means, the questions, the close | 6:00 |
 
-Roughly **23 minutes** assembled — about **10:30** of it Alber, and **6:30**
-each for Julebeth and Mardy. Alber records three separate files; Julebeth and
-Mardy record one each.
+About **28 minutes** at a normal speaking pace — Alber 10:30 across his three
+parts, Julebeth 8:45, Mardy 8:30. If you need it shorter, cut the six
+limitations down to one line in Part 4 and drop three of the eight questions in
+Part 5; that takes off about three minutes without losing a task.
 
-If you were given a time limit shorter than that, the two places to cut are the
-descriptive statistics and the correlation in Part 4 — each survives as two
-sentences. Do not cut a whole task; the brief's tasks are what is being marked.
+*Lines in italics inside brackets are stage directions — what to have on screen.
+Do not read them aloud.*
 
----
+**One thing before you record.** Section 3.2 of the brief says AI-generated
+analysis is not permitted. This script was drafted with AI help, so change the
+wording as you go — say it the way you would say it, swap sentences around, cut
+what feels stiff. The numbers and the reasoning have to stay; the phrasing
+should become yours. Read it through once, then record without staring at the
+page.
 
-## Before you record
-
-**Read this part first. It affects your marks.**
-
-Section 3.2 of the brief states that AI-generated analysis is not permitted and
-that insights must be derived by the students themselves. This script was
-drafted with AI assistance, so **do not read it out as written**. Use it the way
-you would use a lecture outline: it tells you *what to cover, in what order, and
-which number belongs where*. The sentences that come out of your mouth have to
-be yours.
-
-The practical test: read a section's beats, close the script, and say the same
-thing in your own words. If you cannot say it without looking, you do not
-understand it yet — and Section 1.4 lets the instructor ask **any member** to
-explain **any part** of the project, recording or no recording.
-
-Every figure quoted here has been checked against the database. If you are asked
-where a number comes from, the answer is always a specific query or a specific
-worksheet cell, and those are named beside each section.
-
----
-
-## How to record your part
-
-**Say your name once, at the start of your first part** — your instructor is
-matching a voice to a name for a mark under Section 1.4, and the video may not
-show your face. Alber records three parts and only needs to do this in Part 1;
-the later two just continue.
-
-**Say nothing about who did what.** Your name, then straight into the material.
-Nobody claims a task, a role, or a contribution — the recording discusses the
-project, not the group. Everything you say is about Checkpoint 1 and Checkpoint
-2 and how the work progressed.
-
-**Record straight through.** Your part is one continuous explanation. If you
-stumble, do not stop the recording: pause, take a breath, and repeat that
-sentence from the beginning. Alber cuts the repeat out. Restarting from the top
-every time you fluff a word is how a twenty-minute job becomes an evening.
-
-**Leave two seconds of silence at the start and the end.** Press record, wait,
-then speak. At the end, stop talking and let it run for two seconds before you
-stop recording. Cuts made against silence are clean; cuts made against a breath
-are not.
-
-**Screen-record with audio; do not film a monitor.** Every exhibit in this
-project is on a screen — the ERD, the query output, the workbook, the figures.
-Filmed off a monitor the numbers are unreadable, and unreadable evidence is the
-same as no evidence.
-
-**Have your exhibits open before you press record**, in the order the script
-lists them, so you are not hunting for a window mid-sentence.
-
-**Agree three settings before anyone records:** screen resolution (1920 × 1080
-is the safe choice), video format, and roughly how close you sit to the mic.
-Three parts recorded at three different volumes is the one problem that is
-genuinely annoying to fix afterwards.
-
-**Do a thirty-second test first.** Record, play it back, and check three things:
-your voice is audible, the on-screen text is legible at that resolution, and no
-fan or echo is drowning you. Finding this out after you have recorded everything
-is the most common way groups lose an evening.
-
-**Name your file by part number** — `Part2_Julebeth.mp4` — and send Alber the
-take you want used, not every take you shot.
-
----
-
-## For Alber, as editor
-
-Join the five parts in order: 1, 2, 3, 4, 5. There is nothing to interleave.
-
-**Normalise the audio levels first.** Three people in three rooms will not
-match, and a viewer reaching for the volume between speakers is the most
-noticeable flaw a stitched recording can have.
-
-**Put a title card at the head of every part** — a plain slide with the part
-number, the topic and the speaker's name, held for two seconds. It hides the
-seam, it backs up the spoken name for Section 1.4, and it doubles as your figure
-numbering.
-
-**Keep the transitions.** The last line of each part sets up the next one. Cut
-the dead air and the stumbles; leave those lines alone, because they are what
-makes five recordings sound like one explanation.
-
-If a part comes back unusable and re-recording is impossible, cover it yourself
-rather than leaving a gap — a missing task is a missing mark.
-
-### What to have on screen
-
-| Part | Section | Show |
-| --- | --- | --- |
-| 1 | Opening | Cover page |
-| 1 | The business problem | Figure 1, the annual trend |
-| 2 | The dataset | The raw CSV, first 15–20 rows |
-| 2 | The database | `docs/figures/erd.png`, then the `SHOW TABLES` screenshot |
-| 2 | The queries | Query screenshots Q3, Q5, Q8 |
-| 3 | The workbook | Cleaned Data, then a PivotChart |
-| 4 | Descriptive statistics | The Amount histogram |
-| 4 | Correlation | Both scatter plots |
-| 4 | Regression | The ToolPak output |
-| 4 | Trend and seasonality | Figure 2 with the shading, then the forecast chart |
-| 5 | The correction | The correction table from the Checkpoint 2 report |
-| 5 | What it means | The findings summary |
-| 5 | Close | Cover page again, or the team slide |
+**Recording notes.** Record your part in one take, screen-recording with audio
+rather than filming a monitor. If you stumble, don't stop — pause and repeat the
+sentence, and Alber cuts it. Leave two seconds of silence at each end. Agree on
+screen resolution and mic distance beforehand so the three parts match. Alber
+joins the five files in order, normalises the audio, and puts a two-second title
+card at the head of each part.
 
 ---
 
 # Part 1 — Alber
 
-*About 3 minutes. Record straight through.*
+*[Cover page on screen.]*
 
-# Part 1 — Alber
+Good day. My name is Alber, and this is our mini capstone project for BED 106,
+Business Analytics. Our domain is Retail and Sales Analytics, and our topic is
+sales trend analysis.
 
-*About 3 minutes. Record straight through.*
+What we'll go through is the first two checkpoints. Checkpoint 1 is where we
+took a raw sales file, cleaned it, and built a database out of it, so we could
+ask what actually happened to this company. Checkpoint 2 is where we took that
+same data into Excel and asked a harder question — how strong is the evidence,
+and can we predict anything from it.
 
-## Opening
+The dataset is a retail sales export. 1,194 transaction lines, running from
+March 2020 to March 2025.
 
-*On screen: the cover page*
+*[Switch to Figure 1, the annual trend.]*
 
-Say your name, then go straight into the project:
+So here's the problem we're looking at. The company is a multi-category
+retailer — electronics, furniture and office supplies — selling across six US
+states. And what happened to it is simple to say: it grew, and then it stopped.
 
-- This is our BED 106 Business Analytics mini capstone. Our domain is Retail and
-  Sales Analytics, and our topic is **sales trend analysis**
-- What the recording covers: **Checkpoint 1**, where we built a database and
-  asked what happened, and **Checkpoint 2**, where we took the same data into
-  Excel and asked how strong the evidence is and what can be predicted
-- One sentence on the dataset: 1,194 transaction lines, March 2020 to March 2025
-- Then straight into the problem — no need to announce that you are about to
-  start
+On a like-for-like monthly basis, revenue went up 30.9 percent from 2020 to its
+peak in 2022. Then it fell in each of the next two years, and finished 2024 at
+17.6 percent below that peak.
 
-## The business problem
+Now, you might ask — why does that need a database? Sales went down. That's not
+a mystery.
 
-*Task 1.1 · on screen: Figure 1*
+Here's why. It's because of what didn't move. Margin held between 23.97 and
+26.93 percent for the whole five years. Average order value stayed between 5,008
+and 5,444. Neither of those budged.
 
-- The subject is a multi-category retailer — electronics, furniture, office
-  supplies — trading across six US states between 2020 and 2025
-- The problem: **the company grew, then stopped.** On a like-for-like monthly
-  basis revenue rose **30.9%** from 2020 to the 2022 peak, then fell two years
-  running to finish 2024 **17.6% below** that peak
-- Now the part that makes this an analytical problem rather than an obvious one.
-  Ask it out loud and answer it: *why does a falling sales figure need a database
-  at all?* Because of what **didn't** move. Margin held between **23.97% and
-  26.93%** for the whole five years, and average order value stayed between
-  **5,008 and 5,444**
-- Had margin collapsed, the answer would be "we discounted too hard" and none of
-  this would be needed. Margin held steady while revenue fell, which means the
-  company is writing **fewer orders**, not worse ones — and "fewer orders of
-  what, when, and where" is a question a single annual revenue figure cannot
-  answer
-- The three business questions, which every deliverable maps back to:
+And that changes the whole question. If margin had collapsed, the answer would
+just be "we discounted too hard," and nobody would need any of this. But margin
+held steady while revenue fell. That means the company isn't selling worse
+orders — it's writing fewer of them. And fewer orders of what, sold when, and
+sold where — that is not something a single annual revenue figure can tell you.
 
-| # | Question | Answered by |
-| --- | --- | --- |
-| 1 | How have revenue and profit trended, and is the company still growing? | Query 3, and the Checkpoint 2 regression |
-| 2 | Which categories and sub-categories drive the trend? | Queries 5 and 7 |
-| 3 | When does demand concentrate, and is the pattern the same for every category? | Queries 4 and 8 |
+So we set three business questions, and everything in this project comes back to
+one of them.
 
-- Why they matter: the decisions hanging off them are what to stock, when to
-  stock it, and where to put the sales effort. Getting them wrong costs
-  inventory that does not sell and campaigns that land in the wrong quarter
+First: how have revenue and profit trended, and is the company still growing?
 
-**End the part on this line:** none of those questions could be answered until
-the raw file had been assessed, cleaned and put into a database — which is where
-Checkpoint 1 starts.
+Second: which categories and sub-categories are driving that trend?
+
+And third: when does demand actually concentrate — and is that pattern the same
+for every category?
+
+These matter because of the decisions sitting behind them. What to stock, when
+to stock it, and where to put the sales effort. Get those wrong and you're
+paying for inventory that doesn't sell, and running campaigns in the wrong
+quarter.
+
+None of that could be answered from the raw file, though. It had to be assessed,
+cleaned, and put into a database first — and that's where Checkpoint 1 starts.
 
 ---
 
 # Part 3 — Alber
 
-*About 1.5 minutes. A short bridge between the two checkpoints — no need to say
-your name again.*
+*[The workbook on screen — Cleaned Data sheet.]*
 
-## The workbook
+The first thing Checkpoint 2 needed was the workbook itself, built on the same
+dataset, which the brief requires.
 
-*Task 2.1 · on screen: Cleaned Data, then a PivotChart*
+It has thirteen sheets. And there's one design decision in it worth explaining,
+because it's the one we'd defend if asked.
 
-Pick the thread up: the first thing Checkpoint 2 needed was the workbook itself,
-built on the same dataset the brief requires.
+Everything in this workbook is live formulas. Not pasted values. About 1,724 of
+them. The cross-tabs are SUMIFS, COUNTIFS and AVERAGEIFS running against named
+ranges over the Cleaned Data sheet — so if a single row changed, every statistic
+downstream would change with it. Pasted values would have looked absolutely
+identical on the page, and proved nothing.
 
-- The workbook has **thirteen sheets**
-- The one design decision worth defending: **everything is live formulas, not
-  pasted values** — around **1,724** of them. The cross-tabs are `SUMIFS`,
-  `COUNTIFS` and `AVERAGEIFS` against named ranges over the Cleaned Data sheet,
-  so if a row changed, every statistic downstream would change with it. Pasted
-  values would have looked identical and proved nothing
-- Beyond the brief's minimum there are **three native PivotTables**, each with a
-  bound PivotChart, sharing one pivot cache. The brief asks for three pivot
-  tables and three pivot charts, and the SUMIFS cross-tabs alone would have been
-  arguable
-- **Seven self-check formulas** on the Read Me sheet. Each recomputes a headline
-  figure by an independent route and prints OK or MISMATCH — the row count, the
-  revenue total and the regression slope are all checked that way. If a cell is
-  edited that should not have been, the workbook says so
+*[Switch to a PivotChart.]*
 
-**End the part on this line:** with the data laid out that way and checked, the
-statistics could be run on it.
+Beyond what the brief asks for, there are three native PivotTables, each with a
+PivotChart bound to it, all sharing one pivot cache. The brief wants three pivot
+tables and three pivot charts, and the SUMIFS cross-tabs on their own would have
+been arguable.
+
+And there are seven self-check formulas on the Read Me sheet. Each one
+recalculates a headline figure by a completely independent route and prints
+either OK or MISMATCH. The row count, the revenue total, the regression slope —
+all checked that way. So if a cell gets edited that shouldn't have been, the
+workbook tells you.
+
+With the data laid out that way and checked, we could run the statistics on it.
 
 ---
 
 # Part 5 — Alber
 
-*About 6 minutes. Record straight through — no need to say your name again.*
+*[The correction table from the Checkpoint 2 report on screen.]*
 
-## The correction
+This part we're raising ourselves, because volunteering an error is worth more
+than having somebody find it.
 
-*On screen: the correction table from the Checkpoint 2 report*
+Building the Checkpoint 2 monthly series exposed a mistake in our own Checkpoint
+1. We treated 2020 as a full year. But the file starts on 22 March, so 2020 only
+holds nine months of trading. That overstated our 2020-to-2022 growth as 69.9
+percent, when the like-for-like figure is 30.9. It also distorted March's
+seasonal index, pulling it from 1.025 down to 0.876.
 
-This section exists because volunteering an error is worth more than having it
-found. Do not soften it.
+What it affected was that growth figure and that one index. What it did not
+affect: the minus 17.6 percent decline from peak to 2024, because those are both
+full years. Printers down 136,865. Electronics down 40.8 percent. The
+category-specific seasonality. The geography finding. All of that stands.
 
-- Building the Checkpoint 2 monthly series exposed an **error in our own
-  Checkpoint 1**
-- 2020 was treated as a full year. The file starts 22 March, so 2020 holds only
-  **nine months**. That overstated 2020-to-2022 growth as **69.9%** when the
-  like-for-like figure is **30.9%**. It also distorted March's seasonal index,
-  from 1.025 down to 0.876
-- What it did and did not touch:
+So the central thesis is unchanged — one supporting number was overstated.
+Checkpoint 1 has been reissued with an is_complete_month flag and a per-month
+column in Query 3, so the mistake can't happen again. And it's documented in the
+Checkpoint 2 report either way.
 
-| Affected | Unaffected |
-| --- | --- |
-| The 2020→2022 growth figure | The −17.6% peak-to-2024 decline — both are full years |
-| March's seasonal index | Printers −136,865; Electronics −40.8% |
-| | Category-specific seasonality; the geography finding |
+*[Switch to the findings summary.]*
 
-- The central thesis is unchanged; one supporting number was overstated
-- Checkpoint 1 was reissued with an `is_complete_month` flag and a per-month
-  column in Query 3, so the mistake cannot recur, and it is documented in the
-  Checkpoint 2 report either way
+So with that correction made, here's what the analysis actually tells this
+business. Three recommendations, and each one is tied to a measurement rather
+than an opinion.
 
-## What it means for the business
+**First — track order count, not revenue.** Revenue is the lagging indicator.
+Order count is what drives it, at r of 0.923, and it's the thing the business can
+actually act on.
 
-*On screen: the findings summary*
+**Second — plan seasonality by category, not company-wide.** The blended curve is
+wrong for all three categories. Electronics peaks in Q2; Furniture and Office
+Supplies peak in Q4. A single planning curve over-stocks Electronics in Q4 and
+under-stocks it in Q2.
 
-With that correction made, here is what the analysis actually tells the
-business. Three recommendations, each tied to a measurement rather than an
-opinion:
+**Third — investigate Printers first.** One sub-category, 136,865 lost, more than
+half the entire gap. Whether that's a supply problem, a competitive loss, or a
+category in structural decline is not something this dataset can tell us. But it
+tells us where to look — and that's what the analysis was for.
 
-- **Track order count, not revenue.** Revenue is the lagging indicator; order
-  count is what drives it, r = 0.923, and it is the thing the business can act on
-- **Plan seasonality by category, not company-wide.** The blended curve is wrong
-  for all three categories — Electronics peaks in Q2, Furniture and Office
-  Supplies in Q4. A single planning curve over-stocks Electronics in Q4 and
-  under-stocks it in Q2
-- **Investigate Printers first.** One sub-category, **136,865** lost, over half
-  the entire gap. Whether that is supply, competition, or a category in
-  structural decline is not something this dataset can answer — but it tells us
-  where to look, and that is what the analysis was for
+Now the limitations, and we'd rather say these ourselves.
 
-## The limitations
+The data is synthetic. So these figures illustrate a method; they don't describe
+a real company. We proved that, we said it, and we didn't invent corrections,
+because that would have been worse.
 
-Three, stated plainly and in your own voice:
+The forecast is weak. 22.7 percent error against a flat average's 14.9. We
+measured our own error and reported it, rather than quietly dropping the test.
 
-- **The data is synthetic.** The figures illustrate the method rather than
-  describe a real company. It was proved, it was stated, and no corrections were
-  invented, because that would have been worse
-- **The forecast is weak.** 22.7% mean absolute error against a flat average's
-  14.9%. Our own error was measured and reported rather than the test quietly
-  dropped
-- **Correlation is not causation.** Order count and revenue move together; that
-  is not proof that one causes the other
+And correlation is not causation. Order count and revenue move together. That is
+not proof that one causes the other.
 
-Then what the group *would* stand behind: the method. A defect-documented
-dataset, a normalised schema with enforced constraints, queries verified on two
-database engines, and statistics tested for significance rather than eyeballed —
-with the negative results reported alongside the positive ones.
+What we would stand behind is the method. A dataset whose defects are documented
+rather than hidden. A normalised schema with constraints that are enforced and
+tested. Queries verified on two different database engines. And statistics tested
+for significance rather than eyeballed — with the negative results reported right
+alongside the positive ones.
 
-## The questions we would expect
+Let me finish with the questions we'd expect to be asked.
 
-Still speaking continuously, raise these and answer them in your own words. This
-is the part that stands in for a live defense, so take it slowly.
-
-**Does a fake dataset invalidate the project?** It invalidates the *figures*,
-not the *method*. It was proved with five signals and no corrections were
-fabricated, which would have been worse. The schema, the queries and the
+**Doesn't a fake dataset invalidate the project?** It invalidates the figures,
+not the method. We proved it with five signals, and we didn't fabricate
+corrections, which would have been worse. The schema, the queries and the
 analysis would run identically on real data.
 
-**Why not use `Order ID` as the primary key?** 1,194 rows, 547 distinct IDs, and
-the repeats span different dates and different customers. It identifies neither
-a row nor an order.
+**Why not use Order ID as the primary key?** 1,194 rows, 547 distinct IDs, and
+the repeats span different dates and different customers. It identifies neither a
+row nor an order.
 
-**Why exclude 2025, and why show 2020 per month?** Both ends of the file are
-partial. Including them whole would show fake growth at one end and a fake
-collapse at the other — which is exactly the mistake we made and corrected.
+**Why exclude 2025, and why show 2020 per month?** Because both ends of the file
+are partial. Including them whole would show fake growth at one end and a fake
+collapse at the other — which is exactly the mistake we made, and corrected.
 
-**Is R² = 0.85 good?** For cross-sectional business data, yes — but R² alone is
-not the test. The p-value of 1.98 × 10⁻²⁴ is what says the slope is not zero.
+**Is an R-squared of 0.85 good?** For cross-sectional business data, yes. But
+R-squared on its own isn't the test. The p-value — 1.98 times ten to the negative
+24 — is what tells you the slope isn't zero.
 
-**The trend test found nothing — doesn't that sink a *trend* project?** It found
-that no single line fits both regimes, which is itself the finding. The trend is
-real, it is just piecewise, and Figure 2 shows it.
+**Your trend test found nothing. Doesn't that sink a trend project?** It found
+that no single line fits both regimes, and that is itself the finding. The trend
+is real; it's just piecewise. Figure 2 shows it.
 
-**The forecast lost to a flat average — why keep it?** Choosing a method on two
-observations is overfitting the holdout. The loss is reported and the
-reliability stated honestly.
+**Your forecast lost to a flat average. Why keep it?** Because choosing a method
+on the strength of two observations is overfitting the holdout. We report the
+loss and state the reliability honestly.
 
-**What would you do differently?** Validate the source before building on it,
-and check the completeness of both ends of the date range first — that is
-exactly what caused the one real error, and it would have cost ten minutes to
-catch at the start.
+**What would you do differently?** Validate the source before building on it, and
+check the completeness of both ends of the date range first. That's exactly what
+caused our one real error, and it would have taken ten minutes to catch at the
+start.
 
-**What is next?** Checkpoint 3, the dashboard, built on **order count** as the
-primary KPI rather than revenue because it is the leading indicator and the
-actionable one, and segmented on **margin** rather than revenue, given how
-weakly those two turned out to be related.
+**And what's next?** Checkpoint 3, the dashboard. We'd build it on order count as
+the primary KPI rather than revenue, because that's the leading indicator and the
+actionable one. And we'd segment on margin rather than revenue, given how weakly
+those two turned out to be related.
 
-## Close
+*[Cover page, or the team slide.]*
 
-*On screen: the cover page again, or the team slide*
+So, to sum up. Growth stopped in 2022. It was driven by a small number of
+sub-categories rather than a general slowdown. And order count is the measurable
+driver behind it.
 
-- One sentence on what the project found: growth stopped in 2022, it was driven
-  by a small number of sub-categories rather than a general slowdown, and order
-  count is the measurable driver
-- Thank the instructor, name the three of you, and state that any member can
-  answer questions on any part of the project — which is what Section 1.4 asks
-  for, and which is true if you have rehearsed
-
----
-
-## Checklist
-
-Each of you, before you record:
-
-- Every number you say out loud, you can point to — a query, a figure, or a cell
-- You can say your section's beats with the script closed
-- You can answer a question about any section, not only the one you recorded —
-  Section 1.4 lets the instructor ask any member about any part
-- Your exhibits are open and on the right screen before you press record
-- You have done the thirty-second test
-
-Alber, before you submit:
-
-- All five parts present and in order, no task missing
-- Audio levels normalised across all three speakers
-- Each speaker names themselves once, and nobody claims a task or a role
-- The synthetic data, the Checkpoint 1 correction and the forecast that lost are
-  all audibly in the recording
-- Played back end to end — the file opens, the audio does not cut out, the
-  on-screen numbers are legible, and the length fits any limit you were given
-- File named with your group and the checkpoint
-
-## Checklist
-
-Each of you, before you record:
-
-- Every number you say out loud, you can point to — a query, a figure, or a cell
-- You can say your section's beats with the script closed
-- You can answer a question about any section, not only the one you recorded —
-  Section 1.4 lets the instructor ask any member about any part
-- Your exhibits are open and on the right screen before you press record
-- You have done the thirty-second test
-
-Alber, before you submit:
-
-- All five parts present and in order, no task missing
-- Audio levels normalised across all three speakers
-- Each speaker names themselves once, and nobody claims a task or a role
-- The synthetic data, the Checkpoint 1 correction and the forecast that lost are
-  all audibly in the recording
-- Played back end to end — the file opens, the audio does not cut out, the
-  on-screen numbers are legible, and the length fits any limit you were given
-- File named with your group and the checkpoint
+Thank you for watching. That's Alber, Julebeth and Mardy — and any of us can
+answer questions on any part of this project.
