@@ -11,14 +11,18 @@ joins them in order afterwards.
 | Part | Speaker | Covers | Approx |
 | --- | --- | --- | --- |
 | 1 | Alber | Opening; the business problem and the three questions | 3:00 |
-| 2 | Julebeth | Checkpoint 1 — the dataset, the database, the eight queries and what they found | 7:30 |
-| 3 | Mardy | Checkpoint 2 — the workbook, statistics, regression, the forecast, and the correction | 10:00 |
-| 4 | Alber | What it means for the business, the limitations, and the close | 2:30 |
+| 2 | Julebeth | Checkpoint 1 — the dataset, the database, the eight queries and what they found | 6:40 |
+| 3 | Alber | The Checkpoint 2 workbook | 1:30 |
+| 4 | Mardy | Checkpoint 2 — descriptive statistics, correlation, regression, the trend and the forecast | 6:25 |
+| 5 | Alber | The correction, what it means for the business, the questions, the close | 6:00 |
 
-Roughly **23 minutes** assembled. If you were given a time limit shorter than
-that, the two places to cut are the descriptive statistics and the correlation
-in Part 3 — each survives as two sentences. Do not cut a whole task; the brief's
-tasks are what is being marked.
+Roughly **23 minutes** assembled — about **10:30** of it Alber, and **6:30**
+each for Julebeth and Mardy. Alber records three separate files; Julebeth and
+Mardy record one each.
+
+If you were given a time limit shorter than that, the two places to cut are the
+descriptive statistics and the correlation in Part 4 — each survives as two
+sentences. Do not cut a whole task; the brief's tasks are what is being marked.
 
 ---
 
@@ -46,9 +50,10 @@ worksheet cell, and those are named beside each section.
 
 ## How to record your part
 
-**Say your name once, at the very start of your part.** Just the name — your
+**Say your name once, at the start of your first part.** Just the name — your
 instructor is matching a voice to a name for a mark under Section 1.4, and the
-video may not show your face. Then go straight into the material.
+video may not show your face. Alber records three parts and only needs to do
+this in Part 1; the later two just continue.
 
 **Record straight through.** Your part is one continuous explanation. If you
 stumble, do not stop the recording: pause, take a breath, and repeat that
@@ -83,37 +88,16 @@ take you want used, not every take you shot.
 
 ---
 
-# Part 3 — Mardy
+# Part 4 — Mardy
 
-*About 10 minutes. Record straight through — six topics, one continuous talk.
-This is the longest part, so if you need a breath between sections, pause rather
-than restarting.*
-
-## The workbook
-
-*Task 2.1 · on screen: Cleaned Data, then a PivotChart*
-
-Say your name, then pick the thread up: Checkpoint 2 uses the same dataset — the
-brief requires it — taken out of the database and into Excel.
-
-- The workbook has **thirteen sheets**
-- The one design decision worth defending: **everything is live formulas, not
-  pasted values** — around **1,724** of them. The cross-tabs are `SUMIFS`,
-  `COUNTIFS` and `AVERAGEIFS` against named ranges over the Cleaned Data sheet,
-  so if a row changed, every statistic downstream would change with it. Pasted
-  values would have looked identical and proved nothing
-- Beyond the brief's minimum there are **three native PivotTables**, each with a
-  bound PivotChart, sharing one pivot cache. The brief asks for three pivot
-  tables and three pivot charts, and the SUMIFS cross-tabs alone would have been
-  arguable
-- **Seven self-check formulas** on the Read Me sheet. Each recomputes a headline
-  figure by an independent route and prints OK or MISMATCH — the row count, the
-  revenue total and the regression slope are all checked that way. If a cell is
-  edited that should not have been, the workbook says so
+*About 6.5 minutes. Record straight through — four topics, one continuous talk.*
 
 ## Descriptive statistics
 
 *Task 2.2 · on screen: the Amount histogram*
+
+Say your name, then pick the thread up: the first thing asked of that data was
+what it looks like.
 
 - Three numerical variables — Amount, Profit and Quantity — with mean, median,
   mode, standard deviation, variance, range, quartiles, IQR and coefficient of
@@ -243,50 +227,8 @@ Then the honest check, which is the part most worth having on the recording:
   is stated plainly as weak. The reliability discussion the brief asks for is not
   a formality here: the error was measured, and it is 22.7%
 
-## The correction
-
-*On screen: the correction table from the Checkpoint 2 report*
-
-This section exists because volunteering an error is worth more than having it
-found. Do not soften it.
-
-- Building the Checkpoint 2 monthly series exposed an **error in our own
-  Checkpoint 1**
-- 2020 was treated as a full year. The file starts 22 March, so 2020 holds only
-  **nine months**. That overstated 2020-to-2022 growth as **69.9%** when the
-  like-for-like figure is **30.9%**. It also distorted March's seasonal index,
-  from 1.025 down to 0.876
-- What it did and did not touch:
-
-| Affected | Unaffected |
-| --- | --- |
-| The 2020→2022 growth figure | The −17.6% peak-to-2024 decline — both are full years |
-| March's seasonal index | Printers −136,865; Electronics −40.8% |
-| | Category-specific seasonality; the geography finding |
-
-- The central thesis is unchanged; one supporting number was overstated
-- Checkpoint 1 was reissued with an `is_complete_month` flag and a per-month
-  column in Query 3, so the mistake cannot recur, and it is documented in the
-  Checkpoint 2 report either way
-
-## Questions worth answering here
-
-Still speaking continuously, close your part by raising three questions and
-answering them:
-
-**Is R² = 0.85 good?** For cross-sectional business data, yes — but R² alone is
-not the test. The p-value of 1.98 × 10⁻²⁴ is what says the slope is not zero.
-
-**The trend test found nothing — doesn't that sink a *trend* project?** It found
-that no single line fits both regimes, which is itself the finding. The trend is
-real, it is just piecewise, and Figure 2 shows it.
-
-**The forecast lost to a flat average — why keep it?** Choosing a method on two
-observations is overfitting the holdout. The loss is reported and the
-reliability stated honestly.
-
-**End the part on this line:** that is what the analysis found — what remains is
-what it means for the business.
+**End the part on this line:** building that monthly series also turned up
+something nobody expected — and it was a mistake of our own.
 
 ---
 
@@ -303,7 +245,7 @@ Each of you, before you record:
 
 Alber, before you submit:
 
-- All four parts present and in order, no task missing
+- All five parts present and in order, no task missing
 - Audio levels normalised across all three speakers
 - Each speaker names themselves once
 - The synthetic data, the Checkpoint 1 correction and the forecast that lost are

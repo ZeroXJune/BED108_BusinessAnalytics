@@ -11,14 +11,18 @@ joins them in order afterwards.
 | Part | Speaker | Covers | Approx |
 | --- | --- | --- | --- |
 | 1 | Alber | Opening; the business problem and the three questions | 3:00 |
-| 2 | Julebeth | Checkpoint 1 — the dataset, the database, the eight queries and what they found | 7:30 |
-| 3 | Mardy | Checkpoint 2 — the workbook, statistics, regression, the forecast, and the correction | 10:00 |
-| 4 | Alber | What it means for the business, the limitations, and the close | 2:30 |
+| 2 | Julebeth | Checkpoint 1 — the dataset, the database, the eight queries and what they found | 6:40 |
+| 3 | Alber | The Checkpoint 2 workbook | 1:30 |
+| 4 | Mardy | Checkpoint 2 — descriptive statistics, correlation, regression, the trend and the forecast | 6:25 |
+| 5 | Alber | The correction, what it means for the business, the questions, the close | 6:00 |
 
-Roughly **23 minutes** assembled. If you were given a time limit shorter than
-that, the two places to cut are the descriptive statistics and the correlation
-in Part 3 — each survives as two sentences. Do not cut a whole task; the brief's
-tasks are what is being marked.
+Roughly **23 minutes** assembled — about **10:30** of it Alber, and **6:30**
+each for Julebeth and Mardy. Alber records three separate files; Julebeth and
+Mardy record one each.
+
+If you were given a time limit shorter than that, the two places to cut are the
+descriptive statistics and the correlation in Part 4 — each survives as two
+sentences. Do not cut a whole task; the brief's tasks are what is being marked.
 
 ---
 
@@ -46,9 +50,10 @@ worksheet cell, and those are named beside each section.
 
 ## How to record your part
 
-**Say your name once, at the very start of your part.** Just the name — your
+**Say your name once, at the start of your first part.** Just the name — your
 instructor is matching a voice to a name for a mark under Section 1.4, and the
-video may not show your face. Then go straight into the material.
+video may not show your face. Alber records three parts and only needs to do
+this in Part 1; the later two just continue.
 
 **Record straight through.** Your part is one continuous explanation. If you
 stumble, do not stop the recording: pause, take a breath, and repeat that
@@ -85,7 +90,7 @@ take you want used, not every take you shot.
 
 ## For Alber, as editor
 
-Join the four parts in order: 1, 2, 3, 4. There is nothing to interleave.
+Join the five parts in order: 1, 2, 3, 4, 5. There is nothing to interleave.
 
 **Normalise the audio levels first.** Three people in three rooms will not
 match, and a viewer reaching for the volume between speakers is the most
@@ -97,7 +102,7 @@ the instructor who is talking, and it doubles as your figure numbering.
 
 **Keep the transitions.** The last line of each part sets up the next one. Cut
 the dead air and the stumbles; leave those lines alone, because they are what
-makes four recordings sound like one explanation.
+makes five recordings sound like one explanation.
 
 If a part comes back unusable and re-recording is impossible, cover it yourself
 rather than leaving a gap — a missing task is a missing mark.
@@ -112,13 +117,13 @@ rather than leaving a gap — a missing task is a missing mark.
 | 2 | The database | `docs/figures/erd.png`, then the `SHOW TABLES` screenshot |
 | 2 | The queries | Query screenshots Q3, Q5, Q8 |
 | 3 | The workbook | Cleaned Data, then a PivotChart |
-| 3 | Descriptive statistics | The Amount histogram |
-| 3 | Correlation | Both scatter plots |
-| 3 | Regression | The ToolPak output |
-| 3 | Trend and seasonality | Figure 2 with the shading, then the forecast chart |
-| 3 | The correction | The correction table from the Checkpoint 2 report |
-| 4 | What it means | The findings summary |
-| 4 | Close | Cover page again, or the team slide |
+| 4 | Descriptive statistics | The Amount histogram |
+| 4 | Correlation | Both scatter plots |
+| 4 | Regression | The ToolPak output |
+| 4 | Trend and seasonality | Figure 2 with the shading, then the forecast chart |
+| 5 | The correction | The correction table from the Checkpoint 2 report |
+| 5 | What it means | The findings summary |
+| 5 | Close | Cover page again, or the team slide |
 
 ---
 
@@ -182,17 +187,75 @@ Checkpoint 1 starts.
 
 ---
 
-# Part 4 — Alber
+# Part 3 — Alber
 
-*About 2.5 minutes. Record straight through.*
+*About 1.5 minutes. A short bridge between the two checkpoints — no need to say
+your name again.*
+
+## The workbook
+
+*Task 2.1 · on screen: Cleaned Data, then a PivotChart*
+
+Pick the thread up: the first thing Checkpoint 2 needed was the workbook itself,
+built on the same dataset the brief requires.
+
+- The workbook has **thirteen sheets**
+- The one design decision worth defending: **everything is live formulas, not
+  pasted values** — around **1,724** of them. The cross-tabs are `SUMIFS`,
+  `COUNTIFS` and `AVERAGEIFS` against named ranges over the Cleaned Data sheet,
+  so if a row changed, every statistic downstream would change with it. Pasted
+  values would have looked identical and proved nothing
+- Beyond the brief's minimum there are **three native PivotTables**, each with a
+  bound PivotChart, sharing one pivot cache. The brief asks for three pivot
+  tables and three pivot charts, and the SUMIFS cross-tabs alone would have been
+  arguable
+- **Seven self-check formulas** on the Read Me sheet. Each recomputes a headline
+  figure by an independent route and prints OK or MISMATCH — the row count, the
+  revenue total and the regression slope are all checked that way. If a cell is
+  edited that should not have been, the workbook says so
+
+**End the part on this line:** with the data laid out that way and checked, the
+statistics could be run on it.
+
+---
+
+# Part 5 — Alber
+
+*About 6 minutes. Record straight through — no need to say your name again.*
+
+## The correction
+
+*On screen: the correction table from the Checkpoint 2 report*
+
+This section exists because volunteering an error is worth more than having it
+found. Do not soften it.
+
+- Building the Checkpoint 2 monthly series exposed an **error in our own
+  Checkpoint 1**
+- 2020 was treated as a full year. The file starts 22 March, so 2020 holds only
+  **nine months**. That overstated 2020-to-2022 growth as **69.9%** when the
+  like-for-like figure is **30.9%**. It also distorted March's seasonal index,
+  from 1.025 down to 0.876
+- What it did and did not touch:
+
+| Affected | Unaffected |
+| --- | --- |
+| The 2020→2022 growth figure | The −17.6% peak-to-2024 decline — both are full years |
+| March's seasonal index | Printers −136,865; Electronics −40.8% |
+| | Category-specific seasonality; the geography finding |
+
+- The central thesis is unchanged; one supporting number was overstated
+- Checkpoint 1 was reissued with an `is_complete_month` flag and a per-month
+  column in Query 3, so the mistake cannot recur, and it is documented in the
+  Checkpoint 2 report either way
 
 ## What it means for the business
 
 *On screen: the findings summary*
 
-Pick the thread up — with the correction made, here is what the analysis
-actually tells the business. Three recommendations, each tied to a measurement
-rather than an opinion:
+With that correction made, here is what the analysis actually tells the
+business. Three recommendations, each tied to a measurement rather than an
+opinion:
 
 - **Track order count, not revenue.** Revenue is the lagging indicator; order
   count is what drives it, r = 0.923, and it is the thing the business can act on
@@ -223,18 +286,49 @@ dataset, a normalised schema with enforced constraints, queries verified on two
 database engines, and statistics tested for significance rather than eyeballed —
 with the negative results reported alongside the positive ones.
 
+## The questions we would expect
+
+Still speaking continuously, raise these and answer them in your own words. This
+is the part that stands in for a live defense, so take it slowly.
+
+**Does a fake dataset invalidate the project?** It invalidates the *figures*,
+not the *method*. It was proved with five signals and no corrections were
+fabricated, which would have been worse. The schema, the queries and the
+analysis would run identically on real data.
+
+**Why not use `Order ID` as the primary key?** 1,194 rows, 547 distinct IDs, and
+the repeats span different dates and different customers. It identifies neither
+a row nor an order.
+
+**Why exclude 2025, and why show 2020 per month?** Both ends of the file are
+partial. Including them whole would show fake growth at one end and a fake
+collapse at the other — which is exactly the mistake we made and corrected.
+
+**Is R² = 0.85 good?** For cross-sectional business data, yes — but R² alone is
+not the test. The p-value of 1.98 × 10⁻²⁴ is what says the slope is not zero.
+
+**The trend test found nothing — doesn't that sink a *trend* project?** It found
+that no single line fits both regimes, which is itself the finding. The trend is
+real, it is just piecewise, and Figure 2 shows it.
+
+**The forecast lost to a flat average — why keep it?** Choosing a method on two
+observations is overfitting the holdout. The loss is reported and the
+reliability stated honestly.
+
+**What would you do differently?** Validate the source before building on it,
+and check the completeness of both ends of the date range first — that is
+exactly what caused the one real error, and it would have cost ten minutes to
+catch at the start.
+
+**What is next?** Checkpoint 3, the dashboard, built on **order count** as the
+primary KPI rather than revenue because it is the leading indicator and the
+actionable one, and segmented on **margin** rather than revenue, given how
+weakly those two turned out to be related.
+
 ## Close
 
 *On screen: the cover page again, or the team slide*
 
-- Two questions worth answering before you finish. *What would you do
-  differently?* Validate the source before building on it, and check the
-  completeness of both ends of the date range first — that is exactly what caused
-  the one real error, and it would have cost ten minutes to catch at the start.
-  *What is next?* Checkpoint 3, the dashboard, built on **order count** as the
-  primary KPI rather than revenue because it is the leading indicator and the
-  actionable one, and segmented on **margin** rather than revenue, given how
-  weakly those two turned out to be related
 - One sentence on what the project found: growth stopped in 2022, it was driven
   by a small number of sub-categories rather than a general slowdown, and order
   count is the measurable driver
@@ -257,7 +351,7 @@ Each of you, before you record:
 
 Alber, before you submit:
 
-- All four parts present and in order, no task missing
+- All five parts present and in order, no task missing
 - Audio levels normalised across all three speakers
 - Each speaker names themselves once
 - The synthetic data, the Checkpoint 1 correction and the forecast that lost are
@@ -279,7 +373,7 @@ Each of you, before you record:
 
 Alber, before you submit:
 
-- All four parts present and in order, no task missing
+- All five parts present and in order, no task missing
 - Audio levels normalised across all three speakers
 - Each speaker names themselves once
 - The synthetic data, the Checkpoint 1 correction and the forecast that lost are

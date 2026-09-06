@@ -11,14 +11,18 @@ joins them in order afterwards.
 | Part | Speaker | Covers | Approx |
 | --- | --- | --- | --- |
 | 1 | Alber | Opening; the business problem and the three questions | 3:00 |
-| 2 | Julebeth | Checkpoint 1 — the dataset, the database, the eight queries and what they found | 7:30 |
-| 3 | Mardy | Checkpoint 2 — the workbook, statistics, regression, the forecast, and the correction | 10:00 |
-| 4 | Alber | What it means for the business, the limitations, and the close | 2:30 |
+| 2 | Julebeth | Checkpoint 1 — the dataset, the database, the eight queries and what they found | 6:40 |
+| 3 | Alber | The Checkpoint 2 workbook | 1:30 |
+| 4 | Mardy | Checkpoint 2 — descriptive statistics, correlation, regression, the trend and the forecast | 6:25 |
+| 5 | Alber | The correction, what it means for the business, the questions, the close | 6:00 |
 
-Roughly **23 minutes** assembled. If you were given a time limit shorter than
-that, the two places to cut are the descriptive statistics and the correlation
-in Part 3 — each survives as two sentences. Do not cut a whole task; the brief's
-tasks are what is being marked.
+Roughly **23 minutes** assembled — about **10:30** of it Alber, and **6:30**
+each for Julebeth and Mardy. Alber records three separate files; Julebeth and
+Mardy record one each.
+
+If you were given a time limit shorter than that, the two places to cut are the
+descriptive statistics and the correlation in Part 4 — each survives as two
+sentences. Do not cut a whole task; the brief's tasks are what is being marked.
 
 ---
 
@@ -46,9 +50,10 @@ worksheet cell, and those are named beside each section.
 
 ## How to record your part
 
-**Say your name once, at the very start of your part.** Just the name — your
+**Say your name once, at the start of your first part.** Just the name — your
 instructor is matching a voice to a name for a mark under Section 1.4, and the
-video may not show your face. Then go straight into the material.
+video may not show your face. Alber records three parts and only needs to do
+this in Part 1; the later two just continue.
 
 **Record straight through.** Your part is one continuous explanation. If you
 stumble, do not stop the recording: pause, take a breath, and repeat that
@@ -85,7 +90,7 @@ take you want used, not every take you shot.
 
 # Part 2 — Julebeth
 
-*About 7.5 minutes. Record straight through — the three sections below run on
+*About 6.5 minutes. Record straight through — the three sections below run on
 from each other, so treat them as one talk with three topics.*
 
 ## The dataset and what was wrong with it
@@ -236,24 +241,6 @@ revenue spans only **28%** between highest and lowest, with no state trending
 against the others. Not every finding has to be a discovery — this one tells the
 business where *not* to spend its analytical effort.
 
-## Questions worth answering here
-
-Still speaking continuously, close your part by raising three questions this
-work invites and answering them:
-
-**Does a fake dataset invalidate the project?** It invalidates the *figures*,
-not the *method*. It was proved with five signals and no corrections were
-fabricated, which would have been worse. The schema, the queries and the
-analysis would run identically on real data.
-
-**Why not use `Order ID` as the primary key?** 1,194 rows, 547 distinct IDs, and
-the repeats span different dates and different customers. It identifies neither
-a row nor an order.
-
-**Why exclude 2025, and why show 2020 per month?** Both ends of the file are
-partial. Including them whole would show fake growth at one end and a fake
-collapse at the other.
-
 **End the part on this line:** that was Checkpoint 1 — what happened. Checkpoint
 2 takes the same data into Excel and asks how strong the evidence is, and what
 can be predicted.
@@ -273,7 +260,7 @@ Each of you, before you record:
 
 Alber, before you submit:
 
-- All four parts present and in order, no task missing
+- All five parts present and in order, no task missing
 - Audio levels normalised across all three speakers
 - Each speaker names themselves once
 - The synthetic data, the Checkpoint 1 correction and the forecast that lost are
