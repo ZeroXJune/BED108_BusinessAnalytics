@@ -50,10 +50,11 @@ worksheet cell, and those are named beside each section.
 
 ## How to record your part
 
-**Say your name once, at the start of your first part.** Just the name — your
-instructor is matching a voice to a name for a mark under Section 1.4, and the
-video may not show your face. Alber records three parts and only needs to do
-this in Part 1; the later two just continue.
+**Do not introduce yourself, and do not say who did what.** The recording is
+about the project, not about the group. Open every part on the material itself.
+Your instructor still needs to know whose voice is whose for Section 1.4 — the
+title card at the head of each part carries the name, so nothing is lost by not
+saying it.
 
 **Record straight through.** Your part is one continuous explanation. If you
 stumble, do not stop the recording: pause, take a breath, and repeat that
@@ -96,8 +97,7 @@ take you want used, not every take you shot.
 
 *Task 2.2 · on screen: the Amount histogram*
 
-Say your name, then pick the thread up: the first thing asked of that data was
-what it looks like.
+Pick the thread up: the first thing asked of that data was what it looks like.
 
 - Three numerical variables — Amount, Profit and Quantity — with mean, median,
   mode, standard deviation, variance, range, quartiles, IQR and coefficient of
@@ -238,8 +238,8 @@ Each of you, before you record:
 
 - Every number you say out loud, you can point to — a query, a figure, or a cell
 - You can say your section's beats with the script closed
-- You can answer a question about someone else's part, because Section 1.4 does
-  not care who recorded which section
+- You can answer a question about any section, not only the one you recorded —
+  Section 1.4 lets the instructor ask any member about any part
 - Your exhibits are open and on the right screen before you press record
 - You have done the thirty-second test
 
@@ -247,7 +247,7 @@ Alber, before you submit:
 
 - All five parts present and in order, no task missing
 - Audio levels normalised across all three speakers
-- Each speaker names themselves once
+- Every part carries a title card naming its speaker, since nobody says it aloud
 - The synthetic data, the Checkpoint 1 correction and the forecast that lost are
   all audibly in the recording
 - Played back end to end — the file opens, the audio does not cut out, the

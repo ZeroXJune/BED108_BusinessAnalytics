@@ -50,10 +50,11 @@ worksheet cell, and those are named beside each section.
 
 ## How to record your part
 
-**Say your name once, at the start of your first part.** Just the name — your
-instructor is matching a voice to a name for a mark under Section 1.4, and the
-video may not show your face. Alber records three parts and only needs to do
-this in Part 1; the later two just continue.
+**Do not introduce yourself, and do not say who did what.** The recording is
+about the project, not about the group. Open every part on the material itself.
+Your instructor still needs to know whose voice is whose for Section 1.4 — the
+title card at the head of each part carries the name, so nothing is lost by not
+saying it.
 
 **Record straight through.** Your part is one continuous explanation. If you
 stumble, do not stop the recording: pause, take a breath, and repeat that
@@ -96,9 +97,11 @@ Join the five parts in order: 1, 2, 3, 4, 5. There is nothing to interleave.
 match, and a viewer reaching for the volume between speakers is the most
 noticeable flaw a stitched recording can have.
 
-**Put a title card between parts** — a plain slide with the part number, the
-topic and the speaker's name, held for two seconds. It hides the seam, it tells
-the instructor who is talking, and it doubles as your figure numbering.
+**Put a title card at the head of every part** — a plain slide with the part
+number, the topic and the speaker's name, held for two seconds. This one is not
+optional: since nobody introduces themselves on camera, the card is how your
+instructor knows whose voice is whose for Section 1.4. It also hides the seam
+and doubles as your figure numbering.
 
 **Keep the transitions.** The last line of each part sets up the next one. Cut
 the dead air and the stumbles; leave those lines alone, because they are what
@@ -135,7 +138,7 @@ rather than leaving a gap — a missing task is a missing mark.
 
 *On screen: the cover page*
 
-Say your name, then:
+Open on the project, not on yourselves:
 
 - This is our BED 106 Business Analytics mini capstone. Our domain is Retail and
   Sales Analytics, and our topic is **sales trend analysis**
@@ -192,7 +195,7 @@ from each other, so treat them as one talk with three topics.*
 
 *Task 1.2 · on screen: the raw CSV, first 15–20 rows*
 
-Say your name, then pick the thread up: here is the raw file, and here is what
+Pick the thread up on the file itself: here is the raw export, and here is what
 was wrong with it.
 
 - The dataset is a retail sales export, **1,194 transaction lines and 12
@@ -344,8 +347,7 @@ can be predicted.
 
 # Part 3 — Alber
 
-*About 1.5 minutes. A short bridge between the two checkpoints — no need to say
-your name again.*
+*About 1.5 minutes. A short bridge between the two checkpoints.*
 
 ## The workbook
 
@@ -382,8 +384,7 @@ statistics could be run on it.
 
 *Task 2.2 · on screen: the Amount histogram*
 
-Say your name, then pick the thread up: the first thing asked of that data was
-what it looks like.
+Pick the thread up: the first thing asked of that data was what it looks like.
 
 - Three numerical variables — Amount, Profit and Quantity — with mean, median,
   mode, standard deviation, variance, range, quartiles, IQR and coefficient of
@@ -520,7 +521,7 @@ something nobody expected — and it was a mistake of our own.
 
 # Part 5 — Alber
 
-*About 6 minutes. Record straight through — no need to say your name again.*
+*About 6 minutes. Record straight through.*
 
 ## The correction
 
@@ -631,9 +632,8 @@ weakly those two turned out to be related.
 - One sentence on what the project found: growth stopped in 2022, it was driven
   by a small number of sub-categories rather than a general slowdown, and order
   count is the measurable driver
-- Thank the instructor, name the three of you, and state that any member can
-  answer questions on any part of the project — which is what Section 1.4 asks
-  for, and which is true if you have rehearsed
+- Thank the instructor, and close on the project rather than on the group — the
+  work is what is being marked
 
 ---
 
@@ -643,8 +643,8 @@ Each of you, before you record:
 
 - Every number you say out loud, you can point to — a query, a figure, or a cell
 - You can say your section's beats with the script closed
-- You can answer a question about someone else's part, because Section 1.4 does
-  not care who recorded which section
+- You can answer a question about any section, not only the one you recorded —
+  Section 1.4 lets the instructor ask any member about any part
 - Your exhibits are open and on the right screen before you press record
 - You have done the thirty-second test
 
@@ -652,7 +652,7 @@ Alber, before you submit:
 
 - All five parts present and in order, no task missing
 - Audio levels normalised across all three speakers
-- Each speaker names themselves once
+- Every part carries a title card naming its speaker, since nobody says it aloud
 - The synthetic data, the Checkpoint 1 correction and the forecast that lost are
   all audibly in the recording
 - Played back end to end — the file opens, the audio does not cut out, the
