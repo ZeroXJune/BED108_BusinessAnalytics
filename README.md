@@ -66,7 +66,9 @@ reports/Form_A_Individual_Contribution.docx  printable form, 4 signable copies
 docs/project_explained.md                    EVERYTHING explained in one document
 docs/methodology_explained.md                WHY each method was chosen, with the alternatives measured
 docs/contribution_guide.md                   what each role did, for filling in Form A
-docs/discussion_script.md                     3-speaker script for presenting and defending it
+docs/discussion_script.md                     recording script: 16 clips across 3 speakers
+docs/parts/                                  one script per speaker, for recording separately
+scripts/split_script.py                      splits the script into the per-speaker parts
 scripts/build_form_a.py                      builds the contribution form
 ```
 
