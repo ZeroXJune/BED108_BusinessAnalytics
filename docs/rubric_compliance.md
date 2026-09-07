@@ -25,7 +25,7 @@ can supply.
 | **1.4** ≥2 JOIN queries, 2+ tables | Exceeded | Q5, Q6 — four tables each |
 | **1.4** ≥2 business-relevant queries answering the key questions | Done | Q7, Q8 |
 | **1.4** For each query: SQL code | Done | `sql/04_queries.sql`, commented |
-| **1.4** For each query: output/result screenshot | Script ready | Blocks Q1–Q8 of `sql/05_screenshot_queries.sql`, each stating its expected result — **ACTION: capture the images** |
+| **1.4** For each query: output/result screenshot | Partial | All eight results are in the report as Tables 7–14, with a screenshot placeholder under each. Blocks Q1–Q8 of `sql/05_screenshot_queries.sql` state the expected result — **ACTION: capture the images** |
 | **1.4** For each query: 2–3 sentence business interpretation | See note | Present, but longer than 2–3 sentences — **see the note below** |
 
 ## General guidelines (Section 3.1)

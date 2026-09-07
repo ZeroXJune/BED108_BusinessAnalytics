@@ -317,6 +317,28 @@ unchanged on MySQL 8 and SQLite 3.
 ### Q1 — Largest transaction lines of the most recent complete year
 `SELECT` / `WHERE` / `ORDER BY` on `sales`.
 
+Caption: Q1 — the 15 largest transaction lines of 2024, the most recent complete year.
+
+| sale_id | order_ref | order_date | quantity | amount | profit |
+| --- | --- | --- | --- | --- | --- |
+| 1016 | B-25441 | 2024-06-08 | 16 | 9,914 | 3,858 |
+| 942 | B-26508 | 2024-02-25 | 20 | 9,894 | 3,698 |
+| 972 | B-25044 | 2024-04-16 | 1 | 9,849 | 963 |
+| 977 | B-25226 | 2024-04-23 | 2 | 9,808 | 2,117 |
+| 940 | B-26980 | 2024-02-21 | 5 | 9,752 | 3,618 |
+| 1046 | B-26287 | 2024-07-02 | 2 | 9,730 | 2,341 |
+| 1144 | B-26776 | 2024-12-27 | 5 | 9,726 | 1,275 |
+| 1143 | B-26470 | 2024-12-27 | 5 | 9,683 | 1,014 |
+| 985 | B-26910 | 2024-04-29 | 9 | 9,680 | 3,295 |
+| 1052 | B-25200 | 2024-07-08 | 6 | 9,653 | 2,471 |
+| 1092 | B-26628 | 2024-09-19 | 3 | 9,609 | 4,339 |
+| 951 | B-26601 | 2024-03-13 | 19 | 9,574 | 4,045 |
+| 1042 | B-25742 | 2024-07-02 | 3 | 9,565 | 1,691 |
+| 1082 | B-25884 | 2024-09-04 | 20 | 9,538 | 3,158 |
+| 1008 | B-25553 | 2024-05-30 | 11 | 9,380 | 414 |
+
+_(Insert your own screenshot of this query's output here.)_
+
 **Business Interpretation.** The 15 biggest lines of 2024 sit in a tight band
 from 9,380 to 9,914, against a dataset-wide maximum of 9,992 — so there is a
 hard ceiling near 10,000 rather than a long tail of outliers. This is a business
@@ -331,6 +353,28 @@ exactly the wrong accounts.
 
 ### Q2 — Bulk orders sold at thin margins
 `SELECT` / `WHERE` / `ORDER BY` with a computed margin column.
+
+Caption: Q2 — bulk orders of 15 or more units that returned a thin margin.
+
+| sale_id | order_date | quantity | amount | profit | margin_pct |
+| --- | --- | --- | --- | --- | --- |
+| 8 | 2020-04-04 | 19 | 7,702 | 60 | 0.78 |
+| 461 | 2022-03-28 | 18 | 4,099 | 52 | 1.27 |
+| 1010 | 2024-05-30 | 17 | 4,080 | 72 | 1.76 |
+| 169 | 2020-12-31 | 19 | 6,089 | 139 | 2.28 |
+| 471 | 2022-04-15 | 19 | 6,089 | 139 | 2.28 |
+| 725 | 2023-04-05 | 19 | 6,089 | 139 | 2.28 |
+| 327 | 2021-10-23 | 19 | 2,663 | 64 | 2.40 |
+| 1030 | 2024-06-16 | 19 | 2,663 | 64 | 2.40 |
+| 924 | 2024-01-28 | 16 | 6,800 | 167 | 2.46 |
+| 965 | 2024-03-30 | 16 | 3,273 | 85 | 2.60 |
+| 97 | 2020-09-12 | 15 | 8,077 | 240 | 2.97 |
+| 718 | 2023-03-21 | 19 | 8,200 | 257 | 3.13 |
+| 540 | 2022-07-15 | 18 | 4,364 | 148 | 3.39 |
+| 880 | 2023-11-09 | 18 | 7,501 | 262 | 3.49 |
+| 339 | 2021-11-12 | 15 | 6,940 | 253 | 3.65 |
+
+_(Insert your own screenshot of this query's output here.)_
 
 **Business Interpretation.** These are lines of 15+ units returning under 15%
 margin — the company moving maximum stock for minimum return. The worst, sale 8,
@@ -360,6 +404,8 @@ Caption: Q3 — annual sales trend, 2020–2024.
 
 _The 2024 average line value is exactly 5,010.325. MySQL rounds half away from
 zero and reports 5,010.33; tools that round half to even report 5,010.32._
+_(Insert your own screenshot of this query's output here.)_
+
 
 **Business Interpretation — answers Business Question 1.** Growth stopped in
 2022. Note the `months` column: 2020 holds only nine complete months, because
@@ -380,6 +426,25 @@ Caption: The sales trend in two regimes, measured per month so the nine-month 20
 
 ### Q4 — Monthly seasonality, 2020–2024 pooled
 `GROUP BY` month with a share-of-total subquery.
+
+Caption: Q4 — revenue by calendar month, pooled across the five complete years.
+
+| month_no | month | transaction_lines | revenue | avg_line_value | pct_of_total_revenue |
+| --- | --- | --- | --- | --- | --- |
+| 1 | January | 70 | 279,772 | 3,996.74 | 4.73 |
+| 2 | February | 75 | 365,960 | 4,879.47 | 6.19 |
+| 3 | March | 78 | 422,058 | 5,411.00 | 7.14 |
+| 4 | April | 105 | 567,882 | 5,408.40 | 9.61 |
+| 5 | May | 107 | 581,943 | 5,438.72 | 9.85 |
+| 6 | June | 100 | 529,028 | 5,290.28 | 8.95 |
+| 7 | July | 95 | 497,410 | 5,235.89 | 8.42 |
+| 8 | August | 94 | 517,830 | 5,508.83 | 8.76 |
+| 9 | September | 80 | 408,236 | 5,102.95 | 6.91 |
+| 10 | October | 120 | 632,521 | 5,271.01 | 10.70 |
+| 11 | November | 89 | 451,814 | 5,076.56 | 7.65 |
+| 12 | December | 133 | 655,378 | 4,927.65 | 11.09 |
+
+_(Insert your own screenshot of this query's output here.)_
 
 **Business Interpretation — answers Business Question 3 (part 1).** Demand is
 strongly seasonal and the peak is late. December (11.09% of annual revenue) and
@@ -410,6 +475,8 @@ Caption: Q5 — revenue by product category per year.
 | Electronics | 233,178 | 387,757 | 478,451 | 538,319 | **318,630** |
 | Furniture | 299,708 | 391,342 | 496,353 | 385,893 | 415,878 |
 | Office Supplies | 326,515 | 402,347 | 484,971 | 305,511 | 467,970 |
+_(Insert your own screenshot of this query's output here.)_
+
 
 **Business Interpretation — answers Business Question 2 (part 1).** The flat
 company-level total hides three different stories. Electronics kept growing a
@@ -437,6 +504,8 @@ Caption: Q6 — top cities by revenue and revenue per customer.
 | New York | Buffalo | 58 | 418,514 | 7,215.76 | 26.72 |
 | New York | Rochester | 46 | 407,291 | 8,854.15 | 26.94 |
 | Texas | Dallas | 50 | 390,144 | 7,802.88 | 26.27 |
+_(Insert your own screenshot of this query's output here.)_
+
 
 **Business Interpretation.** Geography is **not** where the problem lies. Total
 revenue across the six states spans only 884,768 (Ohio) to 1,130,048 (New
@@ -469,6 +538,8 @@ Caption: Q7 — sub-category revenue change, 2023 vs 2024.
 | Office Supplies | Pens | 82,959 | 116,900 | +33,941 | +40.9 |
 | Furniture | Tables | 119,400 | 155,834 | +36,434 | +30.5 |
 | Office Supplies | Paper | 57,368 | 143,057 | **+85,689** | **+149.4** |
+_(Insert your own screenshot of this query's output here.)_
+
 
 **Business Interpretation — the headline finding.** The plateau is not broad
 weakness; it is **concentrated in one sub-category**. Printers alone lost
@@ -497,6 +568,8 @@ Caption: Q8 — each quarter's share of its own category's annual revenue.
 | Electronics | 20.28% | **30.79%** | 23.69% | 25.24% |
 | Furniture | 16.96% | 29.46% | 22.74% | **30.84%** |
 | Office Supplies | 17.01% | 25.00% | 25.83% | **32.16%** |
+_(Insert your own screenshot of this query's output here.)_
+
 
 **Business Interpretation.** The company-wide Q4 peak is **not universal**, and
 this is the finding most likely to change how the business plans. Furniture and
