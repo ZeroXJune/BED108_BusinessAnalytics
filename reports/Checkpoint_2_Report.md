@@ -194,9 +194,9 @@ clustering at round numbers such as 5, 10 or 12, which real order data almost
 always shows. The mode is 14, appearing 73 times, but with 20 possible values
 and 1,194 rows that is close to what chance alone would produce.
 
-![](../docs/figures/cp2_fig1_histogram.png)
-
 Caption: Frequency distribution of transaction Amount. The flat shape indicates a uniform, not normal, distribution.
+
+![](../docs/figures/cp2_fig1_histogram.png)
 
 ---
 
@@ -257,9 +257,9 @@ relationship, but notably *not* near 1.0: only 46% of profit variation tracks
 revenue. The remaining 54% is differences in margin between products. This
 supports the Task 2.2 observation that revenue is a weak proxy for profit.
 
-![](../docs/figures/cp2_fig3_no_correlation.png)
-
 Caption: Quantity against Amount at line level. The near-flat trendline is the finding.
+
+![](../docs/figures/cp2_fig3_no_correlation.png)
 
 ---
 
@@ -336,9 +336,9 @@ in 2022. The model puts the value of closing that four-order gap at roughly
 annual shortfall measured directly in Checkpoint 1. Two independent methods
 agreeing is a good sign the number is sound.
 
-![](../docs/figures/cp2_fig2_regression.png)
-
 Caption: Monthly orders against monthly revenue, with the fitted regression line.
+
+![](../docs/figures/cp2_fig2_regression.png)
 
 ## Assumptions, limitations and conditions of use
 
@@ -447,9 +447,9 @@ Caption: Six-period forecast with the two complete holdout months compared.
 | 2025-05 | 1.131 | 114,574 | — | — | Future |
 | 2025-06 | 1.028 | 104,156 | — | — | Future |
 
-![](../docs/figures/cp2_fig4_forecast.png)
-
 Caption: The sales trend in two regimes. The 12-month rolling average shows growth to a late-2022 peak, then a plateau; the six-month forecast and the two holdout months are at the right.
+
+![](../docs/figures/cp2_fig4_forecast.png)
 
 ## Step 4 — How reliable is it? An honest assessment
 

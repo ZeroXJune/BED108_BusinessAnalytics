@@ -42,6 +42,43 @@ card at the head of each part.
 
 ---
 
+## Exhibit index — for Alber, editing
+
+Every exhibit is reproduced in this script at the point it is referred to, so
+you can work from here alone. This table says where each one comes from if you
+want the original — and note that the **figure numbers in the reports do not
+match the file names**: Checkpoint 1's Figure 1 is the ERD, not the trend chart.
+
+| # | Part | Exhibit | File | In the reports |
+| --- | --- | --- | --- | --- |
+| 1 | 1 | Annual trend chart | `docs/figures/fig1_annual_trend.png` | CP1 report, **Figure 2** |
+| 2 | 2 | Raw file extract | `data/raw/sales_dataset_raw.csv` | CP1 report, Raw dataset preview |
+| 3 | 3 | ERD | `docs/figures/erd.png` | CP1 report, **Figure 1** |
+| 4 | 3 | Loaded row counts | — | CP1 report, Populated row counts |
+| 5 | 3 | Q3 annual trend | `sql/04_queries.sql` | CP1 report, Q3 |
+| 6 | 3 | Q7 sub-category change | `sql/04_queries.sql` | CP1 report, Q7 |
+| 7 | 3 | Q8 quarter shares | `sql/04_queries.sql` | CP1 report, Q8 |
+| 8 | 4 | Workbook, Cleaned Data sheet | `reports/Checkpoint_2_Workbook.xlsx` | — |
+| 9 | 4 | A PivotChart | `Checkpoint_2_Workbook.xlsx`, sheets PivotTable 1–3 | — |
+| 10 | 4 | Descriptive statistics | Workbook, Descriptive Stats | CP2 report, Task 2.2 |
+| 11 | 4 | Amount histogram | `docs/figures/cp2_fig1_histogram.png` | CP2 report, **Figure 1** |
+| 12 | 4 | Orders vs revenue scatter | `docs/figures/cp2_fig2_regression.png` | CP2 report, **Figure 3** |
+| 13 | 4 | Quantity vs amount scatter | `docs/figures/cp2_fig3_no_correlation.png` | CP2 report, **Figure 2** |
+| 14 | 4 | Regression output | Workbook, Regression | CP2 report, Task 2.4 |
+| 15 | 4 | Trend and forecast chart | `docs/figures/cp2_fig4_forecast.png` | CP2 report, **Figure 4** |
+| 16 | 4 | Seasonal indices, forecast, accuracy | Workbook, Forecast | CP2 report, Task 2.5 |
+| 17 | 5 | The correction | — | CP2 report, section 2 |
+| 18 | 5 | Findings summary | — | CP1 report, Key Findings |
+
+Exhibits 12 and 13 are the ones most easily swapped: the **regression** scatter
+is monthly orders against monthly revenue with a steep fitted line, and the
+**no-correlation** scatter is quantity against amount with a flat one. The file
+names are the reverse of the report's figure order, so go by the file name.
+
+Assembly is simply Parts 1 to 5 in order. Normalise the audio levels across the
+three speakers first, and put a two-second title card at the head of each part
+carrying the part number, the topic and the speaker's name.
+
 # Part 1 — Alber
 
 *[Cover page on screen.]*
@@ -59,7 +96,7 @@ and can we predict anything from it.
 The dataset is a retail sales export. 1,194 transaction lines, running from
 March 2020 to March 2025.
 
-*[Figure 1 — have this on screen.]*
+*[The annual trend chart — have this on screen.]*
 
 Caption: Revenue per month by year. Growth to the 2022 peak, then two years of decline.
 
@@ -478,7 +515,7 @@ R-squared on its own isn't the test. The p-value — 1.98 times ten to the negat
 
 **Your trend test found nothing. Doesn't that sink a trend project?** It found
 that no single line fits both regimes, and that is itself the finding. The trend
-is real; it's just piecewise. Figure 2 shows it.
+is real; it's just piecewise. The trend chart shows it.
 
 **Your forecast lost to a flat average. Why keep it?** Because choosing a method
 on the strength of two observations is overfitting the holdout. We report the
