@@ -208,7 +208,11 @@ def convert(md, doc):
 
         m = IMAGE.match(stripped)
         if m:
+            # Report markdown uses paths relative to reports/; other documents
+            # use paths relative to the repository root.
             path = os.path.normpath(os.path.join(ROOT, "reports", m.group(2)))
+            if not os.path.exists(path):
+                path = os.path.normpath(os.path.join(ROOT, m.group(2)))
             if os.path.exists(path):
                 doc.add_picture(path, width=Inches(6.0))
                 doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER

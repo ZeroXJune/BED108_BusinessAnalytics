@@ -22,8 +22,9 @@ If you need it shorter, cut the six limitations in Part 4 down to one line and
 drop three of the eight questions in Part 5; that takes off about three minutes
 without losing a task.
 
-*Lines in italics inside brackets are stage directions — what to have on screen.
-Do not read them aloud.*
+*Lines in italics inside brackets are stage directions, and the tables and
+charts under them are the exhibits to have on screen at that moment. Do not read
+any of it aloud — the spoken lines are the plain paragraphs.*
 
 **One thing before you record.** Section 3.2 of the brief says AI-generated
 analysis is not permitted. This script was drafted with AI help, so change the
@@ -43,7 +44,11 @@ card at the head of each part.
 
 # Part 3 — Mardy
 
-*[The ERD on screen.]*
+*[The ERD — have this on screen.]*
+
+Caption: The star schema. One fact table, seven dimensions.
+
+![](docs/figures/erd.png)
 
 I'm Mardy, and I'll take the database and the queries.
 
@@ -79,14 +84,37 @@ CREATE TABLE statement failed outright with a syntax error until we put
 backticks around it. And we only found that because we installed an actual MySQL
 server and ran the import, instead of assuming the file was fine.
 
-*[Switch to the SHOW TABLES screenshot.]*
+*[The loaded database — show your own SHOW TABLES output, or this.]*
+
+Caption: Row counts after loading. sales holds exactly the 1,194 rows of the raw file.
+
+| Table | Rows |
+| --- | --- |
+| `states` | 6 |
+| `cities` | 18 |
+| `categories` | 3 |
+| `sub_categories` | 12 |
+| `payment_modes` | 5 |
+| `customers` | 807 |
+| `dates` | 648 |
+| `sales` | 1,194 |
 
 The whole thing loads from one file — the database, all eight tables, all the
 data. And it ends with a verification block whose last row has to read 1,194
 rows, 6,182,639 in revenue, 547 order IDs, 57 complete months, and zero orphaned
 rows.
 
-*[Switch to the query screenshots — Q3 first.]*
+*[Query 3 — show your own output, or this.]*
+
+Caption: Q3 — annual sales trend, 2020–2024. 2020 has nine months, so read revenue per month.
+
+| Year | Months | Lines | Units | Revenue | Profit | Revenue/month | Avg line | Margin % |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2020 | 9 | 167 | 1,651 | 836,410 | 217,911 | 92,934.44 | 5,008.44 | 26.05 |
+| 2021 | 12 | 217 | 2,358 | 1,181,446 | 283,231 | 98,453.83 | 5,444.45 | 23.97 |
+| 2022 | 12 | 288 | 3,234 | 1,459,775 | 393,113 | 121,647.92 | 5,068.66 | 26.93 |
+| 2023 | 12 | 234 | 2,497 | 1,229,723 | 321,671 | 102,476.92 | 5,255.23 | 26.16 |
+| 2024 | 12 | 240 | 2,523 | 1,202,478 | 308,336 | 100,206.50 | 5,010.33 | 25.64 |
 
 So with the database built, we could ask the questions. There are eight queries
 in four groups: two basic retrievals using WHERE and ORDER BY, two aggregates
@@ -101,7 +129,24 @@ and average order value never left 5,008 to 5,444. Put those together and you
 have the diagnosis — fewer orders, not cheaper ones and not less profitable
 ones. Which points at demand generation, not at pricing.
 
-*[Switch to Q5.]*
+*[Query 7 — show your own output, or this.]*
+
+Caption: Q7 — sub-category revenue change, 2023 against 2024.
+
+| Category | Sub-category | 2023 | 2024 | Change | % |
+| --- | --- | --- | --- | --- | --- |
+| Electronics | Printers | 192,817 | 55,952 | **−136,865** | **−71.0** |
+| Electronics | Electronic Games | 144,484 | 88,017 | −56,467 | −39.1 |
+| Electronics | Phones | 115,909 | 99,526 | −16,383 | −14.1 |
+| Furniture | Bookcases | 86,730 | 74,875 | −11,855 | −13.7 |
+| Electronics | Laptops | 85,109 | 75,135 | −9,974 | −11.7 |
+| Furniture | Chairs | 87,711 | 86,185 | −1,526 | −1.7 |
+| Furniture | Sofas | 92,052 | 98,984 | +6,932 | +7.5 |
+| Office Supplies | Markers | 100,742 | 120,002 | +19,260 | +19.1 |
+| Office Supplies | Binders | 64,442 | 88,011 | +23,569 | +36.6 |
+| Office Supplies | Pens | 82,959 | 116,900 | +33,941 | +40.9 |
+| Furniture | Tables | 119,400 | 155,834 | +36,434 | +30.5 |
+| Office Supplies | Paper | 57,368 | 143,057 | **+85,689** | **+149.4** |
 
 **Second, one sub-category explains most of the gap.** Printers lost 136,865
 between 2023 and 2024 — a 71 percent collapse, and on its own that's more than
@@ -114,7 +159,15 @@ running at the same time, and the company-wide figure is just their average,
 which describes neither of them. That's the most useful thing Checkpoint 1
 produced.
 
-*[Switch to Q8.]*
+*[Query 8 — show your own output, or this.]*
+
+Caption: Q8 — each quarter's share of its own category's annual revenue.
+
+| Category | Q1 | Q2 | Q3 | Q4 |
+| --- | --- | --- | --- | --- |
+| Electronics | 20.28% | **30.79%** | 23.69% | 25.24% |
+| Furniture | 16.96% | 29.46% | 22.74% | **30.84%** |
+| Office Supplies | 17.01% | 25.00% | 25.83% | **32.16%** |
 
 **Third, seasonality is category-specific.** The blended figure tells you Q4 is
 the peak quarter. But split it out, and Electronics actually peaks in Q2, at

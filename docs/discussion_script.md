@@ -20,8 +20,9 @@ If you need it shorter, cut the six limitations in Part 4 down to one line and
 drop three of the eight questions in Part 5; that takes off about three minutes
 without losing a task.
 
-*Lines in italics inside brackets are stage directions — what to have on screen.
-Do not read them aloud.*
+*Lines in italics inside brackets are stage directions, and the tables and
+charts under them are the exhibits to have on screen at that moment. Do not read
+any of it aloud — the spoken lines are the plain paragraphs.*
 
 **One thing before you record.** Section 3.2 of the brief says AI-generated
 analysis is not permitted. This script was drafted with AI help, so change the
@@ -56,7 +57,11 @@ and can we predict anything from it.
 The dataset is a retail sales export. 1,194 transaction lines, running from
 March 2020 to March 2025.
 
-*[Switch to Figure 1, the annual trend.]*
+*[Figure 1 — have this on screen.]*
+
+Caption: Revenue per month by year. Growth to the 2022 peak, then two years of decline.
+
+![](docs/figures/fig1_annual_trend.png)
 
 So here's the problem we're looking at. The company is a multi-category
 retailer — electronics, furniture and office supplies — selling across six US
@@ -101,7 +106,14 @@ cleaned, and put into a database first — and that's where Checkpoint 1 starts.
 
 # Part 2 — Julebeth
 
-*[The raw CSV on screen, first 15–20 rows.]*
+*[The raw file — have the CSV open, or show this extract.]*
+
+Caption: The raw export. The first two rows share one Order ID across different dates and customers.
+
+| Order ID | Amount | Profit | Qty | Category | Sub-Category | Payment | Order Date | Customer | State | City |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| B-26776 | 9,726 | 1,275 | 5 | Electronics | Electronic Games | UPI | 2023-06-27 | David Padilla | Florida | Miami |
+| B-26776 | 9,726 | 1,275 | 5 | Electronics | Electronic Games | UPI | 2024-12-27 | Connor Morgan | Illinois | Chicago |
 
 I'm Julebeth, and I'll take it from the raw file.
 
@@ -161,7 +173,11 @@ next was a proper database.
 
 # Part 3 — Mardy
 
-*[The ERD on screen.]*
+*[The ERD — have this on screen.]*
+
+Caption: The star schema. One fact table, seven dimensions.
+
+![](docs/figures/erd.png)
 
 I'm Mardy, and I'll take the database and the queries.
 
@@ -197,14 +213,37 @@ CREATE TABLE statement failed outright with a syntax error until we put
 backticks around it. And we only found that because we installed an actual MySQL
 server and ran the import, instead of assuming the file was fine.
 
-*[Switch to the SHOW TABLES screenshot.]*
+*[The loaded database — show your own SHOW TABLES output, or this.]*
+
+Caption: Row counts after loading. sales holds exactly the 1,194 rows of the raw file.
+
+| Table | Rows |
+| --- | --- |
+| `states` | 6 |
+| `cities` | 18 |
+| `categories` | 3 |
+| `sub_categories` | 12 |
+| `payment_modes` | 5 |
+| `customers` | 807 |
+| `dates` | 648 |
+| `sales` | 1,194 |
 
 The whole thing loads from one file — the database, all eight tables, all the
 data. And it ends with a verification block whose last row has to read 1,194
 rows, 6,182,639 in revenue, 547 order IDs, 57 complete months, and zero orphaned
 rows.
 
-*[Switch to the query screenshots — Q3 first.]*
+*[Query 3 — show your own output, or this.]*
+
+Caption: Q3 — annual sales trend, 2020–2024. 2020 has nine months, so read revenue per month.
+
+| Year | Months | Lines | Units | Revenue | Profit | Revenue/month | Avg line | Margin % |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2020 | 9 | 167 | 1,651 | 836,410 | 217,911 | 92,934.44 | 5,008.44 | 26.05 |
+| 2021 | 12 | 217 | 2,358 | 1,181,446 | 283,231 | 98,453.83 | 5,444.45 | 23.97 |
+| 2022 | 12 | 288 | 3,234 | 1,459,775 | 393,113 | 121,647.92 | 5,068.66 | 26.93 |
+| 2023 | 12 | 234 | 2,497 | 1,229,723 | 321,671 | 102,476.92 | 5,255.23 | 26.16 |
+| 2024 | 12 | 240 | 2,523 | 1,202,478 | 308,336 | 100,206.50 | 5,010.33 | 25.64 |
 
 So with the database built, we could ask the questions. There are eight queries
 in four groups: two basic retrievals using WHERE and ORDER BY, two aggregates
@@ -219,7 +258,24 @@ and average order value never left 5,008 to 5,444. Put those together and you
 have the diagnosis — fewer orders, not cheaper ones and not less profitable
 ones. Which points at demand generation, not at pricing.
 
-*[Switch to Q5.]*
+*[Query 7 — show your own output, or this.]*
+
+Caption: Q7 — sub-category revenue change, 2023 against 2024.
+
+| Category | Sub-category | 2023 | 2024 | Change | % |
+| --- | --- | --- | --- | --- | --- |
+| Electronics | Printers | 192,817 | 55,952 | **−136,865** | **−71.0** |
+| Electronics | Electronic Games | 144,484 | 88,017 | −56,467 | −39.1 |
+| Electronics | Phones | 115,909 | 99,526 | −16,383 | −14.1 |
+| Furniture | Bookcases | 86,730 | 74,875 | −11,855 | −13.7 |
+| Electronics | Laptops | 85,109 | 75,135 | −9,974 | −11.7 |
+| Furniture | Chairs | 87,711 | 86,185 | −1,526 | −1.7 |
+| Furniture | Sofas | 92,052 | 98,984 | +6,932 | +7.5 |
+| Office Supplies | Markers | 100,742 | 120,002 | +19,260 | +19.1 |
+| Office Supplies | Binders | 64,442 | 88,011 | +23,569 | +36.6 |
+| Office Supplies | Pens | 82,959 | 116,900 | +33,941 | +40.9 |
+| Furniture | Tables | 119,400 | 155,834 | +36,434 | +30.5 |
+| Office Supplies | Paper | 57,368 | 143,057 | **+85,689** | **+149.4** |
 
 **Second, one sub-category explains most of the gap.** Printers lost 136,865
 between 2023 and 2024 — a 71 percent collapse, and on its own that's more than
@@ -232,7 +288,15 @@ running at the same time, and the company-wide figure is just their average,
 which describes neither of them. That's the most useful thing Checkpoint 1
 produced.
 
-*[Switch to Q8.]*
+*[Query 8 — show your own output, or this.]*
+
+Caption: Q8 — each quarter's share of its own category's annual revenue.
+
+| Category | Q1 | Q2 | Q3 | Q4 |
+| --- | --- | --- | --- | --- |
+| Electronics | 20.28% | **30.79%** | 23.69% | 25.24% |
+| Furniture | 16.96% | 29.46% | 22.74% | **30.84%** |
+| Office Supplies | 17.01% | 25.00% | 25.83% | **32.16%** |
 
 **Third, seasonality is category-specific.** The blended figure tells you Q4 is
 the peak quarter. But split it out, and Electronics actually peaks in Q2, at
@@ -280,7 +344,28 @@ workbook tells you.
 
 With the data laid out that way and checked, we could run the statistics on it.
 
-*[Switch to the Amount histogram.]*
+*[The histogram and the statistics — have these on screen.]*
+
+Caption: Descriptive statistics for the three numerical variables, n = 1,194.
+
+| Statistic | Amount | Profit | Quantity |
+| --- | --- | --- | --- |
+| Mean | 5,178.09 | 1,348.99 | 10.67 |
+| Median | 5,152.00 | 1,014.00 | 11.00 |
+| Mode | 717 (×6) | 177 (×8) | 14 (×73) |
+| Standard deviation | 2,804.92 | 1,117.99 | 5.78 |
+| Variance | 7,867,587.17 | 1,249,907.39 | 33.37 |
+| Minimum | 508 | 50 | 1 |
+| Maximum | 9,992 | 4,930 | 20 |
+| Range | 9,484 | 4,880 | 19 |
+| Q1 | 2,799.00 | 410.00 | 6.00 |
+| Q3 | 7,626.00 | 2,035.00 | 16.00 |
+| Interquartile range | 4,827.00 | 1,625.00 | 10.00 |
+| Coefficient of variation | 54.2% | 82.9% | 54.1% |
+
+Caption: Frequency distribution of Amount. The flat shape is the finding.
+
+![](docs/figures/cp2_fig1_histogram.png)
 
 So the first thing we asked of that data was simply what it looks like. Three
 numerical variables — Amount, Profit and Quantity — and for each one we have the
@@ -304,7 +389,25 @@ generator produces. So our own descriptive statistics independently confirm what
 Checkpoint 1 said about this data being synthetic, and we report that as
 evidence rather than hide it.
 
-*[Switch to the scatter plots.]*
+*[The two scatter plots — have these on screen.]*
+
+Caption: Monthly orders against monthly revenue, with the fitted line.
+
+![](docs/figures/cp2_fig2_regression.png)
+
+Caption: Quantity against Amount at line level. The near-flat trendline is the finding.
+
+![](docs/figures/cp2_fig3_no_correlation.png)
+
+Caption: The two correlation pairs side by side.
+
+| Measure | Orders vs revenue | Quantity vs amount |
+| --- | --- | --- |
+| Pearson r | **+0.9227** | **+0.0446** |
+| r² | 0.8514 | 0.0020 |
+| p-value | 1.98 × 10⁻²⁴ | 0.123 |
+| n | 57 months | 1,194 lines |
+| Strength | **Strong** | **Negligible — not significant at 5%** |
 
 Next, whether the variables actually move together. Pearson's r on two required
 pairs plus a third for support, with scatter plots and fitted trendlines.
@@ -330,7 +433,23 @@ revenue could both be driven by something we can't see in this data. What we can
 say is that the association is strong and consistent across 57 months — not that
 one causes the other.
 
-*[Switch to the ToolPak regression output.]*
+*[The regression output — show your own ToolPak run, or this.]*
+
+Caption: Simple linear regression of monthly revenue on monthly order count.
+
+| Statistic | Value |
+| --- | --- |
+| Sample size n | 57 months |
+| Slope (b) | **5,224.25** |
+| Intercept (a) | −1,353.65 |
+| Correlation r | 0.9227 |
+| **R²** | **0.8514** |
+| Standard error of estimate | 15,099.14 |
+| Standard error of slope | 294.35 |
+| **t statistic** | **17.75** |
+| Degrees of freedom | 55 |
+| **p-value** | **1.98 × 10⁻²⁴** |
+| Significant at 5%? | **Yes** |
 
 So then we regressed monthly revenue on monthly order count, over those 57
 complete months. The equation is:
@@ -367,7 +486,18 @@ it says nothing about why orders fell; it's fitted on 57 monthly points, which
 isn't many; and it shouldn't be extrapolated beyond the range of order counts we
 actually observed.
 
-*[Switch to Figure 2, with the regime shading.]*
+*[The trend chart — have this on screen.]*
+
+Caption: The trend in two regimes. Growth to the late-2022 peak, then a plateau; the forecast and the two holdout months are at the right.
+
+![](docs/figures/cp2_fig4_forecast.png)
+
+Caption: The two regimes, measured on revenue per month.
+
+| Regime | Period | Revenue per month | Change |
+| --- | --- | --- | --- |
+| **Growth** | 2020 → 2022 | 92,934.44 → 121,647.92 | **+30.9%** |
+| **Plateau** | 2022 → 2024 | 121,647.92 → 100,206.50 | **−17.6%**, then flat |
 
 Last, the trend itself — which is what our topic is named after, so I want to be
 precise about what we found and what we didn't.
@@ -392,7 +522,36 @@ nearly horizontal. Reporting that honestly, and refusing to project a growth
 rate we can't demonstrate, is the correct handling. Projecting one anyway would
 be inventing a number.
 
-*[Switch to the forecast chart.]*
+*[The seasonal indices and the forecast — have these on screen. The chart is the same one as above.]*
+
+Caption: Seasonal index by calendar month, April 2020 to December 2024.
+
+| Month | Index | Reading | Month | Index | Reading |
+| --- | --- | --- | --- | --- | --- |
+| January | 0.679 | Weak | July | 0.966 | Average |
+| February | 0.889 | Weak | August | 1.006 | Average |
+| March | 1.025 | Average | September | 0.793 | Weak |
+| April | 1.103 | Peak | October | 1.229 | Peak |
+| May | 1.131 | Peak | November | 0.878 | Weak |
+| June | 1.028 | Average | December | 1.273 | Peak |
+
+Caption: Six-period forecast, with the two complete holdout months compared.
+
+| Period | Index | Forecast | Actual | Error | Status |
+| --- | --- | --- | --- | --- | --- |
+| 2025-01 | 0.679 | 68,853 | 112,906 | **−39.0%** | Complete — comparable |
+| 2025-02 | 0.889 | 90,064 | 84,712 | **+6.3%** | Complete — comparable |
+| 2025-03 | 1.025 | 103,870 | 52,198 | — | Partial month — not comparable |
+| 2025-04 | 1.103 | 111,806 | — | — | Future |
+| 2025-05 | 1.131 | 114,574 | — | — | Future |
+| 2025-06 | 1.028 | 104,156 | — | — | Future |
+
+Caption: Forecast accuracy over the two complete holdout months.
+
+| Model | Jan error | Feb error | Mean absolute error |
+| --- | --- | --- | --- |
+| Seasonal (level × index) | −39.0% | +6.3% | **22.7%** |
+| Flat (level only) | −10.2% | +19.6% | **14.9%** |
 
 So the forecast is built on level and seasonality instead. We computed monthly
 seasonal indices — January comes out at 0.679, October at 1.229, December at
@@ -423,7 +582,15 @@ was a mistake of our own.
 
 # Part 5 — Alber
 
-*[The correction table from the Checkpoint 2 report on screen.]*
+*[The correction — have this on screen.]*
+
+Caption: Which Checkpoint 1 findings the correction affects.
+
+| Affected | Unaffected |
+| --- | --- |
+| The 2020→2022 growth figure, 69.9% → 30.9% | The −17.6% peak-to-2024 decline — both are full years |
+| March's seasonal index, 0.876 → 1.025 | Printers −136,865; Electronics −40.8% |
+| | Category-specific seasonality; the geography finding |
 
 This part we're raising ourselves, because volunteering an error is worth more
 than having somebody find it.
@@ -444,7 +611,22 @@ Checkpoint 1 has been reissued with an is_complete_month flag and a per-month
 column in Query 3, so the mistake can't happen again. And it's documented in the
 Checkpoint 2 report either way.
 
-*[Switch to the findings summary.]*
+*[The findings summary — have this on screen.]*
+
+Caption: What the two checkpoints found.
+
+| # | Finding | From |
+| --- | --- | --- |
+| 1 | Growth stopped in 2022, but margin and average order value never moved — fewer orders, not worse ones | Q3 |
+| 2 | Printers lost 136,865, over half the entire gap; all Electronics fell, all Office Supplies grew | Q5, Q7 |
+| 3 | Seasonality is category-specific — Electronics peaks in Q2, the others in Q4 | Q4, Q8 |
+| 4 | Geography is not a factor — state revenue spans only 28% | Q6 |
+| 5 | Order count drives revenue: r = 0.923, R² = 0.851, p < 0.001 | Regression |
+| 6 | Units sold predicts nothing: r = 0.045, p = 0.123 | Correlation |
+| 7 | Revenue is a poor proxy for profit — CV 82.9% against 54.2% | Descriptive stats |
+| 8 | The trend runs in two regimes; one line across both explains under 1% | Trend test |
+| 9 | The four-order gap is worth about 250,000 a year, corroborating Q7's 257,297 | Regression |
+| 10 | The seasonal forecast did not beat a flat average | Holdout |
 
 So with that correction made, here's what the analysis actually tells this
 business. Three recommendations, and each one is tied to a measurement rather

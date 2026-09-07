@@ -22,8 +22,9 @@ If you need it shorter, cut the six limitations in Part 4 down to one line and
 drop three of the eight questions in Part 5; that takes off about three minutes
 without losing a task.
 
-*Lines in italics inside brackets are stage directions — what to have on screen.
-Do not read them aloud.*
+*Lines in italics inside brackets are stage directions, and the tables and
+charts under them are the exhibits to have on screen at that moment. Do not read
+any of it aloud — the spoken lines are the plain paragraphs.*
 
 **One thing before you record.** Section 3.2 of the brief says AI-generated
 analysis is not permitted. This script was drafted with AI help, so change the
@@ -43,7 +44,14 @@ card at the head of each part.
 
 # Part 2 — Julebeth
 
-*[The raw CSV on screen, first 15–20 rows.]*
+*[The raw file — have the CSV open, or show this extract.]*
+
+Caption: The raw export. The first two rows share one Order ID across different dates and customers.
+
+| Order ID | Amount | Profit | Qty | Category | Sub-Category | Payment | Order Date | Customer | State | City |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| B-26776 | 9,726 | 1,275 | 5 | Electronics | Electronic Games | UPI | 2023-06-27 | David Padilla | Florida | Miami |
+| B-26776 | 9,726 | 1,275 | 5 | Electronics | Electronic Games | UPI | 2024-12-27 | Connor Morgan | Illinois | Chicago |
 
 I'm Julebeth, and I'll take it from the raw file.
 
