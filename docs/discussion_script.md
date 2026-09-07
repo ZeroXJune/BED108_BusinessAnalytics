@@ -6,15 +6,19 @@ Talibon Polytechnic College
 | Part | Speaker | Covers | Approx |
 | --- | --- | --- | --- |
 | 1 | Alber | Opening; the business problem | 3:00 |
-| 2 | Julebeth | Checkpoint 1 — the dataset, the database, the queries | 8:45 |
-| 3 | Alber | The Checkpoint 2 workbook | 1:30 |
-| 4 | Mardy | Checkpoint 2 — statistics, correlation, regression, the trend | 8:30 |
+| 2 | Julebeth | Checkpoint 1 — the dataset and its five problems | 3:30 |
+| 3 | Mardy | Checkpoint 1 — the database, and the eight queries | 5:30 |
+| 4 | Alber | Checkpoint 2 — the workbook, statistics, regression, the trend | 10:00 |
 | 5 | Alber | The correction, what it means, the questions, the close | 6:00 |
 
-About **28 minutes** at a normal speaking pace — Alber 10:30 across his three
-parts, Julebeth 8:45, Mardy 8:30. If you need it shorter, cut the six
-limitations down to one line in Part 4 and drop three of the eight questions in
-Part 5; that takes off about three minutes without losing a task.
+About **28 minutes** at a normal speaking pace. Alber carries Checkpoint 2 and
+the framing — 19 minutes across three files — while Julebeth and Mardy split
+Checkpoint 1 between them. Alber's Part 4 is the long one, so record it in two
+sittings if you need to; there is a natural break after the regression.
+
+If you need it shorter, cut the six limitations in Part 4 down to one line and
+drop three of the eight questions in Part 5; that takes off about three minutes
+without losing a task.
 
 *Lines in italics inside brackets are stage directions — what to have on screen.
 Do not read them aloud.*
@@ -150,7 +154,16 @@ stated it, we proved it, and we carried it through as a limitation. The method
 isn't affected — every query and every statistic in this project would run
 exactly the same way on real data.
 
-*[Switch to the ERD.]*
+That is the state of the raw data we started from. What we built out of it
+next was a proper database.
+
+---
+
+# Part 3 — Mardy
+
+*[The ERD on screen.]*
+
+I'm Mardy, and I'll take the database and the queries.
 
 So we normalised that flat file into a star schema. One fact table, seven
 dimension tables around it — eight in total. The fact table is sales, one row per
@@ -234,12 +247,14 @@ to be a discovery — this one tells the business where not to spend its effort.
 So that was Checkpoint 1 — what happened. Checkpoint 2 takes the same data into
 Excel and asks how strong the evidence actually is, and what we can predict.
 
-# Part 3 — Alber
+---
+
+# Part 4 — Alber
 
 *[The workbook on screen — Cleaned Data sheet.]*
 
-The first thing Checkpoint 2 needed was the workbook itself, built on the same
-dataset, which the brief requires.
+So, Checkpoint 2. The first thing it needed was the workbook itself, built
+on the same dataset, which the brief requires.
 
 It has thirteen sheets. And there's one design decision in it worth explaining,
 because it's the one we'd defend if asked.
@@ -265,15 +280,9 @@ workbook tells you.
 
 With the data laid out that way and checked, we could run the statistics on it.
 
----
+*[Switch to the Amount histogram.]*
 
-# Part 4 — Mardy
-
-*[The Amount histogram on screen.]*
-
-I'm Mardy, and I'll take the analysis.
-
-The first thing we asked of that data was simply what it looks like. Three
+So the first thing we asked of that data was simply what it looks like. Three
 numerical variables — Amount, Profit and Quantity — and for each one we have the
 mean, median and mode, standard deviation, variance, range, quartiles, the
 interquartile range and the coefficient of variation, plus a frequency
@@ -409,6 +418,8 @@ measured our own error, and it's 22.7 percent.
 
 Building that monthly series also turned up something nobody expected. And it
 was a mistake of our own.
+
+---
 
 # Part 5 — Alber
 
