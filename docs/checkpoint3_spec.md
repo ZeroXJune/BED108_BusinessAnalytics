@@ -1,171 +1,261 @@
-# Checkpoint 3 — BI Dashboard: data layer and specification
+# Checkpoint 3 — BI Dashboard Development
 
 **BED 106 Business Analytics — Mini Capstone Project**
+Semi-Final Period · Weeks 10–13 · 100 Points
 
-This document covers the part of Checkpoint 3 that is the same whichever BI
-tool the dashboard is built in: the data the dashboard reads, the exact
-definition of every measure on it, and the layout that answers the three
-business questions. Building the visuals in Power BI, Tableau or Looker Studio
-is the step after this one.
+Everything for Checkpoint 3 that can be prepared before Power BI is opened: the
+Task 3.1 blueprint, the data the dashboard reads, the Task 3.3 segmentation
+already computed and validated, the DAX for every measure, and a page-by-page
+build order.
 
-> **Assumption stated up front.** The project brief's Checkpoint 3 task list is
-> not in this repository — only Checkpoints 1 and 2 were transcribed into
-> `docs/rubric_compliance.md`. This specification is built from what
-> Checkpoints 1 and 2 established, and from the brief's stated shape for
-> Checkpoint 3 (a BI dashboard, Semi-Final phase). Check it against the brief's
-> actual Task 3.x list before building, and tell me what differs.
+What only the group can do is build the visuals, export the `.pbix` and the PDF,
+write the interpretations in your own words, and present. Those are marked at
+each step below.
 
 ---
 
-## 1. The data layer
+## Task 3.1 — Dashboard Design Blueprint
 
-Five SQL views in `sql/06_dashboard_views.sql`, exported to CSV in
-`data/dashboard/` by `scripts/build_dashboard_data.py`. Connect a BI tool to
+The brief asks for a wireframe showing the layout of each page, the title and
+purpose of each, the visual types planned, and at least two interactive
+elements. All four are on the blueprint below.
+
+Caption: Dashboard blueprint. Three pages, their visuals, and the slicers acting on each.
+
+![](docs/figures/cp3_fig3_wireframe.png)
+
+| Page | Title | Purpose — the question it answers |
+| --- | --- | --- |
+| 1 | Executive Summary | Is the company still growing, and by how much has it slipped? |
+| 2 | Trend & Comparison | Which categories and sub-categories drive the trend? |
+| 3 | Deep Dive & Segmentation | Who are the customers and what are the product segments? |
+
+**Visual types planned**
+
+| Page | Visual | Type | Shows |
+| --- | --- | --- | --- |
+| 1 | Four KPI cards | Card | Orders/month, revenue/month, margin %, gap to peak |
+| 1 | Revenue per month | Line | The 57-month series with the two regimes |
+| 1 | Year summary | Table | Per-year figures with `months_covered` |
+| 2 | Revenue by category | Line | Three categories over time |
+| 2 | Sub-category change | Bar | 2023 against 2024, sorted |
+| 2 | Quarter share by category | Column, small multiples | Seasonality, split by category |
+| 2 | Margin by sub-category | Bar | Ranks differently from revenue |
+| 3 | Sub-category segments | Scatter, bubble | k-means clusters, Task 3.3 |
+| 3 | Customer segments | Scatter | k-means clusters, Task 3.3 |
+| 3 | Segment profile | Table | n, revenue and margin per segment |
+| 3 | State revenue | Map | The 28% spread — geography is not a driver |
+| 3 | Quantity against amount | Scatter | r = 0.045, the negative result |
+
+**Interactive elements** — the brief asks for at least two:
+
+- **Slicers on three dimensions** — period (year and month), category and
+  sub-category, and geography (state). Page 3 adds a **segment** slicer, which
+  is that page's spine: selecting a segment refilters every visual on it
+- **Drill-through from Page 2 to Page 3** — right-clicking any sub-category bar
+  opens Page 3 filtered to that sub-category
+- **Cross-filtering** between visuals on the same page, left on by default
+
+---
+
+## Task 3.2 — The data the dashboard reads
+
+Five views in `sql/06_dashboard_views.sql`, exported to CSV in
+`data/dashboard/` by `scripts/build_dashboard_data.py`. Connect Power BI to
 MySQL and use the views, or load the CSVs — they are the same rows.
 
-| View / file | Grain | Rows | For |
+| View / file | Grain | Rows | Used by |
 | --- | --- | --- | --- |
-| `v_sales_detail` · `sales_detail.csv` | One transaction line, fully labelled | 1,194 | Anything the aggregates do not cover |
-| `v_monthly` · `monthly.csv` | One complete calendar month | 59 | Every trend visual |
-| `v_category_month` · `category_month.csv` | Month × sub-category | 562 | The mix visuals |
-| `v_geography` · `geography.csv` | State × city | 18 | The map, and the "not a factor" check |
-| `v_annual` · `annual.csv` | One year in the analysis window | 5 | The year-on-year summary |
+| `v_sales_detail` · `sales_detail.csv` | One transaction line, labelled | 1,194 | Page 3 scatter, anything ad hoc |
+| `v_monthly` · `monthly.csv` | One complete calendar month | 59 | Page 1 line chart, KPI cards |
+| `v_category_month` · `category_month.csv` | Month × sub-category | 562 | All of Page 2 |
+| `v_geography` · `geography.csv` | State × city | 18 | Page 3 map |
+| `v_annual` · `annual.csv` | One year in the analysis window | 5 | Page 1 table |
+| `customer_segments.csv` | One customer | 807 | Page 3, from `build_segments.py` |
+| `subcategory_segments.csv` | One sub-category | 12 | Page 3, from `build_segments.py` |
 
-**Two things in the data layer are deliberate and worth being able to defend.**
+**Two things in the data layer are deliberate, and both are defensible.**
 
-**`v_monthly` returns 59 rows, and 57 of them are the analysis window.**
-`is_complete_month` admits January and February 2025 — whole months that sit
-outside the window the Checkpoint 2 regression was fitted on. They are the two
-holdout months the forecast was tested against. The `in_analysis_window` column
-marks the 57 months (April 2020 to December 2024), so a dashboard filtered on
-that column agrees with the Checkpoint 2 report exactly, and one that is not can
-still show the holdout. Default the filter to the 57.
+`v_monthly` returns 59 rows, not 57. `is_complete_month` admits January and
+February 2025 — whole months that sit outside the window the Checkpoint 2
+regression was fitted on, and which are the two holdout months the forecast was
+tested against. The `in_analysis_window` column marks the 57 months from April
+2020 to December 2024. **Default every trend visual to that filter**, or the
+dashboard will disagree with the Checkpoint 2 report.
 
-**`v_annual` excludes 2025 outright.** Two months of 2025 would produce a
-revenue-per-month figure that looks comparable to a full year and is not. This
-is the same class of mistake as the Checkpoint 1 correction, and the view is
-built so it cannot be made.
+`v_annual` excludes 2025 outright, because two months of it would produce a
+revenue-per-month figure that looks comparable to a full year. That is the same
+class of mistake as the Checkpoint 1 correction, and the view is built so it
+cannot be made.
 
-`scripts/build_dashboard_data.py` verifies ten figures against the published
-reports before it writes anything — row count, total revenue, the analysis
-window, each year's revenue per month, the Printer collapse, the state count —
-and exits non-zero if any has drifted. Run it before every rebuild.
+`scripts/build_dashboard_data.py` verifies ten published figures before writing
+anything and exits non-zero if any has drifted. Run it before every rebuild.
 
----
+### The measures, as DAX
 
-## 2. Measure definitions
+Load `monthly.csv` as `Monthly`, `category_month.csv` as `CategoryMonth`,
+`annual.csv` as `Annual`, `sales_detail.csv` as `Sales`, and the two segment
+files as `CustomerSegments` and `SubcategorySegments`.
 
-Every number on the dashboard, with its formula and its value today. A measure
-not on this list does not belong on the dashboard.
+```
+Revenue          = SUM ( Sales[amount] )
+Profit           = SUM ( Sales[profit] )
+Orders           = COUNTROWS ( Sales )
+Margin %         = DIVIDE ( [Profit], [Revenue] ) * 100
+Avg Line Value   = DIVIDE ( [Revenue], [Orders] )
 
-| Measure | Definition | Current value |
+Months Covered   = DISTINCTCOUNT ( Monthly[year_month] )
+Revenue / Month  = DIVIDE ( [Revenue], [Months Covered] )
+Orders / Month   = DIVIDE ( [Orders], [Months Covered] )
+
+Peak Rev / Month =
+    CALCULATE ( [Revenue / Month], Annual[year_number] = 2022 )
+Gap to Peak %    =
+    DIVIDE ( [Revenue / Month] - [Peak Rev / Month], [Peak Rev / Month] ) * 100
+
+-- The Checkpoint 2 regression slope, as a constant. Changing it means
+-- refitting the model, not editing this line.
+Gap Value / Year =
+    ( [Peak Rev / Month] - [Revenue / Month] ) / 5224.25 * 5224.25 * 12
+```
+
+Always divide by `Months Covered`, never by 12. 2020 holds nine months.
+
+**Expected values, to check the KPI cards against** — if a card disagrees with
+this table, the model is wrong, not the table:
+
+| Measure | 2024 | 2022 peak |
 | --- | --- | --- |
-| **Orders per month** | `transaction_lines ÷ months_covered` | **20.0** (2024) |
-| **Revenue per month** | `SUM(amount) ÷ months_covered` | **100,206.50** (2024) |
-| **Margin %** | `SUM(profit) ÷ SUM(amount) × 100` | **25.64%** (2024) |
-| **Average line value** | `SUM(amount) ÷ COUNT(lines)` | **5,010.33** (2024) |
-| **Peak-to-current gap** | 2022 revenue/month − 2024 revenue/month | **−21,441.42**, −17.6% |
-| **Order gap** | 2022 orders/month − 2024 orders/month | **4.0 orders** |
-| **Gap value** | Order gap × regression slope (5,224.25) × 12 | **~250,000 a year** |
-| **Revenue per customer** | `SUM(amount) ÷ COUNT(DISTINCT customer)` | Per city, in `v_geography` |
+| Orders per month | 20.0 | 24.0 |
+| Revenue per month | 100,206.50 | 121,647.92 |
+| Margin % | 25.64 | 26.93 |
+| Average line value | 5,010.33 | 5,068.66 |
+| Gap to peak | −17.6% | — |
 
-Measure the trend **per month**, never per year. 2020 holds nine months. Every
-per-year total in this project is divided by `months_covered` for that reason,
-and the dashboard must do the same.
+**ACTION for the group:** build the three pages, title and label every visual,
+add a source note ("Source: sales_trend database, 1,194 transaction lines,
+March 2020 – March 2025"), export the `.pbix` and a PDF of all pages.
 
 ---
 
-## 3. Which KPI goes at the top, and why
+## Task 3.3 — Clustering and segmentation
 
-Checkpoint 2 settled this, and it is the single most defensible design decision
-on the dashboard.
+Two k-means segmentations, both reproducible from a fixed seed by
+`scripts/build_segments.py`. The brief allows Excel, Python or the built-in
+Power BI clustering; this uses Python.
 
-**Order count is the primary KPI, not revenue.** Order count explains 85% of the
-month-to-month variation in revenue (r = 0.9227, R² = 0.8514, p = 1.98 × 10⁻²⁴),
-it is the leading indicator, and it is the thing the business can act on.
-Revenue is what happens as a result.
+**How k was chosen.** Silhouette score across k = 2 to 6, then selected within
+the 2–3 the brief asks for. The full scan is printed by the script rather than
+hidden:
 
-**Segment on margin, not revenue.** Only about 46% of profit variation tracks
-revenue (r = 0.6753), and profit is far more variable than revenue (CV 82.9%
-against 54.2%). A dashboard that ranks anything by revenue alone will point
-management at the wrong accounts — Checkpoint 1's Q1 found lines returning 414
-and 4,339 profit on near-identical revenue.
+| k | Customers | Sub-categories |
+| --- | --- | --- |
+| 2 | 0.240 | 0.120 |
+| **3** | **0.277** | **0.155** |
+| 4 | 0.281 | 0.175 |
+| 5 | 0.295 | 0.326 |
+| 6 | 0.280 | 0.362 |
 
-**Do not put a single blended seasonality curve on the dashboard.** Electronics
-peaks in Q2 at 30.79% of its annual revenue; Furniture and Office Supplies peak
-in Q4 at 30.84% and 32.16%. One curve is wrong for all three. Seasonality
-visuals must be split by category or not shown.
+Be ready to defend this. On customers, k=5 scores 0.295 against k=3's 0.277 — a
+difference too small to buy back the interpretability of five segments, two of
+which came out with the same profile. On twelve sub-categories, k=6 leaves two
+members per cluster, which is a partition rather than a segmentation.
 
----
+### Customer segments — 807 customers
 
-## 4. Dashboard layout
+Clustered on total revenue, margin and recency, each standardised.
 
-Four pages, each answering something specific. The business question each one
-serves is named, because a visual that answers no question does not earn its
-space.
+Caption: Customer segments. Value separates one cluster; margin separates the other two.
 
-### Page 1 — Executive summary
+![](docs/figures/cp3_fig1_customer_segments.png)
 
-*Answers: is the company still growing?*
+| Segment | n | % of customers | % of revenue | % of profit | Margin |
+| --- | --- | --- | --- | --- | --- |
+| **High-Value Accounts** | 146 | 18.1% | 38.4% | 38.7% | 26.2% |
+| **High-Margin Buyers** | 311 | 38.5% | 28.9% | **42.6%** | 38.5% |
+| **Thin-Margin Buyers** | 350 | 43.4% | 32.7% | **18.7%** | 14.9% |
 
-- **KPI row**, five tiles: orders per month, revenue per month, margin %,
-  average line value, and the peak-to-current gap. Each against the 2022 peak,
-  not against last month
-- **The trend line**, revenue per month across the 57-month window, with the two
-  regimes marked — growth to the late-2022 peak, then the plateau. This is the
-  headline visual of the whole project
-- **Year summary table** from `v_annual`, showing `months_covered` as a column
-  so nobody compares a nine-month 2020 against a full year
+**The business significance, and it is the finding of Checkpoint 3.** Thin-Margin
+Buyers are the largest group — 43% of customers and a third of revenue — and
+they return **19% of the profit**. High-Margin Buyers are a smaller group
+producing **43% of profit from less revenue**. A sales effort aimed at revenue
+would chase the wrong group of the two. This is the customer-level form of the
+Checkpoint 2 finding that revenue is a poor proxy for profit, and it converts
+that statistic into a list of named accounts.
 
-### Page 2 — Product mix
+**Two honest notes to carry into the defence.** Recency separated nothing — every
+cluster centre sits within 0.11 standard deviations of the mean on it — so there
+are no "lapsed" or "active" segments to claim. And purchase frequency spans only
+1 to 4 lines (510 customers bought once), too little spread to carry a segment
+boundary, which is why it was not clustered on. Both are consequences of the
+synthetic dataset documented in Checkpoint 1.
 
-*Answers: which categories and sub-categories drive the trend?*
+### Sub-category segments — 12 sub-categories
 
-- **Sub-category change, 2023 against 2024**, sorted by absolute change. Printers
-  at −136,865 and Paper at +85,689 are the two ends
-- **Category revenue over time**, three lines, so the opposite trends are visible
-  rather than averaged away
-- **Margin by sub-category**, since the ranking here differs from the revenue
-  ranking and that difference is the point
-- Filters: category, sub-category, year
+Clustered on total revenue, 2023-to-2024 growth, and margin.
 
-### Page 3 — Seasonality
+Caption: Sub-category segments. Growth separates the two ends; the middle cluster is defined by margin.
 
-*Answers: when does demand concentrate, and is the pattern the same everywhere?*
+![](docs/figures/cp3_fig2_subcategory_segments.png)
 
-- **Quarter share by category**, a small-multiple or grouped bar — one panel per
-  category, never one blended line
-- **Monthly seasonal index**, January 0.679 to December 1.273
-- **Orders against average line value by month**, which shows that the Q4 peak is
-  a throughput problem rather than a basket-size one: December records the most
-  lines of any month at 133, on an average line value of 4,928 — below the annual
-  range
+| Segment | Members | 2023 → 2024 |
+| --- | --- | --- |
+| **Growth Engines** | Markers, Paper, Pens, Sofas, Tables | 452,521 → 634,777, **+40.3%** |
+| **Low-Margin Niche** | Binders, Phones | 180,351 → 187,537, +4.0% |
+| **Declining Lines** | Bookcases, Chairs, Electronic Games, Laptops, Printers | 596,851 → 380,164, **−36.3%** |
 
-### Page 4 — Geography and the negative results
+The segmentation recovers Checkpoint 1's central finding without being told it:
+the two large clusters move in opposite directions, +40.3% against −36.3%, and
+the company-wide figure is their average. Printers sit at the far edge of
+Declining Lines at −71.0%.
 
-*Answers: what did we rule out?*
+The middle cluster is named for margin, not growth: Binders grew 36.6% and
+Phones fell 14.1%, so "stable" would be wrong. What its two members share is
+low margin and small scale.
 
-- **State and city revenue**, showing the 28% spread that makes geography a
-  non-factor. Include it so a viewer can verify the claim rather than take it
-- **Quantity against amount scatter**, r = 0.0446, p = 0.123 — the "sell more
-  units" strategy that the data does not support
-- **The forecast and its holdout**, with the seasonal model's 22.7% mean absolute
-  error against the flat average's 14.9% shown honestly
-
-A dashboard that only shows what worked is a sales deck. Page 4 is what makes it
-analysis.
+**ACTION for the group:** put both scatter plots on Page 3, add the segment
+slicer, and write the business significance of each segment in your own words.
 
 ---
 
-## 5. What is still open
+## Task 3.4 — Presentation
 
-**The tool.** Power BI, Tableau and Looker Studio all read `data/dashboard/*.csv`
-directly, and all three connect to MySQL if the brief prefers a live connection.
-The data layer does not change; only the build does. Confirm what the brief or
-the instructor requires.
+Ten minutes, during Weeks 12–13. The brief requires all three pages walked
+through, at least one interactive feature demonstrated live, at least two
+questions answered, and **every member speaking**.
 
-**The brief's Task 3.x list.** See the assumption at the top of this document.
+`docs/discussion_script.md` already covers the project's findings across three
+speakers and can be cut down for this. The live demonstration should be the
+**segment slicer on Page 3** — selecting Thin-Margin Buyers and showing the
+profit share collapse is the most persuasive thing on the dashboard.
 
-**Screenshots and interpretations.** As with both earlier checkpoints, Section
-3.2 requires the written interpretation of every visual to be the group's own
-words, and Section 3.1 requires numbered, captioned figures.
+Questions to expect: why order count rather than revenue as the headline KPI;
+why three clusters and not five; whether the segments would hold on real data.
+The answers to the first two are above; the answer to the third is no, and
+saying so is better than pretending otherwise.
+
+---
+
+## Rubric map
+
+| Criterion | Points | Where |
+| --- | --- | --- |
+| Dashboard Design & Usability | 30 | Blueprint above; **ACTION: build it** |
+| Data Accuracy | 25 | Views verified against ten published figures; DAX and expected KPI values above |
+| Insights & Storytelling | 25 | Page purposes above; **ACTION: the narrative in your own words** |
+| Documentation | 20 | This document is the written report's spine; **ACTION: wireframe printed, `.pbix` and PDF exported** |
+
+### Submission checklist
+
+- Printed report: blueprint wireframe plus the discussion of insights and segmentation
+- Dashboard file: `.pbix`, submitted digitally
+- Exported PDF of all three dashboard pages
+- Updated signed Individual Contribution Form — `reports/Form_A_Individual_Contribution.docx`
+- Live presentation, Week 12 or 13
+- Deadline: beginning of Week 14
+
+### And the standing constraint
+
+Section 3.2 still applies. The interpretation of every visual must be the
+group's own words. The segmentation numbers above are computed output and the
+DAX is tooling; what has to be yours is the reading of them.

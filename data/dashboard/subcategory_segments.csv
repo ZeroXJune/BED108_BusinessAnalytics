@@ -1,0 +1,13 @@
+sub_category_name,category_name,revenue_total,revenue_2023,revenue_2024,growth_pct,margin_pct,cluster,segment
+Paper,Office Supplies,524755.0,57368.0,143057.0,149.37,28.53,2,Growth Engines
+Pens,Office Supplies,552269.0,82959.0,116900.0,40.91,23.51,2,Growth Engines
+Binders,Office Supplies,384611.0,64442.0,88011.0,36.57,25.29,1,Low-Margin Niche
+Tables,Furniture,625177.0,119400.0,155834.0,30.51,25.08,2,Growth Engines
+Markers,Office Supplies,627875.0,100742.0,120002.0,19.12,27.83,2,Growth Engines
+Sofas,Furniture,568367.0,92052.0,98984.0,7.53,25.13,2,Growth Engines
+Chairs,Furniture,431964.0,87711.0,86185.0,-1.74,28.45,0,Declining Lines
+Laptops,Electronics,419950.0,85109.0,75135.0,-11.72,26.26,0,Declining Lines
+Bookcases,Furniture,413165.0,86730.0,74875.0,-13.67,28.56,0,Declining Lines
+Phones,Electronics,503055.0,115909.0,99526.0,-14.13,22.58,1,Low-Margin Niche
+Electronic Games,Electronics,565092.0,144484.0,88017.0,-39.08,26.27,0,Declining Lines
+Printers,Electronics,566359.0,192817.0,55952.0,-70.98,25.82,0,Declining Lines

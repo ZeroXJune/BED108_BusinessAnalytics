@@ -1,0 +1,808 @@
+customer_id,customer_name,city_name,state_name,transaction_lines,revenue,profit,margin_pct,recency_days,cluster,segment
+1,David Padilla,Miami,Florida,2,14701.0,2605.0,17.72,627,0,High-Value Accounts
+2,Connor Morgan,Chicago,Illinois,2,14701.0,2605.0,17.72,78,0,High-Value Accounts
+3,Robert Stone,Buffalo,New York,2,14701.0,2605.0,17.72,1329,0,High-Value Accounts
+4,John Fields,Orlando,Florida,1,1525.0,185.0,12.13,308,2,Thin-Margin Buyers
+5,Clayton Smith,Miami,Florida,1,1525.0,185.0,12.13,1253,2,Thin-Margin Buyers
+6,Richard Kelley,Los Angeles,California,2,9010.0,3668.0,40.71,848,1,High-Margin Buyers
+7,Jacqueline Hubbard,New York City,New York,1,2516.0,734.0,29.17,489,1,High-Margin Buyers
+8,Jessica Anderson,New York City,New York,1,2975.0,462.0,15.53,1818,2,Thin-Margin Buyers
+9,Mary Taylor,Orlando,Florida,3,15500.0,3936.0,25.39,1776,0,High-Value Accounts
+10,Walter Crawford,Springfield,Illinois,2,15101.0,1360.0,9.01,492,0,High-Value Accounts
+11,Lawrence Robinson,Rochester,New York,2,7926.0,2818.0,35.55,75,1,High-Margin Buyers
+12,Douglas Pennington,Dallas,Texas,1,1629.0,265.0,16.27,32,2,Thin-Margin Buyers
+13,Ricardo Andrews,San Diego,California,1,1629.0,265.0,16.27,417,2,Thin-Margin Buyers
+14,Paul Raymond,San Diego,California,2,11910.0,3865.0,32.45,1568,0,High-Value Accounts
+15,Karen Johnson,Rochester,New York,3,22018.0,2130.0,9.67,289,0,High-Value Accounts
+16,Juan Erickson,Austin,Texas,1,4206.0,1821.0,43.3,1147,1,High-Margin Buyers
+17,Alexander Reed,New York City,New York,1,5219.0,1180.0,22.61,1184,2,Thin-Margin Buyers
+18,Jacqueline Harris,San Francisco,California,1,5219.0,1180.0,22.61,771,2,Thin-Margin Buyers
+19,Tyler Park,San Francisco,California,1,3686.0,760.0,20.62,867,2,Thin-Margin Buyers
+20,Richard Wolfe,Columbus,Ohio,1,3686.0,760.0,20.62,1155,2,Thin-Margin Buyers
+21,Sierra Rios,Orlando,Florida,2,15382.0,2160.0,14.04,457,0,High-Value Accounts
+22,Jessica Richardson,San Diego,California,2,9062.0,2714.0,29.95,621,1,High-Margin Buyers
+23,Kimberly Warren,Cincinnati,Ohio,2,9062.0,2714.0,29.95,1407,1,High-Margin Buyers
+24,Casey Garcia,Orlando,Florida,2,7090.0,1593.0,22.47,890,2,Thin-Margin Buyers
+25,Denise Hampton,San Francisco,California,3,18497.0,7046.0,38.09,221,0,High-Value Accounts
+26,Justin Rodriguez,Cleveland,Ohio,2,11156.0,2837.0,25.43,1165,0,High-Value Accounts
+27,Ms. Emily Baxter,Rochester,New York,2,11156.0,2837.0,25.43,1610,0,High-Value Accounts
+28,Austin White,Los Angeles,California,2,11156.0,2837.0,25.43,572,0,High-Value Accounts
+29,Morgan Montes,San Diego,California,2,12773.0,1587.0,12.42,78,0,High-Value Accounts
+30,Christine Mosley,Cincinnati,Ohio,2,12773.0,1587.0,12.42,1366,0,High-Value Accounts
+31,Ashley Rodriguez,Austin,Texas,2,12773.0,1587.0,12.42,658,0,High-Value Accounts
+32,Elizabeth King,Dallas,Texas,2,12773.0,1587.0,12.42,1250,0,High-Value Accounts
+33,Connie Holmes,Cincinnati,Ohio,1,2463.0,648.0,26.31,908,2,Thin-Margin Buyers
+34,Melissa Peck,Miami,Florida,1,7811.0,1538.0,19.69,1086,2,Thin-Margin Buyers
+35,David Smith,Orlando,Florida,3,19214.0,5355.0,27.87,1113,0,High-Value Accounts
+36,Jacqueline Harris,Houston,Texas,3,19214.0,5355.0,27.87,1440,0,High-Value Accounts
+37,Heather Jenkins,Buffalo,New York,3,8001.0,2382.0,29.77,1580,1,High-Margin Buyers
+38,Kelsey Castaneda,Cleveland,Ohio,4,11754.0,1736.0,14.77,93,0,High-Value Accounts
+39,Katherine Harris,Los Angeles,California,4,11754.0,1736.0,14.77,709,2,Thin-Margin Buyers
+40,Paul Rogers,Miami,Florida,2,8825.0,695.0,7.88,412,2,Thin-Margin Buyers
+41,Jon Banks,Tampa,Florida,1,1126.0,55.0,4.88,1154,2,Thin-Margin Buyers
+42,Michelle Williams,Buffalo,New York,1,1126.0,55.0,4.88,820,2,Thin-Margin Buyers
+43,Andrew Allen,San Diego,California,4,18675.0,6345.0,33.98,611,0,High-Value Accounts
+44,Vanessa Bauer,Buffalo,New York,2,11389.0,4343.0,38.13,5,1,High-Margin Buyers
+45,Sean Smith,Cleveland,Ohio,2,11389.0,4343.0,38.13,172,1,High-Margin Buyers
+46,Shelly Sweeney,New York City,New York,2,6396.0,1897.0,29.66,1797,1,High-Margin Buyers
+47,Emily Gill,Springfield,Illinois,1,1591.0,727.0,45.69,992,1,High-Margin Buyers
+48,Brian Patrick,Tampa,Florida,1,1591.0,727.0,45.69,1462,1,High-Margin Buyers
+49,Dr. Sarah Booth,Cincinnati,Ohio,1,1591.0,727.0,45.69,1116,1,High-Margin Buyers
+50,Douglas Mcfarland,Cleveland,Ohio,1,1757.0,622.0,35.4,1082,1,High-Margin Buyers
+51,Kayla Ross,Peoria,Illinois,1,1757.0,622.0,35.4,846,1,High-Margin Buyers
+52,Marc Strickland,Orlando,Florida,2,12045.0,718.0,5.96,1219,2,Thin-Margin Buyers
+53,Charlene Brown,Miami,Florida,1,5578.0,277.0,4.97,1306,2,Thin-Margin Buyers
+54,Charles Smith,Columbus,Ohio,1,5578.0,277.0,4.97,1034,2,Thin-Margin Buyers
+55,Karen Townsend,Houston,Texas,3,17606.0,5432.0,30.85,608,0,High-Value Accounts
+56,Steven Cox,Los Angeles,California,1,7595.0,2873.0,37.83,1670,1,High-Margin Buyers
+57,Cynthia Rodriguez,Rochester,New York,1,7595.0,2873.0,37.83,1061,1,High-Margin Buyers
+58,Jessica Baker,Austin,Texas,1,1954.0,294.0,15.05,813,2,Thin-Margin Buyers
+59,Mark Blackburn,Dallas,Texas,1,523.0,95.0,18.16,98,2,Thin-Margin Buyers
+60,Zachary Perez,Austin,Texas,3,23737.0,4623.0,19.48,1136,0,High-Value Accounts
+61,Brian Green,San Diego,California,3,23737.0,4623.0,19.48,1189,0,High-Value Accounts
+62,Becky Leach,Miami,Florida,1,9109.0,586.0,6.43,1763,2,Thin-Margin Buyers
+63,Bryan Russell,Dallas,Texas,2,10817.0,1351.0,12.49,831,2,Thin-Margin Buyers
+64,Tony Maddox,San Francisco,California,2,10817.0,1351.0,12.49,179,2,Thin-Margin Buyers
+65,Jason Randolph,San Francisco,California,1,2478.0,92.0,3.71,677,2,Thin-Margin Buyers
+66,Laura Andrews,New York City,New York,1,2478.0,92.0,3.71,1473,2,Thin-Margin Buyers
+67,Mrs. Stephanie Hooper,San Francisco,California,1,2478.0,92.0,3.71,1458,2,Thin-Margin Buyers
+68,Anthony Evans,Cleveland,Ohio,1,2478.0,92.0,3.71,691,2,Thin-Margin Buyers
+69,Patrick Williams,Rochester,New York,2,19611.0,7116.0,36.29,1253,0,High-Value Accounts
+70,Susan Burke,Austin,Texas,2,19611.0,7116.0,36.29,1065,0,High-Value Accounts
+71,Brent Hernandez,Rochester,New York,2,19611.0,7116.0,36.29,929,0,High-Value Accounts
+72,Sean Elliott,San Francisco,California,2,18573.0,4385.0,23.61,192,0,High-Value Accounts
+73,Wanda West,Cleveland,Ohio,2,18573.0,4385.0,23.61,1397,0,High-Value Accounts
+74,Renee Solomon,Tampa,Florida,4,15719.0,3394.0,21.59,256,0,High-Value Accounts
+75,Daryl Miles,Orlando,Florida,2,9206.0,2542.0,27.61,393,1,High-Margin Buyers
+76,Michael Hunt,Dallas,Texas,3,16467.0,5601.0,34.01,1205,0,High-Value Accounts
+77,Adam Clark,San Francisco,California,2,7320.0,2659.0,36.33,408,1,High-Margin Buyers
+78,Amy Olsen,Springfield,Illinois,2,7320.0,2659.0,36.33,1283,1,High-Margin Buyers
+79,Stacey Miller,San Diego,California,2,7320.0,2659.0,36.33,1284,1,High-Margin Buyers
+80,Daniel Mosley,Los Angeles,California,4,11464.0,3389.0,29.56,249,0,High-Value Accounts
+81,Monica Gibson,Springfield,Illinois,3,14382.0,3430.0,23.85,746,0,High-Value Accounts
+82,Christopher Jordan,Columbus,Ohio,1,8903.0,4401.0,49.43,950,1,High-Margin Buyers
+83,Christina Davis,Chicago,Illinois,4,22888.0,3448.0,15.06,829,0,High-Value Accounts
+84,Claudia Curry,Austin,Texas,4,22888.0,3448.0,15.06,320,0,High-Value Accounts
+85,Brandon Anderson,Austin,Texas,1,706.0,197.0,27.9,1168,1,High-Margin Buyers
+86,George Foster,Dallas,Texas,3,27352.0,6848.0,25.04,1009,0,High-Value Accounts
+87,Nicholas Anderson,Orlando,Florida,3,27352.0,6848.0,25.04,1215,0,High-Value Accounts
+88,Emily Ellison,Los Angeles,California,3,27352.0,6848.0,25.04,941,0,High-Value Accounts
+89,Darren Perez,Austin,Texas,1,770.0,241.0,31.3,1208,1,High-Margin Buyers
+90,Michelle Hunter,Cincinnati,Ohio,1,770.0,241.0,31.3,742,1,High-Margin Buyers
+91,Janet Guerrero,Rochester,New York,1,9895.0,1598.0,16.15,455,2,Thin-Margin Buyers
+92,Jeffrey Kline,Miami,Florida,2,7683.0,1930.0,25.12,300,1,High-Margin Buyers
+93,Ryan Bullock,Tampa,Florida,2,7683.0,1930.0,25.12,1766,2,Thin-Margin Buyers
+94,Tom Lawson,Buffalo,New York,1,9820.0,793.0,8.08,1294,2,Thin-Margin Buyers
+95,Rebecca Smith,Dallas,Texas,2,13004.0,2905.0,22.34,125,0,High-Value Accounts
+96,William Welch,Orlando,Florida,2,12782.0,3881.0,30.36,1196,0,High-Value Accounts
+97,Mr. Curtis Bailey,Tampa,Florida,2,7218.0,713.0,9.88,253,2,Thin-Margin Buyers
+98,Janet Carlson,Miami,Florida,2,17517.0,1545.0,8.82,263,0,High-Value Accounts
+99,Spencer Spears,Chicago,Illinois,2,15696.0,3115.0,19.85,288,0,High-Value Accounts
+100,Jeffrey Middleton,Buffalo,New York,2,15093.0,5997.0,39.73,1607,0,High-Value Accounts
+101,Veronica Kelley,Orlando,Florida,2,15093.0,5997.0,39.73,947,0,High-Value Accounts
+102,Leslie Bean,Springfield,Illinois,2,15093.0,5997.0,39.73,1245,0,High-Value Accounts
+103,Amy Wilson,Los Angeles,California,2,4150.0,927.0,22.34,1116,2,Thin-Margin Buyers
+104,Susan Ramirez,Cleveland,Ohio,1,1860.0,457.0,24.57,542,2,Thin-Margin Buyers
+105,Jacob Meyer,Peoria,Illinois,2,5153.0,2226.0,43.2,1516,1,High-Margin Buyers
+106,Scott Lewis,Houston,Texas,4,22530.0,3793.0,16.84,1667,0,High-Value Accounts
+107,Eric Griffith,Chicago,Illinois,4,22530.0,3793.0,16.84,698,0,High-Value Accounts
+108,Anna Ferguson,San Francisco,California,4,22530.0,3793.0,16.84,447,0,High-Value Accounts
+109,David Figueroa,Miami,Florida,1,3234.0,1029.0,31.82,1091,1,High-Margin Buyers
+110,Theresa Medina,Springfield,Illinois,2,13998.0,2988.0,21.35,1311,0,High-Value Accounts
+111,Mary Smith,Miami,Florida,1,8586.0,3826.0,44.56,1545,1,High-Margin Buyers
+112,Lance Cain,Tampa,Florida,1,8586.0,3826.0,44.56,617,1,High-Margin Buyers
+113,Alexandra Moran,San Francisco,California,1,5047.0,2211.0,43.81,580,1,High-Margin Buyers
+114,Sara Castro,Chicago,Illinois,1,5047.0,2211.0,43.81,1500,1,High-Margin Buyers
+115,Shawn Leach,Peoria,Illinois,1,5047.0,2211.0,43.81,911,1,High-Margin Buyers
+116,Mark Boyle,Buffalo,New York,1,5047.0,2211.0,43.81,1044,1,High-Margin Buyers
+117,John Stevens,San Francisco,California,1,3657.0,163.0,4.46,1387,2,Thin-Margin Buyers
+118,Lisa Graham,Peoria,Illinois,1,6471.0,2842.0,43.92,240,1,High-Margin Buyers
+119,Nancy Jones,Cleveland,Ohio,3,12136.0,1903.0,15.68,99,0,High-Value Accounts
+120,Darryl Robbins,Peoria,Illinois,1,6671.0,2797.0,41.93,824,1,High-Margin Buyers
+121,Kimberly Smith,Springfield,Illinois,2,17020.0,2843.0,16.7,877,0,High-Value Accounts
+122,Maria Thomas,Miami,Florida,2,15280.0,7198.0,47.11,1452,0,High-Value Accounts
+123,Nicholas Johnson,Dallas,Texas,2,15280.0,7198.0,47.11,68,0,High-Value Accounts
+124,Dawn Howard,Houston,Texas,3,21087.0,7029.0,33.33,1470,0,High-Value Accounts
+125,Jennifer Marshall,San Francisco,California,1,9965.0,3033.0,30.44,1732,1,High-Margin Buyers
+126,Frank Garcia,Buffalo,New York,1,9965.0,3033.0,30.44,561,1,High-Margin Buyers
+127,Terri Madden,Rochester,New York,2,10596.0,658.0,6.21,646,2,Thin-Margin Buyers
+128,James Gutierrez,Rochester,New York,2,15394.0,5886.0,38.24,1451,0,High-Value Accounts
+129,Morgan Sellers,Los Angeles,California,2,2462.0,1066.0,43.3,1532,1,High-Margin Buyers
+130,Caitlin Thomas,New York City,New York,1,2759.0,1149.0,41.65,78,1,High-Margin Buyers
+131,Kimberly Greene,Orlando,Florida,1,1341.0,615.0,45.86,946,1,High-Margin Buyers
+132,Tammy Anthony,Cleveland,Ohio,2,19840.0,6599.0,33.26,1083,0,High-Value Accounts
+133,Jennifer Chase,Buffalo,New York,2,19840.0,6599.0,33.26,609,0,High-Value Accounts
+134,Cassandra Farley,Orlando,Florida,2,19840.0,6599.0,33.26,905,0,High-Value Accounts
+135,Justin Vasquez,Houston,Texas,1,7421.0,958.0,12.91,816,2,Thin-Margin Buyers
+136,Melissa Morales,Houston,Texas,1,7421.0,958.0,12.91,1154,2,Thin-Margin Buyers
+137,Tyler Thompson,Dallas,Texas,1,7421.0,958.0,12.91,776,2,Thin-Margin Buyers
+138,Heidi Davis,Buffalo,New York,2,5620.0,1385.0,24.64,1155,2,Thin-Margin Buyers
+139,Charles Lane,Dallas,Texas,1,6962.0,3429.0,49.25,356,1,High-Margin Buyers
+140,Joyce Good Md,Miami,Florida,1,6962.0,3429.0,49.25,24,1,High-Margin Buyers
+141,Maria Miller,Buffalo,New York,1,1085.0,301.0,27.74,245,1,High-Margin Buyers
+142,Terry Mcdaniel,Cincinnati,Ohio,1,738.0,342.0,46.34,687,1,High-Margin Buyers
+143,Lisa Jacobs,Buffalo,New York,1,738.0,342.0,46.34,1561,1,High-Margin Buyers
+144,Jeff Duncan,Cincinnati,Ohio,1,738.0,342.0,46.34,305,1,High-Margin Buyers
+145,Pamela Jones,New York City,New York,1,738.0,342.0,46.34,1152,1,High-Margin Buyers
+146,Renee Robinson,Columbus,Ohio,2,2884.0,397.0,13.77,544,2,Thin-Margin Buyers
+147,Jessica Kidd,Buffalo,New York,3,14293.0,3043.0,21.29,1403,0,High-Value Accounts
+148,Nicholas Martin,Tampa,Florida,3,14293.0,3043.0,21.29,545,0,High-Value Accounts
+149,David Brown,Peoria,Illinois,1,5934.0,1563.0,26.34,190,1,High-Margin Buyers
+150,Amber Moore,New York City,New York,2,9974.0,3024.0,30.32,1001,1,High-Margin Buyers
+151,James Williams,San Francisco,California,1,2465.0,699.0,28.36,1758,2,Thin-Margin Buyers
+152,Karina Barr,Dallas,Texas,2,8936.0,2852.0,31.92,149,1,High-Margin Buyers
+153,Meghan Rush,Cleveland,Ohio,1,4957.0,1152.0,23.24,1089,2,Thin-Margin Buyers
+154,Bianca Brown,Columbus,Ohio,2,13180.0,3387.0,25.7,363,0,High-Value Accounts
+155,Timothy Jensen,Orlando,Florida,2,11761.0,2026.0,17.23,1808,2,Thin-Margin Buyers
+156,Melinda Montoya,San Francisco,California,2,13956.0,4527.0,32.44,367,0,High-Value Accounts
+157,Tammy Bell,Cincinnati,Ohio,3,23895.0,6388.0,26.73,725,0,High-Value Accounts
+158,Connie Richards,Cleveland,Ohio,2,12204.0,2588.0,21.21,378,0,High-Value Accounts
+159,Peter Ward,Rochester,New York,2,12204.0,2588.0,21.21,1415,0,High-Value Accounts
+160,Jonathan Alvarez,Columbus,Ohio,2,8111.0,1605.0,19.79,1277,2,Thin-Margin Buyers
+161,Becky Hodges,Houston,Texas,2,8111.0,1605.0,19.79,777,2,Thin-Margin Buyers
+162,Larry Hill,New York City,New York,2,2355.0,487.0,20.68,1346,2,Thin-Margin Buyers
+163,Amber Moon,Cleveland,Ohio,2,2355.0,487.0,20.68,1802,2,Thin-Margin Buyers
+164,Cynthia Wilcox,Chicago,Illinois,2,8141.0,2061.0,25.32,935,2,Thin-Margin Buyers
+165,Rebecca Wright,Rochester,New York,2,2501.0,1090.0,43.58,819,1,High-Margin Buyers
+166,Sarah Flores,Springfield,Illinois,2,2501.0,1090.0,43.58,1011,1,High-Margin Buyers
+167,Carol Norman,Rochester,New York,1,1033.0,254.0,24.59,1660,2,Thin-Margin Buyers
+168,Stephanie Gardner,San Diego,California,1,1518.0,159.0,10.47,1631,2,Thin-Margin Buyers
+169,Philip Baker,Peoria,Illinois,1,8581.0,2444.0,28.48,1553,2,Thin-Margin Buyers
+170,Randall Dennis,Orlando,Florida,1,8581.0,2444.0,28.48,1577,2,Thin-Margin Buyers
+171,Suzanne Cross,Austin,Texas,3,9688.0,3425.0,35.35,549,1,High-Margin Buyers
+172,Jasmine Delgado,Chicago,Illinois,2,11054.0,3286.0,29.73,1810,0,High-Value Accounts
+173,Kristen Harper,Buffalo,New York,2,11054.0,3286.0,29.73,1607,0,High-Value Accounts
+174,Kaitlyn Graham Md,New York City,New York,1,907.0,391.0,43.11,589,1,High-Margin Buyers
+175,Dean Avila,Cincinnati,Ohio,3,12646.0,2845.0,22.5,1069,0,High-Value Accounts
+176,Megan Mack,Austin,Texas,2,3685.0,593.0,16.09,1170,2,Thin-Margin Buyers
+177,Heather Johnson,Los Angeles,California,1,2119.0,196.0,9.25,1672,2,Thin-Margin Buyers
+178,Tina Davies,Chicago,Illinois,1,3137.0,571.0,18.2,41,2,Thin-Margin Buyers
+179,Matthew Harris,Dallas,Texas,2,3691.0,1133.0,30.7,1115,1,High-Margin Buyers
+180,Christopher Kirk,Miami,Florida,2,19098.0,6987.0,36.58,384,0,High-Value Accounts
+181,Eric Stevens,Miami,Florida,2,19098.0,6987.0,36.58,1369,0,High-Value Accounts
+182,James Dickerson,Houston,Texas,1,5322.0,1423.0,26.74,828,1,High-Margin Buyers
+183,James Jones,Dallas,Texas,1,5322.0,1423.0,26.74,462,1,High-Margin Buyers
+184,Hannah Hendricks,Cleveland,Ohio,1,2666.0,559.0,20.97,973,2,Thin-Margin Buyers
+185,Brett Mullins,Orlando,Florida,1,8383.0,937.0,11.18,314,2,Thin-Margin Buyers
+186,Ms. Kim Jordan,Chicago,Illinois,1,7560.0,821.0,10.86,1258,2,Thin-Margin Buyers
+187,Marcus Santiago,Buffalo,New York,3,6854.0,727.0,10.61,1211,2,Thin-Margin Buyers
+188,Jill Perez,San Diego,California,3,13724.0,1537.0,11.2,1642,0,High-Value Accounts
+189,Courtney Williams,Columbus,Ohio,1,1231.0,214.0,17.38,788,2,Thin-Margin Buyers
+190,Jordan Hahn,Rochester,New York,1,1231.0,214.0,17.38,1733,2,Thin-Margin Buyers
+191,William Cook,Cleveland,Ohio,1,6891.0,2529.0,36.7,318,1,High-Margin Buyers
+192,Stephanie Hayes,Austin,Texas,2,14388.0,4132.0,28.72,464,0,High-Value Accounts
+193,Melissa Wise,Columbus,Ohio,1,4215.0,432.0,10.25,407,2,Thin-Margin Buyers
+194,Elizabeth Gonzalez,San Diego,California,3,10397.0,4611.0,44.35,265,1,High-Margin Buyers
+195,Mr. Eric Lopez,Buffalo,New York,1,7333.0,1576.0,21.49,281,2,Thin-Margin Buyers
+196,Benjamin Higgins,Rochester,New York,2,8602.0,1380.0,16.04,519,2,Thin-Margin Buyers
+197,Brett Sutton,Austin,Texas,4,21254.0,5595.0,26.32,889,0,High-Value Accounts
+198,Anna Blackburn,Cincinnati,Ohio,4,21254.0,5595.0,26.32,505,0,High-Value Accounts
+199,Michelle Bailey,Dallas,Texas,4,21254.0,5595.0,26.32,1495,0,High-Value Accounts
+200,Sara Peterson,Chicago,Illinois,1,8769.0,1989.0,22.68,1593,2,Thin-Margin Buyers
+201,Katherine Williams,Orlando,Florida,3,25121.0,5972.0,23.77,1020,0,High-Value Accounts
+202,Cory Evans,Orlando,Florida,4,28557.0,7790.0,27.28,272,0,High-Value Accounts
+203,Michael Rodriguez,Cincinnati,Ohio,2,5100.0,434.0,8.51,974,2,Thin-Margin Buyers
+204,John Munoz,Dallas,Texas,1,9905.0,633.0,6.39,1336,2,Thin-Margin Buyers
+205,David Clark,Tampa,Florida,1,9905.0,633.0,6.39,1260,2,Thin-Margin Buyers
+206,April Welch,Springfield,Illinois,2,12342.0,2184.0,17.7,333,0,High-Value Accounts
+207,Alan Livingston,Peoria,Illinois,1,3423.0,804.0,23.49,1710,2,Thin-Margin Buyers
+208,Angela Jackson,Dallas,Texas,1,3423.0,804.0,23.49,1694,2,Thin-Margin Buyers
+209,Amy Williams,Austin,Texas,1,3423.0,804.0,23.49,416,2,Thin-Margin Buyers
+210,Laura Jordan,Dallas,Texas,1,3423.0,804.0,23.49,1776,2,Thin-Margin Buyers
+211,Richard Maynard,Cincinnati,Ohio,1,3423.0,804.0,23.49,1218,2,Thin-Margin Buyers
+212,Lawrence Oliver,Springfield,Illinois,1,3900.0,115.0,2.95,525,2,Thin-Margin Buyers
+213,Anthony Williams,Rochester,New York,2,11851.0,2490.0,21.01,1239,0,High-Value Accounts
+214,Lynn Matthews,Dallas,Texas,1,7643.0,3720.0,48.67,971,1,High-Margin Buyers
+215,Andrew Griffin,Chicago,Illinois,3,13028.0,4432.0,34.02,204,0,High-Value Accounts
+216,Megan Williams,Chicago,Illinois,1,6016.0,431.0,7.16,1599,2,Thin-Margin Buyers
+217,Alison Martin,Buffalo,New York,1,1290.0,204.0,15.81,273,2,Thin-Margin Buyers
+218,Samuel Wallace,San Francisco,California,1,1290.0,204.0,15.81,86,2,Thin-Margin Buyers
+219,Manuel Stark,Springfield,Illinois,1,4569.0,1693.0,37.05,1653,1,High-Margin Buyers
+220,William Villarreal,Orlando,Florida,1,3083.0,1151.0,37.33,1064,1,High-Margin Buyers
+221,Brandon Kirk,Cleveland,Ohio,1,3522.0,898.0,25.5,198,1,High-Margin Buyers
+222,Abigail Brown,Los Angeles,California,1,3522.0,898.0,25.5,1156,2,Thin-Margin Buyers
+223,Kristine Carter,Houston,Texas,1,7301.0,3602.0,49.34,342,1,High-Margin Buyers
+224,Wesley Deleon,Springfield,Illinois,2,10674.0,2002.0,18.76,1056,2,Thin-Margin Buyers
+225,Laura Cole,Tampa,Florida,1,4027.0,1386.0,34.42,1661,1,High-Margin Buyers
+226,Lauren Harris,Cleveland,Ohio,3,8379.0,2350.0,28.05,745,1,High-Margin Buyers
+227,Cameron Miller,Chicago,Illinois,1,7684.0,1157.0,15.06,1625,2,Thin-Margin Buyers
+228,Jacob Carpenter,Buffalo,New York,1,7684.0,1157.0,15.06,1726,2,Thin-Margin Buyers
+229,Pamela Callahan Dvm,Columbus,Ohio,1,7684.0,1157.0,15.06,572,2,Thin-Margin Buyers
+230,William Ruiz,Miami,Florida,1,6008.0,2498.0,41.58,973,1,High-Margin Buyers
+231,Paula Marshall,Dallas,Texas,1,7344.0,2598.0,35.38,957,1,High-Margin Buyers
+232,Natalie Cox,Orlando,Florida,1,6932.0,3218.0,46.42,1703,1,High-Margin Buyers
+233,Andrew Fernandez,Cincinnati,Ohio,3,15121.0,4533.0,29.98,1778,0,High-Value Accounts
+234,Alisha Saunders,San Francisco,California,1,8649.0,2631.0,30.42,430,1,High-Margin Buyers
+235,Travis Chandler Dds,Rochester,New York,1,8649.0,2631.0,30.42,1627,1,High-Margin Buyers
+236,Russell Austin,New York City,New York,1,4099.0,52.0,1.27,1083,2,Thin-Margin Buyers
+237,Collin Cameron,San Francisco,California,1,2539.0,324.0,12.76,1505,2,Thin-Margin Buyers
+238,Elizabeth Hernandez,Orlando,Florida,1,9845.0,3062.0,31.1,1,1,High-Margin Buyers
+239,William Russell,Austin,Texas,2,9835.0,2563.0,26.06,1236,2,Thin-Margin Buyers
+240,Sheri Berg,Los Angeles,California,2,9835.0,2563.0,26.06,794,2,Thin-Margin Buyers
+241,Anthony Barnett,Peoria,Illinois,1,9640.0,2606.0,27.03,1231,2,Thin-Margin Buyers
+242,Kaitlyn Flores,Cleveland,Ohio,1,7930.0,1981.0,24.98,681,2,Thin-Margin Buyers
+243,Rebecca Owen,Springfield,Illinois,1,7930.0,1981.0,24.98,218,1,High-Margin Buyers
+244,Michael Bell,San Diego,California,2,14428.0,3064.0,21.24,937,0,High-Value Accounts
+245,Willie Huynh,Buffalo,New York,2,5442.0,375.0,6.89,1000,2,Thin-Margin Buyers
+246,Samuel Hayes,Peoria,Illinois,2,18228.0,6067.0,33.28,45,0,High-Value Accounts
+247,Sherry Tran,Buffalo,New York,3,14063.0,5162.0,36.71,1156,0,High-Value Accounts
+248,Heather Gray,Cincinnati,Ohio,1,7664.0,1753.0,22.87,639,2,Thin-Margin Buyers
+249,Benjamin Meadows,Peoria,Illinois,3,14319.0,5334.0,37.25,514,0,High-Value Accounts
+250,Micheal Graham,Buffalo,New York,3,14319.0,5334.0,37.25,1006,0,High-Value Accounts
+251,Jean Jackson,San Francisco,California,4,21981.0,5787.0,26.33,276,0,High-Value Accounts
+252,Timothy Murphy,San Francisco,California,2,12766.0,5176.0,40.55,992,0,High-Value Accounts
+253,Mrs. Jennifer Lewis,San Francisco,California,3,18871.0,4421.0,23.43,1486,0,High-Value Accounts
+254,Bryan Brown,Rochester,New York,1,874.0,235.0,26.89,656,1,High-Margin Buyers
+255,Christopher Johnson,Miami,Florida,1,874.0,235.0,26.89,1380,2,Thin-Margin Buyers
+256,Christina Conner,Columbus,Ohio,3,5431.0,847.0,15.6,418,2,Thin-Margin Buyers
+257,Luis Luna,San Francisco,California,3,5431.0,847.0,15.6,809,2,Thin-Margin Buyers
+258,Julie Chavez,Cincinnati,Ohio,1,3273.0,85.0,2.6,350,2,Thin-Margin Buyers
+259,Richard Blair,Miami,Florida,3,22621.0,6514.0,28.8,1806,0,High-Value Accounts
+260,Mitchell Lester,Chicago,Illinois,2,9517.0,1951.0,20.5,783,2,Thin-Margin Buyers
+261,Mr. John Tyler Phd,Houston,Texas,2,9517.0,1951.0,20.5,1068,2,Thin-Margin Buyers
+262,Juan Kelly,Miami,Florida,2,9517.0,1951.0,20.5,458,2,Thin-Margin Buyers
+263,Morgan Mccarthy,Dallas,Texas,1,6488.0,1591.0,24.52,661,2,Thin-Margin Buyers
+264,Morgan Sullivan,Houston,Texas,1,6488.0,1591.0,24.52,1567,2,Thin-Margin Buyers
+265,Eric Clark,Orlando,Florida,2,9021.0,3750.0,41.57,1452,1,High-Margin Buyers
+266,Mark Padilla,San Diego,California,1,9386.0,2555.0,27.22,1669,2,Thin-Margin Buyers
+267,Anthony Lane,Cleveland,Ohio,1,9386.0,2555.0,27.22,877,1,High-Margin Buyers
+268,Jeffrey Henderson,Tampa,Florida,2,10405.0,2770.0,26.62,542,0,High-Value Accounts
+269,Michelle Hardy,Dallas,Texas,2,10405.0,2770.0,26.62,79,0,High-Value Accounts
+270,Ms. Barbara Cervantes,Rochester,New York,2,8364.0,1118.0,13.37,1198,2,Thin-Margin Buyers
+271,Steven Proctor,Austin,Texas,1,6707.0,1041.0,15.52,1278,2,Thin-Margin Buyers
+272,Shannon Patterson,Springfield,Illinois,1,7633.0,184.0,2.41,1262,2,Thin-Margin Buyers
+273,William Valdez,San Diego,California,3,13424.0,4508.0,33.58,1179,0,High-Value Accounts
+274,Laura Yu,Houston,Texas,1,4906.0,975.0,19.87,1032,2,Thin-Margin Buyers
+275,Jonathan Mcmillan,Buffalo,New York,2,5623.0,590.0,10.49,1619,2,Thin-Margin Buyers
+276,Austin Davis,San Diego,California,2,7729.0,3071.0,39.73,938,1,High-Margin Buyers
+277,Mark Roy,San Francisco,California,2,7729.0,3071.0,39.73,110,1,High-Margin Buyers
+278,Jillian Williams,San Diego,California,2,4810.0,1996.0,41.5,1627,1,High-Margin Buyers
+279,Rebekah Carter,Orlando,Florida,2,4810.0,1996.0,41.5,23,1,High-Margin Buyers
+280,Jonathan Reed,San Francisco,California,2,4810.0,1996.0,41.5,1091,1,High-Margin Buyers
+281,Roger Harris,Springfield,Illinois,3,11419.0,3989.0,34.93,8,1,High-Margin Buyers
+282,Louis Jimenez,Tampa,Florida,2,10973.0,5068.0,46.19,272,1,High-Margin Buyers
+283,Jessica Jones,Peoria,Illinois,2,10973.0,5068.0,46.19,1575,1,High-Margin Buyers
+284,Renee Gomez,Miami,Florida,2,10973.0,5068.0,46.19,165,1,High-Margin Buyers
+285,Connie Olson,Houston,Texas,2,10973.0,5068.0,46.19,257,1,High-Margin Buyers
+286,Christian Jones,Buffalo,New York,1,9751.0,2459.0,25.22,1573,2,Thin-Margin Buyers
+287,Matthew Kelley,Orlando,Florida,1,6385.0,2656.0,41.6,728,1,High-Margin Buyers
+288,Candace Martinez,Tampa,Florida,1,6385.0,2656.0,41.6,878,1,High-Margin Buyers
+289,Jacob Mann,Austin,Texas,1,6355.0,1335.0,21.01,562,2,Thin-Margin Buyers
+290,Keith Reese,Austin,Texas,1,6355.0,1335.0,21.01,1378,2,Thin-Margin Buyers
+291,Aaron Jones,Austin,Texas,2,9431.0,691.0,7.33,815,2,Thin-Margin Buyers
+292,Christopher Brooks,Peoria,Illinois,1,7497.0,319.0,4.26,397,2,Thin-Margin Buyers
+293,Charles Moore,Miami,Florida,2,7589.0,2527.0,33.3,831,1,High-Margin Buyers
+294,Manuel Walls,Houston,Texas,1,8243.0,1346.0,16.33,1441,2,Thin-Margin Buyers
+295,Darren Moore,Peoria,Illinois,2,10138.0,1791.0,17.67,1492,2,Thin-Margin Buyers
+296,Stephanie Thomas,Rochester,New York,2,10138.0,1791.0,17.67,809,2,Thin-Margin Buyers
+297,Kristy Hernandez,San Diego,California,2,10138.0,1791.0,17.67,421,2,Thin-Margin Buyers
+298,Randy Johnson,Columbus,Ohio,3,24295.0,5858.0,24.11,811,0,High-Value Accounts
+299,James Benitez,Miami,Florida,1,5449.0,2389.0,43.84,891,1,High-Margin Buyers
+300,Donald York,Buffalo,New York,2,3592.0,220.0,6.12,1783,2,Thin-Margin Buyers
+301,Tiffany Parker,Houston,Texas,2,3592.0,220.0,6.12,306,2,Thin-Margin Buyers
+302,Melissa Mcknight,Los Angeles,California,3,11773.0,1992.0,16.92,1604,2,Thin-Margin Buyers
+303,Mr. Jack Mercado,Cincinnati,Ohio,1,6934.0,1226.0,17.68,1373,2,Thin-Margin Buyers
+304,Christian Jones,Rochester,New York,1,6934.0,1226.0,17.68,1284,2,Thin-Margin Buyers
+305,Rachel Fisher,Peoria,Illinois,1,4202.0,1171.0,27.87,843,1,High-Margin Buyers
+306,Donald Moore,Rochester,New York,1,4202.0,1171.0,27.87,866,1,High-Margin Buyers
+307,William Wu,Tampa,Florida,1,4202.0,1171.0,27.87,495,1,High-Margin Buyers
+308,Jesus Zuniga,Houston,Texas,1,4202.0,1171.0,27.87,489,1,High-Margin Buyers
+309,Michael Gallegos,Los Angeles,California,2,4689.0,1830.0,39.03,628,1,High-Margin Buyers
+310,Robert Daniels,Chicago,Illinois,2,4689.0,1830.0,39.03,532,1,High-Margin Buyers
+311,Jill Jones,New York City,New York,2,17904.0,4448.0,24.84,1645,0,High-Value Accounts
+312,Elizabeth Miller,Springfield,Illinois,1,5152.0,2045.0,39.69,1569,1,High-Margin Buyers
+313,Sabrina Clark,Los Angeles,California,1,5152.0,2045.0,39.69,933,1,High-Margin Buyers
+314,Larry Casey,Chicago,Illinois,1,5152.0,2045.0,39.69,570,1,High-Margin Buyers
+315,Daniel Burns,Rochester,New York,1,5152.0,2045.0,39.69,521,1,High-Margin Buyers
+316,James Tanner,Houston,Texas,1,2542.0,190.0,7.47,1059,2,Thin-Margin Buyers
+317,Leonard Gonzalez,San Francisco,California,2,11336.0,3074.0,27.12,548,0,High-Value Accounts
+318,Richard Lee,Buffalo,New York,2,11336.0,3074.0,27.12,1781,0,High-Value Accounts
+319,Matthew Schroeder,Cleveland,Ohio,2,11336.0,3074.0,27.12,1551,0,High-Value Accounts
+320,Marcus Flores,Los Angeles,California,1,6200.0,2321.0,37.44,247,1,High-Margin Buyers
+321,Tonya Long,Miami,Florida,1,6200.0,2321.0,37.44,175,1,High-Margin Buyers
+322,Michael Chambers,Los Angeles,California,1,4470.0,413.0,9.24,41,2,Thin-Margin Buyers
+323,Kaylee Glover,Springfield,Illinois,3,9927.0,1341.0,13.51,876,2,Thin-Margin Buyers
+324,Pamela Patterson,San Francisco,California,3,9927.0,1341.0,13.51,1606,2,Thin-Margin Buyers
+325,Ronald Mckinney,Austin,Texas,2,8288.0,1495.0,18.04,1159,2,Thin-Margin Buyers
+326,James Hart,Chicago,Illinois,2,8288.0,1495.0,18.04,1487,2,Thin-Margin Buyers
+327,Rhonda Harris,Orlando,Florida,1,4853.0,1764.0,36.35,1225,1,High-Margin Buyers
+328,Randy Fisher,Houston,Texas,1,4853.0,1764.0,36.35,928,1,High-Margin Buyers
+329,James Hernandez,San Francisco,California,2,10628.0,1423.0,13.39,890,2,Thin-Margin Buyers
+330,Brenda Murphy,San Francisco,California,3,15081.0,3508.0,23.26,650,0,High-Value Accounts
+331,Andrew Kirby,San Diego,California,1,9562.0,325.0,3.4,1037,2,Thin-Margin Buyers
+332,Justin Thomas,San Francisco,California,1,4688.0,1841.0,39.27,782,1,High-Margin Buyers
+333,Jillian Johnson Md,San Diego,California,1,4688.0,1841.0,39.27,1329,1,High-Margin Buyers
+334,William Martin,Columbus,Ohio,1,7900.0,482.0,6.1,7,2,Thin-Margin Buyers
+335,Mark Dixon,Cincinnati,Ohio,3,14085.0,5064.0,35.95,811,0,High-Value Accounts
+336,Alicia Allen,Dallas,Texas,1,4852.0,218.0,4.49,325,2,Thin-Margin Buyers
+337,Cynthia Meyer,Tampa,Florida,1,4852.0,218.0,4.49,1177,2,Thin-Margin Buyers
+338,Brandon Norton,Springfield,Illinois,1,4852.0,218.0,4.49,555,2,Thin-Margin Buyers
+339,Christina Scott,Tampa,Florida,1,4314.0,1453.0,33.68,1313,1,High-Margin Buyers
+340,Andrew Macias,Austin,Texas,1,3288.0,1477.0,44.92,293,1,High-Margin Buyers
+341,Alejandro Williams,Springfield,Illinois,1,3288.0,1477.0,44.92,1120,1,High-Margin Buyers
+342,Mark Rodriguez,New York City,New York,1,3977.0,813.0,20.44,96,2,Thin-Margin Buyers
+343,Sarah Montgomery,Chicago,Illinois,1,6252.0,1377.0,22.02,653,2,Thin-Margin Buyers
+344,Marisa Prince,Buffalo,New York,1,9084.0,3253.0,35.81,496,1,High-Margin Buyers
+345,James Bonilla,San Diego,California,1,8994.0,1481.0,16.47,1728,2,Thin-Margin Buyers
+346,Robin Myers,Dallas,Texas,1,1089.0,176.0,16.16,1601,2,Thin-Margin Buyers
+347,Nancy Sanchez,Springfield,Illinois,2,11675.0,2921.0,25.02,1013,0,High-Value Accounts
+348,Sydney Walls,Chicago,Illinois,2,11675.0,2921.0,25.02,1218,0,High-Value Accounts
+349,Deborah Hoffman,Miami,Florida,2,15563.0,6603.0,42.43,1220,0,High-Value Accounts
+350,Megan Williams,Dallas,Texas,2,14203.0,4513.0,31.77,1323,0,High-Value Accounts
+351,Shane Clark,San Diego,California,1,5343.0,655.0,12.26,336,2,Thin-Margin Buyers
+352,Steven Haynes,Springfield,Illinois,1,6956.0,318.0,4.57,1061,2,Thin-Margin Buyers
+353,Kimberly Fuller,Buffalo,New York,1,5306.0,2405.0,45.33,357,1,High-Margin Buyers
+354,Angela Lyons,New York City,New York,2,13808.0,1010.0,7.31,1408,0,High-Value Accounts
+355,Betty Tucker,Cincinnati,Ohio,1,972.0,106.0,10.91,1044,2,Thin-Margin Buyers
+356,Brianna Hunt,Miami,Florida,1,3665.0,802.0,21.88,1314,2,Thin-Margin Buyers
+357,Cathy Clark,Tampa,Florida,1,3665.0,802.0,21.88,34,2,Thin-Margin Buyers
+358,Nicole Warren,Los Angeles,California,1,9808.0,2117.0,21.58,326,2,Thin-Margin Buyers
+359,Richard Castaneda,Cleveland,Ohio,2,7381.0,1241.0,16.81,751,2,Thin-Margin Buyers
+360,Sarah Torres,San Diego,California,2,7381.0,1241.0,16.81,282,2,Thin-Margin Buyers
+361,Vanessa Deleon,Tampa,Florida,1,5666.0,2733.0,48.24,47,1,High-Margin Buyers
+362,Richard Lyons,Dallas,Texas,1,4171.0,1450.0,34.76,708,1,High-Margin Buyers
+363,Eric Adams,Springfield,Illinois,1,6236.0,2839.0,45.53,1150,1,High-Margin Buyers
+364,Chad Brown,Orlando,Florida,1,6236.0,2839.0,45.53,1040,1,High-Margin Buyers
+365,Kayla Becker,Los Angeles,California,1,5410.0,2456.0,45.4,290,1,High-Margin Buyers
+366,Ashley Freeman,Tampa,Florida,1,5410.0,2456.0,45.4,1166,1,High-Margin Buyers
+367,Scott Harris,Los Angeles,California,1,3024.0,1353.0,44.74,317,1,High-Margin Buyers
+368,John James,Columbus,Ohio,1,3024.0,1353.0,44.74,1173,1,High-Margin Buyers
+369,Jesse Bond,Springfield,Illinois,1,7434.0,2851.0,38.35,824,1,High-Margin Buyers
+370,Brandon Hughes,Dallas,Texas,2,10389.0,1094.0,10.53,576,2,Thin-Margin Buyers
+371,Lynn Reynolds,Cincinnati,Ohio,2,10389.0,1094.0,10.53,1202,2,Thin-Margin Buyers
+372,Ronald Good,Miami,Florida,1,9144.0,2220.0,24.28,1371,2,Thin-Margin Buyers
+373,Kyle Baker,Houston,Texas,2,7939.0,1740.0,21.92,985,2,Thin-Margin Buyers
+374,Michael Rivera,Los Angeles,California,2,11215.0,2802.0,24.98,1357,0,High-Value Accounts
+375,Lori Adkins,San Diego,California,2,9553.0,3101.0,32.46,467,1,High-Margin Buyers
+376,Luis Warner,New York City,New York,1,5448.0,2204.0,40.46,949,1,High-Margin Buyers
+377,Donald Perry,Orlando,Florida,2,8876.0,3516.0,39.61,1802,1,High-Margin Buyers
+378,Adam Stevens,Buffalo,New York,1,5899.0,2264.0,38.38,512,1,High-Margin Buyers
+379,Kimberly Johnson,Buffalo,New York,2,10737.0,4531.0,42.2,1129,1,High-Margin Buyers
+380,Kelly Jones,Rochester,New York,2,10737.0,4531.0,42.2,527,1,High-Margin Buyers
+381,Ashley Petty,Peoria,Illinois,1,4369.0,584.0,13.37,905,2,Thin-Margin Buyers
+382,Crystal Ross,Austin,Texas,1,4369.0,584.0,13.37,1442,2,Thin-Margin Buyers
+383,Alexis Duffy,Los Angeles,California,1,5632.0,2358.0,41.87,1412,1,High-Margin Buyers
+384,Stephanie Sanchez,Miami,Florida,1,5632.0,2358.0,41.87,398,1,High-Margin Buyers
+385,Reginald Espinoza,Cleveland,Ohio,1,5632.0,2358.0,41.87,39,1,High-Margin Buyers
+386,Sandra Hicks,San Diego,California,2,9083.0,1076.0,11.85,885,2,Thin-Margin Buyers
+387,Olivia Orozco,Austin,Texas,1,2804.0,936.0,33.38,1133,1,High-Margin Buyers
+388,Larry Moore,Tampa,Florida,1,2804.0,936.0,33.38,1587,1,High-Margin Buyers
+389,Mrs. Rachel Cannon Dds,Tampa,Florida,1,2804.0,936.0,33.38,682,1,High-Margin Buyers
+390,Daniel Flowers,Springfield,Illinois,1,2321.0,505.0,21.76,893,2,Thin-Margin Buyers
+391,Randy Acosta,Tampa,Florida,1,5730.0,482.0,8.41,206,2,Thin-Margin Buyers
+392,Deborah Williams,Chicago,Illinois,1,7441.0,867.0,11.65,1211,2,Thin-Margin Buyers
+393,Robert Michael,Austin,Texas,1,7441.0,867.0,11.65,1767,2,Thin-Margin Buyers
+394,Danny Ramirez,New York City,New York,2,10520.0,4710.0,44.77,746,1,High-Margin Buyers
+395,Stephen Baker,Columbus,Ohio,2,4415.0,970.0,21.97,1514,2,Thin-Margin Buyers
+396,Jeffrey Wilcox,Peoria,Illinois,2,4415.0,970.0,21.97,1111,2,Thin-Margin Buyers
+397,James Clarke,Dallas,Texas,2,14449.0,4432.0,30.67,324,0,High-Value Accounts
+398,Julia Gallagher,Houston,Texas,2,14449.0,4432.0,30.67,736,0,High-Value Accounts
+399,Ronald Frey Jr.,New York City,New York,2,14449.0,4432.0,30.67,614,0,High-Value Accounts
+400,Megan Charles,Tampa,Florida,2,7171.0,2247.0,31.33,230,1,High-Margin Buyers
+401,Amy Duran Md,Orlando,Florida,3,11671.0,2830.0,24.25,594,0,High-Value Accounts
+402,Christopher Thomas,New York City,New York,2,9943.0,1983.0,19.94,161,2,Thin-Margin Buyers
+403,Peter Castro,Dallas,Texas,2,11492.0,1148.0,9.99,389,2,Thin-Margin Buyers
+404,Steven Acosta,Orlando,Florida,1,9438.0,1801.0,19.08,696,2,Thin-Margin Buyers
+405,Lindsay Jackson,Austin,Texas,1,9438.0,1801.0,19.08,503,2,Thin-Margin Buyers
+406,Kelly Smith,Cleveland,Ohio,4,23333.0,7166.0,30.71,1103,0,High-Value Accounts
+407,Sabrina Hartman,Tampa,Florida,4,23333.0,7166.0,30.71,828,0,High-Value Accounts
+408,Cynthia Smith,Rochester,New York,1,7195.0,1665.0,23.14,231,2,Thin-Margin Buyers
+409,Olivia Dickerson,Buffalo,New York,1,7195.0,1665.0,23.14,984,2,Thin-Margin Buyers
+410,Whitney Stout,Austin,Texas,1,3098.0,957.0,30.89,254,1,High-Margin Buyers
+411,Stephanie Flores,San Diego,California,1,5412.0,1192.0,22.03,381,2,Thin-Margin Buyers
+412,Gregory English,Los Angeles,California,1,5412.0,1192.0,22.03,71,2,Thin-Margin Buyers
+413,Natalie Maxwell,New York City,New York,1,1397.0,686.0,49.11,1194,1,High-Margin Buyers
+414,Tina Blake,Buffalo,New York,2,11875.0,1555.0,13.09,1187,2,Thin-Margin Buyers
+415,Clarence Cooke,San Francisco,California,2,11875.0,1555.0,13.09,1566,2,Thin-Margin Buyers
+416,Tamara Guzman,Buffalo,New York,2,11227.0,2319.0,20.66,1172,0,High-Value Accounts
+417,Marissa Hartman,Buffalo,New York,1,9653.0,2471.0,25.6,250,1,High-Margin Buyers
+418,Sara Garcia,Peoria,Illinois,1,8945.0,1728.0,19.32,1494,2,Thin-Margin Buyers
+419,Kathryn Rogers,Columbus,Ohio,1,4007.0,201.0,5.02,1606,2,Thin-Margin Buyers
+420,Kyle Dickson,Dallas,Texas,1,4007.0,201.0,5.02,698,2,Thin-Margin Buyers
+421,Jacob Decker,Tampa,Florida,1,810.0,231.0,28.52,1606,2,Thin-Margin Buyers
+422,Aaron Johnson,Rochester,New York,2,19018.0,6161.0,32.4,443,0,High-Value Accounts
+423,William Morse,Rochester,New York,2,9208.0,4219.0,45.82,813,1,High-Margin Buyers
+424,Carrie Smith,Peoria,Illinois,2,9208.0,4219.0,45.82,948,1,High-Margin Buyers
+425,Vincent Roth,Los Angeles,California,1,3839.0,1415.0,36.86,515,1,High-Margin Buyers
+426,Andrew Benson,Orlando,Florida,1,3839.0,1415.0,36.86,1111,1,High-Margin Buyers
+427,Jason Wilson,Austin,Texas,1,2858.0,482.0,16.86,295,2,Thin-Margin Buyers
+428,Colin Patterson,New York City,New York,2,4968.0,1927.0,38.79,1625,1,High-Margin Buyers
+429,Eric Bates,Columbus,Ohio,1,3913.0,961.0,24.56,399,2,Thin-Margin Buyers
+430,Steven Keith,San Francisco,California,1,3913.0,961.0,24.56,1498,2,Thin-Margin Buyers
+431,Seth Rodriguez,Tampa,Florida,1,4468.0,1940.0,43.42,1095,1,High-Margin Buyers
+432,Lauren Jones,Cincinnati,Ohio,2,5339.0,2451.0,45.91,1756,1,High-Margin Buyers
+433,Thomas Wallace,Dallas,Texas,2,5339.0,2451.0,45.91,27,1,High-Margin Buyers
+434,Mr. Daniel Wilson,Cincinnati,Ohio,2,5339.0,2451.0,45.91,1215,1,High-Margin Buyers
+435,Julie Smith Md,Rochester,New York,2,5339.0,2451.0,45.91,188,1,High-Margin Buyers
+436,Carol Mitchell,Chicago,Illinois,3,21503.0,6927.0,32.21,990,0,High-Value Accounts
+437,John Thompson,Austin,Texas,1,5462.0,673.0,12.32,863,2,Thin-Margin Buyers
+438,Debra Rodriguez,Tampa,Florida,1,6392.0,444.0,6.95,473,2,Thin-Margin Buyers
+439,Erin Vasquez,Orlando,Florida,1,8706.0,1724.0,19.8,1785,2,Thin-Margin Buyers
+440,Clayton Lara,Miami,Florida,4,20325.0,6529.0,32.12,1152,0,High-Value Accounts
+441,Tony Ray,Cleveland,Ohio,2,1225.0,335.0,27.35,1088,1,High-Margin Buyers
+442,Steven Frey,Miami,Florida,2,1225.0,335.0,27.35,1725,2,Thin-Margin Buyers
+443,Stephanie Leonard,Buffalo,New York,2,1225.0,335.0,27.35,813,1,High-Margin Buyers
+444,Crystal Chambers,New York City,New York,2,1225.0,335.0,27.35,111,1,High-Margin Buyers
+445,Robert White,Orlando,Florida,2,1225.0,335.0,27.35,1590,2,Thin-Margin Buyers
+446,Sylvia Barron,Rochester,New York,2,1225.0,335.0,27.35,508,1,High-Margin Buyers
+447,Marcus Brown,Chicago,Illinois,2,14318.0,1661.0,11.6,606,0,High-Value Accounts
+448,Annette Pierce,Rochester,New York,2,14318.0,1661.0,11.6,1034,0,High-Value Accounts
+449,Donald Hernandez,San Francisco,California,1,2663.0,64.0,2.4,272,2,Thin-Margin Buyers
+450,Megan Davis,Cleveland,Ohio,1,2663.0,64.0,2.4,1239,2,Thin-Margin Buyers
+451,Robert Brooks,Houston,Texas,1,5151.0,1680.0,32.62,875,1,High-Margin Buyers
+452,Miguel Alvarez,Rochester,New York,1,2514.0,95.0,3.78,607,2,Thin-Margin Buyers
+453,Jennifer Arnold,New York City,New York,2,10524.0,4639.0,44.08,19,1,High-Margin Buyers
+454,Jessica Blankenship,Cincinnati,Ohio,1,5393.0,2642.0,48.99,1469,1,High-Margin Buyers
+455,Peggy Campos,Buffalo,New York,1,2280.0,509.0,22.32,1532,2,Thin-Margin Buyers
+456,Craig Ortega,Cincinnati,Ohio,1,6596.0,1439.0,21.82,682,2,Thin-Margin Buyers
+457,Johnny Simon,Los Angeles,California,1,4510.0,1896.0,42.04,507,1,High-Margin Buyers
+458,Keith Brooks,New York City,New York,1,6077.0,2378.0,39.13,937,1,High-Margin Buyers
+459,Jason Martinez,Columbus,Ohio,1,5379.0,2510.0,46.66,1064,1,High-Margin Buyers
+460,Steven Herrera,San Diego,California,1,4629.0,1660.0,35.86,713,1,High-Margin Buyers
+461,Beverly Lamb,Chicago,Illinois,2,5934.0,1573.0,26.51,145,1,High-Margin Buyers
+462,Michael Williams,Springfield,Illinois,1,8042.0,936.0,11.64,1345,2,Thin-Margin Buyers
+463,Zachary Carpenter,Los Angeles,California,1,8042.0,936.0,11.64,1072,2,Thin-Margin Buyers
+464,Timothy Baker,Austin,Texas,1,3957.0,151.0,3.82,1050,2,Thin-Margin Buyers
+465,Adam James,Chicago,Illinois,1,8769.0,3178.0,36.24,785,1,High-Margin Buyers
+466,Katrina Wood,Chicago,Illinois,1,2957.0,917.0,31.01,118,1,High-Margin Buyers
+467,James Murray,Dallas,Texas,1,5344.0,2607.0,48.78,1057,1,High-Margin Buyers
+468,Mr. Nathaniel Reeves,Rochester,New York,1,5344.0,2607.0,48.78,25,1,High-Margin Buyers
+469,Jodi Wood,Cleveland,Ohio,1,6061.0,2121.0,34.99,1388,1,High-Margin Buyers
+470,Dr. Thomas Peterson,San Diego,California,1,6061.0,2121.0,34.99,1153,1,High-Margin Buyers
+471,Mario Hall,New York City,New York,1,5376.0,1928.0,35.86,59,1,High-Margin Buyers
+472,Justin Rosales,Miami,Florida,1,2792.0,1008.0,36.1,1490,1,High-Margin Buyers
+473,Autumn Lee,Columbus,Ohio,1,2944.0,249.0,8.46,196,2,Thin-Margin Buyers
+474,Victoria Duran,Dallas,Texas,1,2944.0,249.0,8.46,810,2,Thin-Margin Buyers
+475,Barry Garcia,Springfield,Illinois,1,4220.0,945.0,22.39,359,2,Thin-Margin Buyers
+476,Dawn Webb,Peoria,Illinois,1,4220.0,945.0,22.39,1551,2,Thin-Margin Buyers
+477,Patricia Sanford,Austin,Texas,1,8526.0,1704.0,19.99,725,2,Thin-Margin Buyers
+478,William Walters,San Francisco,California,1,8218.0,1430.0,17.4,646,2,Thin-Margin Buyers
+479,Emma Scott,Buffalo,New York,2,3326.0,808.0,24.29,972,2,Thin-Margin Buyers
+480,Sabrina Buckley,Rochester,New York,2,3326.0,808.0,24.29,100,1,High-Margin Buyers
+481,Robert Rojas,San Francisco,California,1,2589.0,605.0,23.37,499,2,Thin-Margin Buyers
+482,Eric Johnson,Cleveland,Ohio,1,2589.0,605.0,23.37,161,2,Thin-Margin Buyers
+483,Heather Parker,Austin,Texas,1,3776.0,1100.0,29.13,853,1,High-Margin Buyers
+484,Thomas Matthews,Peoria,Illinois,1,3776.0,1100.0,29.13,808,1,High-Margin Buyers
+485,Kimberly Beard,Cleveland,Ohio,1,5402.0,1666.0,30.84,17,1,High-Margin Buyers
+486,Lydia Donovan,Peoria,Illinois,2,10028.0,3279.0,32.7,854,1,High-Margin Buyers
+487,Edward Johnson,Orlando,Florida,1,1626.0,258.0,15.87,1377,2,Thin-Margin Buyers
+488,Ricky Smith,Miami,Florida,1,8851.0,3962.0,44.76,1631,1,High-Margin Buyers
+489,Mr. Ralph Garcia Jr.,Rochester,New York,3,22589.0,7275.0,32.21,320,0,High-Value Accounts
+490,Malik Walker,New York City,New York,1,6622.0,2673.0,40.37,339,1,High-Margin Buyers
+491,Tanya Walker,San Diego,California,1,3260.0,207.0,6.35,450,2,Thin-Margin Buyers
+492,Sherri Ferguson Dvm,Austin,Texas,1,8709.0,2322.0,26.66,317,1,High-Margin Buyers
+493,Kristin Hart,San Francisco,California,1,8709.0,2322.0,26.66,114,1,High-Margin Buyers
+494,Jim Johnson,Cincinnati,Ohio,1,5250.0,187.0,3.56,1094,2,Thin-Margin Buyers
+495,David Hamilton,Houston,Texas,1,5250.0,187.0,3.56,671,2,Thin-Margin Buyers
+496,Michael Jimenez,Los Angeles,California,1,4116.0,921.0,22.38,159,2,Thin-Margin Buyers
+497,Angela Norman,Springfield,Illinois,1,4116.0,921.0,22.38,1649,2,Thin-Margin Buyers
+498,Denise Mcdaniel,Los Angeles,California,1,1109.0,418.0,37.69,1304,1,High-Margin Buyers
+499,Michael Rodriguez,Rochester,New York,2,11628.0,1223.0,10.52,885,2,Thin-Margin Buyers
+500,Matthew Huff,San Diego,California,2,11628.0,1223.0,10.52,1757,2,Thin-Margin Buyers
+501,Linda Little,Tampa,Florida,2,11628.0,1223.0,10.52,1792,2,Thin-Margin Buyers
+502,Kerri Andrews,San Francisco,California,2,13219.0,5698.0,43.1,1015,0,High-Value Accounts
+503,Jeffrey Johnson Iii,San Francisco,California,1,5831.0,1574.0,26.99,850,1,High-Margin Buyers
+504,Daniel Dixon,San Diego,California,1,5831.0,1574.0,26.99,240,1,High-Margin Buyers
+505,Tiffany Robinson,Miami,Florida,1,5831.0,1574.0,26.99,608,1,High-Margin Buyers
+506,Mr. Gregg Sawyer,Peoria,Illinois,1,7952.0,3865.0,48.6,1678,1,High-Margin Buyers
+507,John Silva,Los Angeles,California,1,3659.0,379.0,10.36,266,2,Thin-Margin Buyers
+508,Nathan Moss,Springfield,Illinois,1,4183.0,1159.0,27.71,1706,2,Thin-Margin Buyers
+509,Donald Medina,Houston,Texas,1,7478.0,1381.0,18.47,333,2,Thin-Margin Buyers
+510,Charles Henderson,Tampa,Florida,1,702.0,238.0,33.9,1463,1,High-Margin Buyers
+511,Brenda Davis,San Francisco,California,1,4037.0,1494.0,37.01,714,1,High-Margin Buyers
+512,Leah Calderon,Chicago,Illinois,1,5014.0,2332.0,46.51,1586,1,High-Margin Buyers
+513,Brandi Vasquez,Rochester,New York,1,9879.0,4930.0,49.9,646,1,High-Margin Buyers
+514,Debra Richards,Tampa,Florida,1,8762.0,3502.0,39.97,1306,1,High-Margin Buyers
+515,Tammy Day,New York City,New York,1,8490.0,800.0,9.42,1756,2,Thin-Margin Buyers
+516,Sheila Clay,Buffalo,New York,1,6951.0,164.0,2.36,1311,2,Thin-Margin Buyers
+517,Nicholas Flores,Cleveland,Ohio,1,1078.0,309.0,28.66,924,1,High-Margin Buyers
+518,Jasmin Jones,Chicago,Illinois,1,1078.0,309.0,28.66,1626,2,Thin-Margin Buyers
+519,Matthew Gardner,Tampa,Florida,2,9591.0,2484.0,25.9,1023,2,Thin-Margin Buyers
+520,Joseph Perkins,Orlando,Florida,2,12318.0,4364.0,35.43,370,0,High-Value Accounts
+521,Ashley Adams Md,Orlando,Florida,2,12318.0,4364.0,35.43,527,0,High-Value Accounts
+522,Cheryl Stevens,San Francisco,California,1,4015.0,1751.0,43.61,930,1,High-Margin Buyers
+523,Jorge George,New York City,New York,1,4015.0,1751.0,43.61,1649,1,High-Margin Buyers
+524,Ann Mooney,Los Angeles,California,1,9335.0,557.0,5.97,1418,2,Thin-Margin Buyers
+525,James Mendoza,Cleveland,Ohio,2,11290.0,965.0,8.55,1302,2,Thin-Margin Buyers
+526,Kaitlin Garrison,Columbus,Ohio,2,11290.0,965.0,8.55,1399,2,Thin-Margin Buyers
+527,Jeremy Jackson,Dallas,Texas,1,6389.0,734.0,11.49,1155,2,Thin-Margin Buyers
+528,Dale Craig,San Diego,California,1,9869.0,4299.0,43.56,725,1,High-Margin Buyers
+529,Joseph Hooper,Buffalo,New York,1,9869.0,4299.0,43.56,443,1,High-Margin Buyers
+530,Alexander Adams,Buffalo,New York,1,655.0,297.0,45.34,1124,1,High-Margin Buyers
+531,Ashlee Mills,Orlando,Florida,1,655.0,297.0,45.34,471,1,High-Margin Buyers
+532,Brittany Jenkins,Buffalo,New York,2,8765.0,2812.0,32.08,793,1,High-Margin Buyers
+533,Eddie Gonzales,Cleveland,Ohio,2,8765.0,2812.0,32.08,666,1,High-Margin Buyers
+534,Edward Valencia,Miami,Florida,1,3756.0,1318.0,35.09,390,1,High-Margin Buyers
+535,Emma Bruce,Austin,Texas,2,11782.0,4271.0,36.25,1200,0,High-Value Accounts
+536,Carl Wade Dds,Buffalo,New York,1,6673.0,950.0,14.24,86,2,Thin-Margin Buyers
+537,Brandon Alvarado,Columbus,Ohio,1,714.0,232.0,32.49,787,1,High-Margin Buyers
+538,Jennifer Clark,Austin,Texas,1,714.0,232.0,32.49,1543,1,High-Margin Buyers
+539,David Johnson,Austin,Texas,1,1083.0,501.0,46.26,1476,1,High-Margin Buyers
+540,April Marquez,Cleveland,Ohio,2,3446.0,1430.0,41.5,681,1,High-Margin Buyers
+541,Joseph Guerrero,Los Angeles,California,2,3446.0,1430.0,41.5,1788,1,High-Margin Buyers
+542,Michael Hanson,Rochester,New York,2,3446.0,1430.0,41.5,1310,1,High-Margin Buyers
+543,William Hill,Dallas,Texas,1,7806.0,1127.0,14.44,604,2,Thin-Margin Buyers
+544,Kelsey Huber,Miami,Florida,1,5263.0,1743.0,33.12,930,1,High-Margin Buyers
+545,Hailey Chandler,Dallas,Texas,1,6147.0,2526.0,41.09,732,1,High-Margin Buyers
+546,Cheyenne Rose,Orlando,Florida,2,15184.0,5583.0,36.77,494,0,High-Value Accounts
+547,Richard Petersen,Chicago,Illinois,2,15184.0,5583.0,36.77,333,0,High-Value Accounts
+548,Kathryn Gray,Rochester,New York,1,8537.0,3586.0,42.01,911,1,High-Margin Buyers
+549,Victor Collins,San Diego,California,1,8858.0,3394.0,38.32,135,1,High-Margin Buyers
+550,Jason Hernandez,San Francisco,California,1,5313.0,2037.0,38.34,110,1,High-Margin Buyers
+551,Jacob Torres,Houston,Texas,1,5313.0,2037.0,38.34,1233,1,High-Margin Buyers
+552,Erin Hernandez,Los Angeles,California,1,3281.0,471.0,14.36,444,2,Thin-Margin Buyers
+553,Jacob Guzman,Peoria,Illinois,1,3281.0,471.0,14.36,629,2,Thin-Margin Buyers
+554,Mike Armstrong,New York City,New York,1,8681.0,2458.0,28.31,1656,2,Thin-Margin Buyers
+555,Cindy Rowland,Springfield,Illinois,1,6195.0,1556.0,25.12,42,1,High-Margin Buyers
+556,Kenneth Matthews,Rochester,New York,1,3877.0,481.0,12.41,602,2,Thin-Margin Buyers
+557,Susan Valdez,New York City,New York,1,3877.0,481.0,12.41,1135,2,Thin-Margin Buyers
+558,Stephanie Manning,Orlando,Florida,3,21116.0,8840.0,41.86,535,0,High-Value Accounts
+559,Logan Galloway,New York City,New York,3,21116.0,8840.0,41.86,44,0,High-Value Accounts
+560,Christopher Stone,Cincinnati,Ohio,1,9002.0,4197.0,46.62,59,1,High-Margin Buyers
+561,Megan Pitts,Columbus,Ohio,1,9002.0,4197.0,46.62,1448,1,High-Margin Buyers
+562,Richard Gardner,Columbus,Ohio,1,7105.0,2782.0,39.16,1176,1,High-Margin Buyers
+563,Samuel Moore,Columbus,Ohio,2,11621.0,2111.0,18.17,771,0,High-Value Accounts
+564,Robert Stokes,Orlando,Florida,2,11621.0,2111.0,18.17,687,0,High-Value Accounts
+565,Danielle Ramirez,San Francisco,California,2,11621.0,2111.0,18.17,113,0,High-Value Accounts
+566,Taylor White,Springfield,Illinois,2,17810.0,2015.0,11.31,256,0,High-Value Accounts
+567,Jordan Krause,Cleveland,Ohio,1,1592.0,480.0,30.15,1152,1,High-Margin Buyers
+568,Kimberly King,Columbus,Ohio,2,13363.0,1521.0,11.38,158,0,High-Value Accounts
+569,Sharon Russell,San Diego,California,1,2472.0,211.0,8.54,1728,2,Thin-Margin Buyers
+570,Kevin Cooper,Tampa,Florida,1,9132.0,3096.0,33.9,457,1,High-Margin Buyers
+571,Darrell Ramos,Rochester,New York,1,8305.0,1577.0,18.99,1550,2,Thin-Margin Buyers
+572,Dr. Terry Alvarado,Tampa,Florida,1,1010.0,58.0,5.74,0,2,Thin-Margin Buyers
+573,Kathy Wilson,Dallas,Texas,2,10444.0,3464.0,33.17,206,1,High-Margin Buyers
+574,Brandon Le,San Diego,California,1,8861.0,3381.0,38.16,1388,1,High-Margin Buyers
+575,Mary Wright,Cincinnati,Ohio,1,8158.0,2052.0,25.15,1636,2,Thin-Margin Buyers
+576,Douglas Reynolds,Los Angeles,California,1,3411.0,1704.0,49.96,63,1,High-Margin Buyers
+577,Leroy Harris,Houston,Texas,2,10562.0,1211.0,11.47,1242,2,Thin-Margin Buyers
+578,Ricardo Dixon,Springfield,Illinois,1,5354.0,743.0,13.88,1243,2,Thin-Margin Buyers
+579,Debra Smith,Austin,Texas,1,8780.0,3430.0,39.07,251,1,High-Margin Buyers
+580,Jasmine James,Austin,Texas,1,8780.0,3430.0,39.07,599,1,High-Margin Buyers
+581,Felicia Morton,Columbus,Ohio,1,6783.0,3306.0,48.74,1794,1,High-Margin Buyers
+582,Sylvia Jenkins,New York City,New York,1,1778.0,285.0,16.03,1715,2,Thin-Margin Buyers
+583,Elizabeth White,Rochester,New York,2,17356.0,2914.0,16.79,1034,0,High-Value Accounts
+584,Steven Steele,Springfield,Illinois,1,1638.0,661.0,40.35,476,1,High-Margin Buyers
+585,Amanda Ramirez,Dallas,Texas,1,1786.0,224.0,12.54,1306,2,Thin-Margin Buyers
+586,Kyle Jackson,Buffalo,New York,1,4751.0,781.0,16.44,622,2,Thin-Margin Buyers
+587,Sharon Wilkins,Chicago,Illinois,1,8979.0,4477.0,49.86,1664,1,High-Margin Buyers
+588,Austin Hammond,Miami,Florida,1,2727.0,663.0,24.31,859,2,Thin-Margin Buyers
+589,Jessica Barajas,Peoria,Illinois,2,3729.0,485.0,13.01,353,2,Thin-Margin Buyers
+590,Jamie Jimenez,Buffalo,New York,2,3729.0,485.0,13.01,195,2,Thin-Margin Buyers
+591,James Carter,Columbus,Ohio,2,3729.0,485.0,13.01,1117,2,Thin-Margin Buyers
+592,John Williams,Miami,Florida,3,20482.0,6386.0,31.18,1128,0,High-Value Accounts
+593,Alicia Oneill,Springfield,Illinois,2,16631.0,3875.0,23.3,1388,0,High-Value Accounts
+594,Rebecca Huff,Springfield,Illinois,2,16631.0,3875.0,23.3,619,0,High-Value Accounts
+595,Diana Scott,San Diego,California,2,16631.0,3875.0,23.3,1600,0,High-Value Accounts
+596,Brian Young,Austin,Texas,1,3661.0,436.0,11.91,779,2,Thin-Margin Buyers
+597,Susan Wright,Los Angeles,California,1,2451.0,342.0,13.95,1286,2,Thin-Margin Buyers
+598,Kayla Banks,Cincinnati,Ohio,1,2451.0,342.0,13.95,1219,2,Thin-Margin Buyers
+599,Zachary Pierce,Houston,Texas,1,2451.0,342.0,13.95,228,2,Thin-Margin Buyers
+600,Nicolas Owen,San Francisco,California,1,7067.0,1943.0,27.49,1096,1,High-Margin Buyers
+601,Martha Carney,New York City,New York,2,10001.0,1749.0,17.49,365,2,Thin-Margin Buyers
+602,Francisco Hicks,Springfield,Illinois,2,10001.0,1749.0,17.49,1586,2,Thin-Margin Buyers
+603,Matthew Parker,Springfield,Illinois,1,962.0,298.0,30.98,966,1,High-Margin Buyers
+604,Paul Bryant,Buffalo,New York,2,5042.0,1134.0,22.49,183,2,Thin-Margin Buyers
+605,Bruce Dennis,Austin,Texas,1,2078.0,612.0,29.45,1145,1,High-Margin Buyers
+606,Joseph Bates,New York City,New York,1,2737.0,1253.0,45.78,1426,1,High-Margin Buyers
+607,Kelly Pacheco,Houston,Texas,1,8194.0,2881.0,35.16,1336,1,High-Margin Buyers
+608,Jeffrey Weber,Buffalo,New York,3,16880.0,4812.0,28.51,995,0,High-Value Accounts
+609,Andrew Krueger,Rochester,New York,3,16880.0,4812.0,28.51,280,0,High-Value Accounts
+610,Kathleen Cox,New York City,New York,1,3228.0,476.0,14.75,898,2,Thin-Margin Buyers
+611,Jamie Bradley,San Diego,California,1,3918.0,749.0,19.12,675,2,Thin-Margin Buyers
+612,Robert Martinez,Houston,Texas,1,3918.0,749.0,19.12,1778,2,Thin-Margin Buyers
+613,Christopher Rogers,Chicago,Illinois,1,9921.0,1451.0,14.63,1433,2,Thin-Margin Buyers
+614,Roberto Parrish,Springfield,Illinois,1,9694.0,4361.0,44.99,497,1,High-Margin Buyers
+615,Amber Kennedy,Tampa,Florida,1,5028.0,1553.0,30.89,1776,1,High-Margin Buyers
+616,Maria Davis,Buffalo,New York,1,594.0,67.0,11.28,552,2,Thin-Margin Buyers
+617,Terry Gilbert,Miami,Florida,1,594.0,67.0,11.28,435,2,Thin-Margin Buyers
+618,Devon Schmitt,Austin,Texas,1,594.0,67.0,11.28,311,2,Thin-Margin Buyers
+619,Robert Mosley,Cincinnati,Ohio,1,5954.0,2618.0,43.97,350,1,High-Margin Buyers
+620,Paul Scott,San Francisco,California,2,7675.0,2925.0,38.11,1647,1,High-Margin Buyers
+621,Kristin Alvarez,Springfield,Illinois,2,6941.0,944.0,13.6,1707,2,Thin-Margin Buyers
+622,Kevin Jackson,Buffalo,New York,2,6941.0,944.0,13.6,828,2,Thin-Margin Buyers
+623,Mrs. Lauren Potter Dds,Columbus,Ohio,2,6941.0,944.0,13.6,353,2,Thin-Margin Buyers
+624,Jason Brown,Chicago,Illinois,2,6941.0,944.0,13.6,757,2,Thin-Margin Buyers
+625,Jamie Santos,Los Angeles,California,2,6941.0,944.0,13.6,1333,2,Thin-Margin Buyers
+626,James Taylor,Tampa,Florida,1,8548.0,2305.0,26.97,867,1,High-Margin Buyers
+627,Alicia Vincent,Cincinnati,Ohio,3,12432.0,2565.0,20.63,1535,0,High-Value Accounts
+628,Kenneth Adams,Cleveland,Ohio,3,12432.0,2565.0,20.63,1065,0,High-Value Accounts
+629,Shelby Browning,Chicago,Illinois,3,12432.0,2565.0,20.63,710,0,High-Value Accounts
+630,Johnny Hill,San Diego,California,1,5193.0,2530.0,48.72,1233,1,High-Margin Buyers
+631,Nicholas Tucker,Miami,Florida,1,5193.0,2530.0,48.72,76,1,High-Margin Buyers
+632,Theresa Cline,Cleveland,Ohio,1,7493.0,96.0,1.28,1677,2,Thin-Margin Buyers
+633,Christine Wheeler,Tampa,Florida,1,2062.0,848.0,41.13,376,1,High-Margin Buyers
+634,Carlos Wells,San Diego,California,1,7163.0,1536.0,21.44,515,2,Thin-Margin Buyers
+635,Randall Bell,New York City,New York,1,4026.0,163.0,4.05,596,2,Thin-Margin Buyers
+636,Kendra Mckinney,Miami,Florida,2,9038.0,467.0,5.17,1204,2,Thin-Margin Buyers
+637,Amanda Kim,Columbus,Ohio,1,3482.0,1554.0,44.63,1648,1,High-Margin Buyers
+638,Megan Morgan,Cleveland,Ohio,1,4172.0,235.0,5.63,1382,2,Thin-Margin Buyers
+639,Vincent Kramer,Orlando,Florida,1,4172.0,235.0,5.63,936,2,Thin-Margin Buyers
+640,Raymond Bean,Springfield,Illinois,1,4172.0,235.0,5.63,333,2,Thin-Margin Buyers
+641,Reginald Hebert,Cincinnati,Ohio,1,6265.0,155.0,2.47,935,2,Thin-Margin Buyers
+642,Jeremy Vazquez,Cleveland,Ohio,1,6265.0,155.0,2.47,1464,2,Thin-Margin Buyers
+643,Michael Stewart,Peoria,Illinois,1,2931.0,212.0,7.23,262,2,Thin-Margin Buyers
+644,Kevin Johnson,Tampa,Florida,1,2931.0,212.0,7.23,463,2,Thin-Margin Buyers
+645,Tara Hughes,Tampa,Florida,1,1146.0,188.0,16.4,108,2,Thin-Margin Buyers
+646,Sandra Perkins,Tampa,Florida,1,9215.0,767.0,8.32,1160,2,Thin-Margin Buyers
+647,Heather Bell,San Francisco,California,1,9215.0,767.0,8.32,1230,2,Thin-Margin Buyers
+648,Nancy Boyd,Cincinnati,Ohio,2,10635.0,1563.0,14.7,504,2,Thin-Margin Buyers
+649,Raymond Reyes,San Diego,California,2,10635.0,1563.0,14.7,14,2,Thin-Margin Buyers
+650,Cassandra Jordan,Peoria,Illinois,1,5338.0,1354.0,25.37,226,1,High-Margin Buyers
+651,Evelyn Harris,Buffalo,New York,1,5338.0,1354.0,25.37,647,2,Thin-Margin Buyers
+652,Shannon Maynard,Orlando,Florida,1,5338.0,1354.0,25.37,145,1,High-Margin Buyers
+653,Marie James,Buffalo,New York,1,5338.0,1354.0,25.37,1531,2,Thin-Margin Buyers
+654,Maria Carroll,Cleveland,Ohio,1,3095.0,941.0,30.4,1061,1,High-Margin Buyers
+655,Jessica Sloan,Austin,Texas,1,3095.0,941.0,30.4,947,1,High-Margin Buyers
+656,Scott Craig,Peoria,Illinois,1,6017.0,2230.0,37.06,589,1,High-Margin Buyers
+657,Kaitlin Brown,Dallas,Texas,2,7984.0,1206.0,15.11,1785,2,Thin-Margin Buyers
+658,William Beck,Tampa,Florida,1,1992.0,355.0,17.82,91,2,Thin-Margin Buyers
+659,Eric Mason,Orlando,Florida,1,5346.0,1246.0,23.31,964,2,Thin-Margin Buyers
+660,Lisa Lowe,Miami,Florida,1,5346.0,1246.0,23.31,1043,2,Thin-Margin Buyers
+661,Roy Miller,San Francisco,California,2,14527.0,2340.0,16.11,947,0,High-Value Accounts
+662,Christopher Espinoza,Columbus,Ohio,2,14527.0,2340.0,16.11,946,0,High-Value Accounts
+663,Claire Cole,Houston,Texas,1,670.0,85.0,12.69,572,2,Thin-Margin Buyers
+664,Eric Nunez,San Diego,California,1,4057.0,1012.0,24.94,915,2,Thin-Margin Buyers
+665,David Bell,Los Angeles,California,1,8178.0,2462.0,30.11,573,1,High-Margin Buyers
+666,Patrick Hensley Md,Cincinnati,Ohio,1,8752.0,1686.0,19.26,1539,2,Thin-Margin Buyers
+667,John Cox,Peoria,Illinois,1,8752.0,1686.0,19.26,558,2,Thin-Margin Buyers
+668,Michelle Sullivan,Chicago,Illinois,1,8752.0,1686.0,19.26,1162,2,Thin-Margin Buyers
+669,Angela Todd,New York City,New York,1,8974.0,4441.0,49.49,649,1,High-Margin Buyers
+670,Luke Saunders,Dallas,Texas,2,9941.0,3454.0,34.74,1444,1,High-Margin Buyers
+671,Dr. Jennifer Benton Dvm,Springfield,Illinois,2,9941.0,3454.0,34.74,291,1,High-Margin Buyers
+672,Keith Smith,Miami,Florida,1,5427.0,728.0,13.41,737,2,Thin-Margin Buyers
+673,Danielle Mitchell,Peoria,Illinois,1,2695.0,914.0,33.91,961,1,High-Margin Buyers
+674,Jesus Hernandez,Los Angeles,California,1,2695.0,914.0,33.91,1367,1,High-Margin Buyers
+675,Jason Norman,Miami,Florida,1,2386.0,999.0,41.87,396,1,High-Margin Buyers
+676,Laura Poole,Rochester,New York,1,2284.0,149.0,6.52,1317,2,Thin-Margin Buyers
+677,Sarah Wagner,Houston,Texas,2,14990.0,3967.0,26.46,1049,0,High-Value Accounts
+678,Bryan Baird,Peoria,Illinois,1,7122.0,1982.0,27.83,369,1,High-Margin Buyers
+679,Amy Thompson,Cincinnati,Ohio,1,9775.0,4507.0,46.11,1713,1,High-Margin Buyers
+680,Ashley Wright,Cleveland,Ohio,1,3309.0,177.0,5.35,1549,2,Thin-Margin Buyers
+681,Michelle Lynch,Springfield,Illinois,1,4163.0,897.0,21.55,928,2,Thin-Margin Buyers
+682,Ryan Hale,Cleveland,Ohio,1,4163.0,897.0,21.55,16,2,Thin-Margin Buyers
+683,Marie Jefferson,Orlando,Florida,1,4163.0,897.0,21.55,1379,2,Thin-Margin Buyers
+684,Vanessa Smith,Houston,Texas,1,5518.0,867.0,15.71,814,2,Thin-Margin Buyers
+685,Ryan Foster,Columbus,Ohio,1,7566.0,606.0,8.01,49,2,Thin-Margin Buyers
+686,David Lara,San Diego,California,1,7566.0,606.0,8.01,29,2,Thin-Margin Buyers
+687,Jonathan Young,Springfield,Illinois,1,762.0,92.0,12.07,799,2,Thin-Margin Buyers
+688,Debra Townsend,Cincinnati,Ohio,1,3316.0,126.0,3.8,1616,2,Thin-Margin Buyers
+689,John Thomas,San Francisco,California,1,5994.0,2826.0,47.15,661,1,High-Margin Buyers
+690,Bryan Anderson,Los Angeles,California,1,5994.0,2826.0,47.15,368,1,High-Margin Buyers
+691,Sarah Miller,New York City,New York,1,5994.0,2826.0,47.15,363,1,High-Margin Buyers
+692,Robert Hill,Columbus,Ohio,1,3854.0,245.0,6.36,1033,2,Thin-Margin Buyers
+693,Joshua Rojas,Miami,Florida,1,7019.0,2677.0,38.14,1545,1,High-Margin Buyers
+694,Angelica Lewis,New York City,New York,1,5954.0,2640.0,44.34,1299,1,High-Margin Buyers
+695,Jessica Russell,Dallas,Texas,1,5954.0,2640.0,44.34,875,1,High-Margin Buyers
+696,Mary Johnson,Rochester,New York,1,9752.0,3618.0,37.1,388,1,High-Margin Buyers
+697,Joseph Knight,Peoria,Illinois,1,9752.0,3618.0,37.1,866,1,High-Margin Buyers
+698,Jessica Greene,New York City,New York,1,5335.0,322.0,6.04,1035,2,Thin-Margin Buyers
+699,Vincent Perez,Rochester,New York,1,1454.0,80.0,5.5,967,2,Thin-Margin Buyers
+700,Dennis Rivera,San Francisco,California,1,6724.0,1539.0,22.89,1188,2,Thin-Margin Buyers
+701,Nancy Keller,Dallas,Texas,1,6724.0,1539.0,22.89,1381,2,Thin-Margin Buyers
+702,Michelle Anderson,Cleveland,Ohio,1,9874.0,3895.0,39.45,19,1,High-Margin Buyers
+703,Anthony May,Tampa,Florida,1,4918.0,1485.0,30.2,772,1,High-Margin Buyers
+704,Michelle Guerra,New York City,New York,1,3189.0,1180.0,37.0,1170,1,High-Margin Buyers
+705,Meghan Ballard,New York City,New York,1,2684.0,713.0,26.56,273,1,High-Margin Buyers
+706,Brian Wheeler,Buffalo,New York,1,2684.0,713.0,26.56,1014,2,Thin-Margin Buyers
+707,William Rosario,Dallas,Texas,1,2684.0,713.0,26.56,1769,2,Thin-Margin Buyers
+708,Jessica Hunt,Springfield,Illinois,1,7626.0,229.0,3.0,398,2,Thin-Margin Buyers
+709,Tony Chavez,Columbus,Ohio,1,7626.0,229.0,3.0,1571,2,Thin-Margin Buyers
+710,Mary Crawford,Cincinnati,Ohio,1,6669.0,3063.0,45.93,581,1,High-Margin Buyers
+711,Roger Morrison,Cincinnati,Ohio,1,6123.0,1686.0,27.54,1044,1,High-Margin Buyers
+712,Bethany Harrison,Los Angeles,California,1,3265.0,1390.0,42.57,423,1,High-Margin Buyers
+713,Lisa Mcintyre,Orlando,Florida,1,8104.0,1039.0,12.82,1207,2,Thin-Margin Buyers
+714,Carolyn Gonzalez,Miami,Florida,1,8104.0,1039.0,12.82,1256,2,Thin-Margin Buyers
+715,Christina Oconnell,San Francisco,California,1,8104.0,1039.0,12.82,47,2,Thin-Margin Buyers
+716,James Garcia,Buffalo,New York,1,847.0,355.0,41.91,1027,1,High-Margin Buyers
+717,Emily Frederick,Austin,Texas,1,847.0,355.0,41.91,473,1,High-Margin Buyers
+718,Shawn Wise,San Francisco,California,1,847.0,355.0,41.91,787,1,High-Margin Buyers
+719,Carrie Alvarez,Peoria,Illinois,2,10950.0,3876.0,35.4,1286,1,High-Margin Buyers
+720,Matthew James,Peoria,Illinois,1,9498.0,256.0,2.7,1482,2,Thin-Margin Buyers
+721,Jerry Alvarado,New York City,New York,1,9498.0,256.0,2.7,1256,2,Thin-Margin Buyers
+722,Paul Zimmerman,Rochester,New York,1,5461.0,1214.0,22.23,1742,2,Thin-Margin Buyers
+723,Carl Ryan,Dallas,Texas,1,3084.0,611.0,19.81,298,2,Thin-Margin Buyers
+724,Kelly Roberts,Buffalo,New York,1,6087.0,3043.0,49.99,1683,1,High-Margin Buyers
+725,Jack Woods,Peoria,Illinois,1,611.0,300.0,49.1,1612,1,High-Margin Buyers
+726,Albert Alexander Jr.,Cleveland,Ohio,1,9909.0,2999.0,30.27,1400,1,High-Margin Buyers
+727,Teresa Perez,Austin,Texas,1,9909.0,2999.0,30.27,1157,1,High-Margin Buyers
+728,Amanda Williams,Columbus,Ohio,1,6485.0,3178.0,49.01,606,1,High-Margin Buyers
+729,Kristen Lawson,Springfield,Illinois,1,7259.0,1969.0,27.12,828,1,High-Margin Buyers
+730,Jacob Stewart,Miami,Florida,1,3333.0,700.0,21.0,698,2,Thin-Margin Buyers
+731,Daniel Brooks,Peoria,Illinois,1,7786.0,1202.0,15.44,1726,2,Thin-Margin Buyers
+732,Aaron Dunn,Springfield,Illinois,1,7644.0,2428.0,31.76,1150,1,High-Margin Buyers
+733,Jacob Martinez,Los Angeles,California,1,1476.0,247.0,16.73,483,2,Thin-Margin Buyers
+734,Raymond Burgess,San Diego,California,1,1476.0,247.0,16.73,1151,2,Thin-Margin Buyers
+735,Jennifer Cooke,San Francisco,California,2,13282.0,1789.0,13.47,1636,0,High-Value Accounts
+736,Tyrone White,San Diego,California,1,1314.0,457.0,34.78,1373,1,High-Margin Buyers
+737,Charles Williams,Dallas,Texas,1,5951.0,936.0,15.73,220,2,Thin-Margin Buyers
+738,Amy Page,Columbus,Ohio,1,5951.0,936.0,15.73,963,2,Thin-Margin Buyers
+739,Scott Gibbs,Los Angeles,California,2,5691.0,802.0,14.09,427,2,Thin-Margin Buyers
+740,Angela Roberts,Cleveland,Ohio,1,5557.0,2114.0,38.04,1387,1,High-Margin Buyers
+741,Kyle Hernandez,Dallas,Texas,1,3436.0,933.0,27.15,1371,2,Thin-Margin Buyers
+742,Cynthia Ferguson,Austin,Texas,1,9840.0,3870.0,39.33,690,1,High-Margin Buyers
+743,Brandi Garcia,San Francisco,California,1,7620.0,125.0,1.64,1349,2,Thin-Margin Buyers
+744,Matthew Blake,San Francisco,California,1,7620.0,125.0,1.64,154,2,Thin-Margin Buyers
+745,Lauren Howell,Buffalo,New York,1,4314.0,1591.0,36.88,1258,1,High-Margin Buyers
+746,Joseph Wilson,Cincinnati,Ohio,1,8851.0,999.0,11.29,402,2,Thin-Margin Buyers
+747,Tanner Vance,Houston,Texas,1,544.0,272.0,50.0,1471,1,High-Margin Buyers
+748,Michael Nash,Buffalo,New York,1,544.0,272.0,50.0,629,1,High-Margin Buyers
+749,Brent Thomas,Peoria,Illinois,1,537.0,142.0,26.44,1321,2,Thin-Margin Buyers
+750,Harold Mitchell,Austin,Texas,1,5944.0,2661.0,44.77,1094,1,High-Margin Buyers
+751,Ashley Palmer,Miami,Florida,1,2258.0,135.0,5.98,402,2,Thin-Margin Buyers
+752,Stephen Hogan,San Diego,California,1,2258.0,135.0,5.98,939,2,Thin-Margin Buyers
+753,George Ashley,Houston,Texas,1,9609.0,4339.0,45.16,177,1,High-Margin Buyers
+754,Sara Bailey,Cincinnati,Ohio,1,9609.0,4339.0,45.16,1805,1,High-Margin Buyers
+755,Tanya Thomas Md,Dallas,Texas,1,9952.0,3301.0,33.17,736,1,High-Margin Buyers
+756,Maria Galvan,Columbus,Ohio,1,9873.0,4585.0,46.44,1678,1,High-Margin Buyers
+757,Duane Kelly,New York City,New York,1,3560.0,1335.0,37.5,1781,1,High-Margin Buyers
+758,Frank Reynolds,Springfield,Illinois,1,3560.0,1335.0,37.5,730,1,High-Margin Buyers
+759,Aaron Kim,Buffalo,New York,2,15458.0,3450.0,22.32,1776,0,High-Value Accounts
+760,David Allen,Tampa,Florida,1,4521.0,1778.0,39.33,151,1,High-Margin Buyers
+761,Monica Lee,San Diego,California,1,7091.0,2317.0,32.68,1010,1,High-Margin Buyers
+762,Kimberly Fuller,Cleveland,Ohio,1,2101.0,287.0,13.66,1715,2,Thin-Margin Buyers
+763,Erica Scott,Chicago,Illinois,1,2101.0,287.0,13.66,706,2,Thin-Margin Buyers
+764,Melissa Mitchell,Chicago,Illinois,1,8644.0,1968.0,22.77,477,2,Thin-Margin Buyers
+765,Joshua Murray,Dallas,Texas,1,6672.0,3319.0,49.75,472,1,High-Margin Buyers
+766,John Jones,San Diego,California,1,6672.0,3319.0,49.75,299,1,High-Margin Buyers
+767,Cheryl Johnson,Cincinnati,Ohio,1,4699.0,103.0,2.19,298,2,Thin-Margin Buyers
+768,Lisa Farmer,Houston,Texas,1,4897.0,1001.0,20.44,1194,2,Thin-Margin Buyers
+769,Christopher Walker,Cincinnati,Ohio,1,4897.0,1001.0,20.44,68,2,Thin-Margin Buyers
+770,Elizabeth Coffey,Buffalo,New York,1,5460.0,2088.0,38.24,976,1,High-Margin Buyers
+771,Joseph Clark,Cincinnati,Ohio,1,5460.0,2088.0,38.24,1791,1,High-Margin Buyers
+772,Jamie Brewer,Springfield,Illinois,1,9272.0,1771.0,19.1,121,2,Thin-Margin Buyers
+773,Lauren Boyer,Dallas,Texas,1,9272.0,1771.0,19.1,1792,2,Thin-Margin Buyers
+774,Howard Esparza,Houston,Texas,1,7870.0,1057.0,13.43,514,2,Thin-Margin Buyers
+775,James Hickman,Cleveland,Ohio,1,7870.0,1057.0,13.43,1455,2,Thin-Margin Buyers
+776,Jennifer Hernandez,Cleveland,Ohio,1,7992.0,893.0,11.17,183,2,Thin-Margin Buyers
+777,Shannon Warren,New York City,New York,1,7992.0,893.0,11.17,681,2,Thin-Margin Buyers
+778,Ashley Aguilar,Chicago,Illinois,1,7992.0,893.0,11.17,654,2,Thin-Margin Buyers
+779,Daniel Price,New York City,New York,1,6499.0,2189.0,33.68,273,1,High-Margin Buyers
+780,James Perez,Orlando,Florida,1,6499.0,2189.0,33.68,1442,1,High-Margin Buyers
+781,Jerry Smith,San Diego,California,1,8848.0,2090.0,23.62,60,2,Thin-Margin Buyers
+782,Andre Fernandez,Orlando,Florida,1,8044.0,3634.0,45.18,1542,1,High-Margin Buyers
+783,Anthony West,San Diego,California,1,8044.0,3634.0,45.18,890,1,High-Margin Buyers
+784,Amber Flowers,Tampa,Florida,1,7417.0,1334.0,17.99,1257,2,Thin-Margin Buyers
+785,Patricia Davis,Chicago,Illinois,1,3451.0,658.0,19.07,77,2,Thin-Margin Buyers
+786,Jasmine Gibbs,Austin,Texas,1,8531.0,2555.0,29.95,1036,1,High-Margin Buyers
+787,Nicole Dudley,New York City,New York,1,6646.0,848.0,12.76,574,2,Thin-Margin Buyers
+788,Lori Colon,Buffalo,New York,1,6646.0,848.0,12.76,610,2,Thin-Margin Buyers
+789,William Carr,Dallas,Texas,1,2553.0,907.0,35.53,632,1,High-Margin Buyers
+790,Jeffrey Dixon,New York City,New York,1,8490.0,3485.0,41.05,725,1,High-Margin Buyers
+791,Robert Sexton,Los Angeles,California,1,2689.0,1330.0,49.46,1553,1,High-Margin Buyers
+792,Brooke Gonzalez,Miami,Florida,1,2689.0,1330.0,49.46,290,1,High-Margin Buyers
+793,Victoria Bryant Md,San Francisco,California,1,815.0,54.0,6.63,1390,2,Thin-Margin Buyers
+794,Nancy Kennedy,Dallas,Texas,1,5024.0,379.0,7.54,347,2,Thin-Margin Buyers
+795,Andrew Barry,Peoria,Illinois,1,5024.0,379.0,7.54,833,2,Thin-Margin Buyers
+796,Carlos Wheeler,Cleveland,Ohio,1,8962.0,2444.0,27.27,1342,2,Thin-Margin Buyers
+797,Isabella Roach,Peoria,Illinois,1,8962.0,2444.0,27.27,1819,2,Thin-Margin Buyers
+798,Samantha Williams,Orlando,Florida,1,1961.0,59.0,3.01,1679,2,Thin-Margin Buyers
+799,Samuel Little Md,Chicago,Illinois,1,526.0,83.0,15.78,1121,2,Thin-Margin Buyers
+800,Paul Taylor,San Francisco,California,1,6093.0,3042.0,49.93,1370,1,High-Margin Buyers
+801,Susan Baker,San Diego,California,1,6093.0,3042.0,49.93,1475,1,High-Margin Buyers
+802,Mark Fry,Austin,Texas,1,7699.0,246.0,3.2,539,2,Thin-Margin Buyers
+803,Megan Mclean,New York City,New York,1,8825.0,3594.0,40.73,227,1,High-Margin Buyers
+804,Caitlin Hunt,Rochester,New York,1,2082.0,642.0,30.84,1747,1,High-Margin Buyers
+805,Jenna Holland,Austin,Texas,1,2082.0,642.0,30.84,821,1,High-Margin Buyers
+806,Stephanie Oconnell,Buffalo,New York,1,2082.0,642.0,30.84,1681,1,High-Margin Buyers
+807,Andrea Hill,Chicago,Illinois,1,914.0,163.0,17.83,140,2,Thin-Margin Buyers
