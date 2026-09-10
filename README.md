@@ -7,7 +7,7 @@ Checkpoints 1 and 2 of 4 are complete.
 | --- | --- | --- |
 | **CP1** — Data Fundamentals & SQL | Preliminary | [Report](reports/Checkpoint_1_Report.docx) · [SQL](sql/) · [ERD](docs/erd.md) · [Explainer](docs/Checkpoint_1_Explained.docx) |
 | **CP2** — Spreadsheet & Statistics | Midterm | [Report](reports/Checkpoint_2_Report.docx) · [Workbook](reports/Checkpoint_2_Workbook.xlsx) · [Excel guide](docs/checkpoint2_excel_guide.md) · [Explainer](docs/Checkpoint_2_Explained.docx) |
-| CP3 — BI Dashboard | Semi-Final | not started |
+| CP3 — BI Dashboard | Semi-Final | [Spec](docs/Checkpoint_3_Spec.docx) · [Views](sql/06_dashboard_views.sql) · [Data](data/dashboard/) — data layer done, visuals not built |
 | CP4 — Predictive & Defense | Final | not started |
 
 > ### Read before submitting
@@ -53,6 +53,7 @@ sql/01_schema_sqlite.sql                     mirror used for the local run
 sql/03_insert_data.sql                       generated INSERT statements
 sql/04_queries.sql                           the 8 Task 1.4 queries
 sql/05_screenshot_queries.sql                run-in-order script for screenshots
+sql/06_dashboard_views.sql                   five views the Checkpoint 3 dashboard reads
 scripts/clean_and_load.py                    clean → normalise → load → verify
 scripts/run_queries.py                       run all queries, capture results
 scripts/make_figures.py                      regenerate the report charts
@@ -70,6 +71,8 @@ docs/discussion_script.md                     recording script: 16 clips across 
 docs/parts/                                  one script per speaker, for recording separately
 scripts/split_script.py                      splits the script into the per-speaker parts
 scripts/build_form_a.py                      builds the contribution form
+scripts/build_dashboard_data.py              exports and verifies data/dashboard/*.csv
+docs/checkpoint3_spec.md                     CP3 data layer, measures and dashboard layout
 ```
 
 ## Reproducing everything

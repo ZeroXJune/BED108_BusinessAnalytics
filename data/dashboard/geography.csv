@@ -1,0 +1,19 @@
+state_name,city_name,transaction_lines,customers,revenue,profit,revenue_per_customer,margin_pct
+Florida,Orlando,77,46,452158.0,128125.0,9829.52,28.34
+California,San Francisco,84,53,440000.0,108106.0,8301.89,24.57
+New York,Buffalo,90,58,418514.0,111823.0,7215.76,26.72
+New York,Rochester,74,46,407291.0,109729.0,8854.15,26.94
+Texas,Dallas,72,50,390144.0,102483.0,7802.88,26.27
+California,San Diego,73,48,389104.0,101444.0,8106.33,26.07
+Florida,Miami,66,46,370881.0,109739.0,8062.63,29.59
+Illinois,Springfield,68,47,370131.0,84205.0,7875.13,22.75
+Illinois,Chicago,63,39,344675.0,80061.0,8837.82,23.23
+Texas,Austin,65,47,335199.0,82638.0,7131.89,24.65
+Ohio,Cleveland,70,46,334220.0,81454.0,7265.65,24.37
+New York,New York City,62,48,304243.0,86954.0,6338.4,28.58
+Ohio,Cincinnati,61,41,303856.0,78788.0,7411.12,25.93
+Texas,Houston,52,35,286132.0,72659.0,8175.2,25.39
+Florida,Tampa,57,42,268135.0,70842.0,6384.17,26.42
+Illinois,Peoria,50,39,263932.0,76106.0,6767.49,28.84
+California,Los Angeles,61,41,257332.0,69264.0,6276.39,26.92
+Ohio,Columbus,49,35,246692.0,56277.0,7048.34,22.81
