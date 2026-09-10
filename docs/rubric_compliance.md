@@ -91,7 +91,7 @@ group can supply.
 | At least 3 numerical variables | Done | Amount, Profit, Quantity |
 | Mean, median, mode | Done | `Descriptive Stats` |
 | Std deviation, variance, range, min, max | Done | `Descriptive Stats`, plus quartiles, IQR and coefficient of variation |
-| Frequency distribution table | Done | `Frequency`, ten bins with a total check |
+| Frequency distribution table | Done | Report Table 5, ten bins; live formulas on the `Frequency` sheet |
 | Histogram for one key variable | Done | `Frequency`, Amount |
 | One paragraph narrative per variable | Done | Report, Task 2.2 |
 
@@ -113,7 +113,7 @@ group can supply.
 | Test significance of the slope (p-value) | Done | t = 17.75, df = 55, p = 1.98 × 10⁻²⁴ |
 | At least one business forecast | Exceeded | Four order volumes, plus the 250,000/year gap valuation |
 | Discuss limitations and conditions | Done | Six numbered limitations |
-| Data Analysis ToolPak | Partial | Computed with individual functions, which shows the working. ToolPak procedure and an expected-output table are in the Excel guide §3 — **ACTION: run it and screenshot** |
+| Data Analysis ToolPak | Partial | Computed with individual functions, which shows the working. Report carries a screenshot placeholder; procedure and expected output in the Excel guide §3 — **ACTION: run it and screenshot** |
 
 ## Task 2.5 — Trend / Seasonality Analysis
 

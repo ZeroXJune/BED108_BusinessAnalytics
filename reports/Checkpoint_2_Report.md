@@ -96,6 +96,9 @@ Caption: Workbook structure and the task each sheet satisfies.
 | Forecast | 2.5 | Trend test, seasonal index, forecast, holdout check |
 | PivotTable 1–3 | 2.1 sheets 2–3 | Three native Excel PivotTables, each with a PivotChart |
 
+_(Insert your screenshots of the three PivotTables and their PivotCharts here,
+taken from the workbook after opening it in Excel.)_
+
 ## Sheet 1 — Cleaned Data
 
 The 1,194 transaction lines exported from the Checkpoint 1 database, with the
@@ -193,6 +196,33 @@ Like Amount, it is **flat rather than peaked**: no preferred order size, no
 clustering at round numbers such as 5, 10 or 12, which real order data almost
 always shows. The mode is 14, appearing 73 times, but with 20 possible values
 and 1,194 rows that is close to what chance alone would produce.
+
+## Frequency distribution of Amount
+
+Ten bins of 1,000, counted with `COUNTIFS` rather than the `FREQUENCY` array
+function so that every cell is independent and auditable. The bin counts sum to
+1,194, which the workbook checks against `COUNT(Amount)`.
+
+Caption: Frequency distribution of transaction Amount, ten bins of 1,000.
+
+| Bin (Amount) | Frequency | Relative % | Cumulative % |
+| --- | --- | --- | --- |
+| 0 – 999 | 83 | 7.0% | 7.0% |
+| 1,000 – 1,999 | 109 | 9.1% | 16.1% |
+| 2,000 – 2,999 | 136 | 11.4% | 27.5% |
+| 3,000 – 3,999 | 136 | 11.4% | 38.9% |
+| 4,000 – 4,999 | 113 | 9.5% | 48.3% |
+| 5,000 – 5,999 | 126 | 10.6% | 58.9% |
+| 6,000 – 6,999 | 122 | 10.2% | 69.1% |
+| 7,000 – 7,999 | 118 | 9.9% | 79.0% |
+| 8,000 – 8,999 | 123 | 10.3% | 89.3% |
+| 9,000 – 9,999 | 128 | 10.7% | 100.0% |
+| **Total** | **1,194** | **100.0%** | — |
+
+No bin holds more than 11.4% of the rows and none holds less than 7.0%. A normal
+distribution would concentrate around the mean and thin out at both tails; this
+is close to flat, which is the shape a random number generator produces. Read the
+shape, not only the summary statistics.
 
 Caption: Frequency distribution of transaction Amount. The flat shape indicates a uniform, not normal, distribution.
 
@@ -292,6 +322,10 @@ Caption: Simple linear regression of monthly revenue on monthly order count.
 | Degrees of freedom | 55 |
 | **p-value** | **1.98 × 10⁻²⁴** |
 | Significant at 5%? | **Yes** |
+
+_(Insert your screenshot of the Data Analysis ToolPak regression output here.
+The expected values are in the table above; the ToolPak procedure is in
+`docs/checkpoint2_excel_guide.md`, section 3.)_
 
 ## The regression equation
 
