@@ -73,13 +73,28 @@ def main():
     os.makedirs(OUTDIR, exist_ok=True)
     for view, filename, order in EXPORTS:
         cur = conn.execute("SELECT * FROM %s ORDER BY %s" % (view, order))
+        header = [d[0] for d in cur.description]
+        rows = [list(r) for r in cur.fetchall()]
+
+        # A BI tool needs a real date to put on a continuous axis or to relate
+        # to a calendar table; `year_month` is text. The SQL views leave this
+        # out because CONCAT and || are not portable between MySQL and SQLite
+        # — in MySQL the equivalent is
+        #     CAST(CONCAT(year_month, '-01') AS DATE) AS month_start
+        if "year_month" in header:
+            i = header.index("year_month")
+            header.insert(i + 1, "month_start")
+            for r in rows:
+                r.insert(i + 1, r[i] + "-01")
+
         path = os.path.join(OUTDIR, filename)
         with open(path, "w", newline="") as fh:
             writer = csv.writer(fh)
-            writer.writerow([d[0] for d in cur.description])
-            rows = cur.fetchall()
+            writer.writerow(header)
             writer.writerows(rows)
-        print("  wrote %-22s %5d rows" % (filename, len(rows)))
+        print("  wrote %-22s %5d rows%s"
+              % (filename, len(rows),
+                 "  (+month_start)" if "month_start" in header else ""))
     conn.close()
 
 

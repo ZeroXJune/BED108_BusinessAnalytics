@@ -1,0 +1,133 @@
+// =====================================================================
+// BED 106 — Checkpoint 3 dashboard: every measure.
+//
+// HOW TO USE
+//   Power BI Desktop → Modeling → New measure, once per measure below.
+//   Paste one block at a time (name, "=", then the expression).
+//
+//   Faster: install the free Tabular Editor 2 external tool, open the
+//   Advanced Scripting tab and paste the C# block at the bottom of this
+//   file, which creates all of them in one go.
+//
+// Every measure lives on the Sales table unless marked otherwise.
+// Check the results against the "expected values" table in
+// docs/checkpoint3_spec.md before building any visual on them.
+// =====================================================================
+
+Revenue = SUM ( Sales[amount] )
+
+Profit = SUM ( Sales[profit] )
+
+Orders = COUNTROWS ( Sales )
+
+Units = SUM ( Sales[quantity] )
+
+Customers = DISTINCTCOUNT ( Sales[customer_name] )
+
+Margin % = DIVIDE ( [Profit], [Revenue] ) * 100
+
+Avg Line Value = DIVIDE ( [Revenue], [Orders] )
+
+// Months actually covered by the current filter. Everything "per month"
+// divides by this and never by 12: 2020 holds nine months, and dividing a
+// nine-month year by twelve is the error Checkpoint 2 caught.
+Months Covered = DISTINCTCOUNT ( Sales[year_month] )
+
+Revenue per Month = DIVIDE ( [Revenue], [Months Covered] )
+
+Orders per Month = DIVIDE ( [Orders], [Months Covered] )
+
+// The 2022 peak, used as the comparison on every KPI card. ALL() clears
+// the page's year slicer so the peak stays the peak whatever is selected.
+Peak Revenue per Month =
+CALCULATE (
+    [Revenue per Month],
+    ALL ( Sales ),
+    Sales[year_number] = 2022
+)
+
+Peak Orders per Month =
+CALCULATE (
+    [Orders per Month],
+    ALL ( Sales ),
+    Sales[year_number] = 2022
+)
+
+Gap to Peak % =
+DIVIDE (
+    [Revenue per Month] - [Peak Revenue per Month],
+    [Peak Revenue per Month]
+) * 100
+
+Order Gap = [Peak Orders per Month] - [Orders per Month]
+
+// 5224.25 is the slope of the Checkpoint 2 regression. It is a constant
+// here on purpose: changing it means refitting the model, not editing a
+// measure. See reports/Checkpoint_2_Report.docx, Task 2.4.
+Gap Value per Year = [Order Gap] * 5224.25 * 12
+
+// --- Segment measures, for page 3 -----------------------------------
+// These sit on CustomerSegments, which is one row per customer.
+Segment Customers = COUNTROWS ( CustomerSegments )
+
+Segment Revenue = SUM ( CustomerSegments[revenue] )
+
+Segment Profit = SUM ( CustomerSegments[profit] )
+
+Segment Margin % = DIVIDE ( [Segment Profit], [Segment Revenue] ) * 100
+
+// Share of the whole book, so the "43% of customers, 19% of profit"
+// finding can be read straight off a card.
+Segment % of Customers =
+DIVIDE ( [Segment Customers], CALCULATE ( [Segment Customers], ALL ( CustomerSegments ) ) ) * 100
+
+Segment % of Revenue =
+DIVIDE ( [Segment Revenue], CALCULATE ( [Segment Revenue], ALL ( CustomerSegments ) ) ) * 100
+
+Segment % of Profit =
+DIVIDE ( [Segment Profit], CALCULATE ( [Segment Profit], ALL ( CustomerSegments ) ) ) * 100
+
+// =====================================================================
+// Tabular Editor 2 — creates every measure above in one run.
+//
+//   Power BI Desktop → External Tools → Tabular Editor
+//   → Advanced Scripting tab → paste everything between the fences
+//   → run (F5) → back in Power BI Desktop, Refresh now
+//
+// Free download: tabulareditor.com (version 2 is the free one).
+// If you would rather not install it, just add the measures by hand;
+// there are twenty and it takes about fifteen minutes.
+// ---------------------------------------------------------------------
+/*
+var sales = Model.Tables["Sales"];
+var segs  = Model.Tables["CustomerSegments"];
+
+Action<Table, string, string, string> add = (t, name, expr, fmt) => {
+    var m = t.AddMeasure(name, expr);
+    m.FormatString = fmt;
+};
+
+add(sales, "Revenue",                "SUM ( Sales[amount] )", "#,0");
+add(sales, "Profit",                 "SUM ( Sales[profit] )", "#,0");
+add(sales, "Orders",                 "COUNTROWS ( Sales )", "#,0");
+add(sales, "Units",                  "SUM ( Sales[quantity] )", "#,0");
+add(sales, "Customers",              "DISTINCTCOUNT ( Sales[customer_name] )", "#,0");
+add(sales, "Margin %",               "DIVIDE ( [Profit], [Revenue] ) * 100", "#,0.00");
+add(sales, "Avg Line Value",         "DIVIDE ( [Revenue], [Orders] )", "#,0.00");
+add(sales, "Months Covered",         "DISTINCTCOUNT ( Sales[year_month] )", "#,0");
+add(sales, "Revenue per Month",      "DIVIDE ( [Revenue], [Months Covered] )", "#,0.00");
+add(sales, "Orders per Month",       "DIVIDE ( [Orders], [Months Covered] )", "#,0.0");
+add(sales, "Peak Revenue per Month", "CALCULATE ( [Revenue per Month], ALL ( Sales ), Sales[year_number] = 2022 )", "#,0.00");
+add(sales, "Peak Orders per Month",  "CALCULATE ( [Orders per Month], ALL ( Sales ), Sales[year_number] = 2022 )", "#,0.0");
+add(sales, "Gap to Peak %",          "DIVIDE ( [Revenue per Month] - [Peak Revenue per Month], [Peak Revenue per Month] ) * 100", "#,0.0");
+add(sales, "Order Gap",              "[Peak Orders per Month] - [Orders per Month]", "#,0.0");
+add(sales, "Gap Value per Year",     "[Order Gap] * 5224.25 * 12", "#,0");
+
+add(segs, "Segment Customers",       "COUNTROWS ( CustomerSegments )", "#,0");
+add(segs, "Segment Revenue",         "SUM ( CustomerSegments[revenue] )", "#,0");
+add(segs, "Segment Profit",          "SUM ( CustomerSegments[profit] )", "#,0");
+add(segs, "Segment Margin %",        "DIVIDE ( [Segment Profit], [Segment Revenue] ) * 100", "#,0.00");
+add(segs, "Segment % of Customers",  "DIVIDE ( [Segment Customers], CALCULATE ( [Segment Customers], ALL ( CustomerSegments ) ) ) * 100", "#,0.0");
+add(segs, "Segment % of Revenue",    "DIVIDE ( [Segment Revenue], CALCULATE ( [Segment Revenue], ALL ( CustomerSegments ) ) ) * 100", "#,0.0");
+add(segs, "Segment % of Profit",     "DIVIDE ( [Segment Profit], CALCULATE ( [Segment Profit], ALL ( CustomerSegments ) ) ) * 100", "#,0.0");
+*/

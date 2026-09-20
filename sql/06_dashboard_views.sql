@@ -27,6 +27,10 @@ SELECT
     s.sale_id,
     s.order_ref,
     s.order_date,
+    -- customer_id, not customer_name, is the key: 802 distinct names resolve
+    -- to 807 customers because five names appear in more than one city.
+    -- Joining a BI model on the name would silently merge those five.
+    s.customer_id,
     d.year_number,
     d.quarter_number,
     d.month_number,
