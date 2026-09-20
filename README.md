@@ -8,7 +8,7 @@ Checkpoints 1 and 2 of 4 are complete.
 | **CP1** — Data Fundamentals & SQL | Preliminary | [Report](reports/Checkpoint_1_Report.docx) · [SQL](sql/) · [ERD](docs/erd.md) · [Explainer](docs/Checkpoint_1_Explained.docx) |
 | **CP2** — Spreadsheet & Statistics | Midterm | [Report](reports/Checkpoint_2_Report.docx) · [Workbook](reports/Checkpoint_2_Workbook.xlsx) · [Excel guide](docs/checkpoint2_excel_guide.md) · [Explainer](docs/Checkpoint_2_Explained.docx) |
 | CP3 — BI Dashboard | Semi-Final | [Spec + blueprint](docs/Checkpoint_3_Spec.docx) · [Views](sql/06_dashboard_views.sql) · [Data](data/dashboard/) — Tasks 3.1 and 3.3 done; **ACTION: build the .pbix** |
-| CP4 — Predictive & Defense | Final | not started |
+| CP4 — Predictive & Defense | Final | [Spec](docs/Checkpoint_4_Spec.docx) · [Ethics](docs/Checkpoint_4_Ethics.docx) · [Model output](reports/predictive_model_results.md) — Tasks 4.1 and 4.2 done |
 
 > ### Read before submitting
 >
@@ -74,6 +74,7 @@ scripts/build_form_a.py                      builds the contribution form
 scripts/build_dashboard_data.py              exports and verifies data/dashboard/*.csv
 scripts/build_segments.py                    k-means segmentation for Task 3.3
 scripts/make_wireframe.py                    the Task 3.1 blueprint
+scripts/build_predictive_model.py            Task 4.1 multiple regression, with diagnostics
 docs/checkpoint3_spec.md                     CP3 data layer, measures and dashboard layout
 ```
 

@@ -43,6 +43,10 @@ DOCUMENTS = [
      os.path.join(ROOT, "docs", "Discussion_Script.docx")),
     (os.path.join(ROOT, "docs", "checkpoint3_spec.md"),
      os.path.join(ROOT, "docs", "Checkpoint_3_Spec.docx")),
+    (os.path.join(ROOT, "docs", "checkpoint4_spec.md"),
+     os.path.join(ROOT, "docs", "Checkpoint_4_Spec.docx")),
+    (os.path.join(ROOT, "docs", "checkpoint4_ethics.md"),
+     os.path.join(ROOT, "docs", "Checkpoint_4_Ethics.docx")),
 ]
 
 INK = RGBColor(0x1F, 0x29, 0x33)
