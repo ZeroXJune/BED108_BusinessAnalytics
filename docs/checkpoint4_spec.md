@@ -203,7 +203,7 @@ The brief specifies eleven sections. Most already exist.
 | 8 | Ethics & governance | `checkpoint4_ethics.md` | Ready |
 | 9 | Conclusions & recommendations | Below | Ready, 3–5 required |
 | 10 | References | — | **ACTION: APA format** |
-| 11 | Appendix | Form A, raw sample, peer evals | **ACTION: peer evaluation forms** |
+| 11 | Appendix | Form A, raw sample, Form B | Forms ready — **ACTION: sign them** |
 
 ### The 3–5 actionable recommendations for section 9
 
@@ -272,10 +272,32 @@ growth as 69.9% when it is 30.9%.
 
 ### Submission checklist
 
-- Printed integrated capstone report, all eleven sections
-- Dashboard file and exported PDF
-- Signed Individual Contribution Forms
-- Peer evaluation forms
+Taken from the brief's Checkpoint 4 submission requirements, in its order.
+
+| Deliverable | Status |
+| --- | --- |
+| Final capstone report — spiral-bound hardcopy **and** digital PDF | **ACTION: integrate the 11 sections** |
+| All digital files in one organised folder: SQL, Excel, Power BI, datasets | Everything exists except the `.pbix` — see below |
+| Presentation slide deck, `.pptx` or `.pdf` | **ACTION: not yet built** |
+| Peer Evaluation Forms, one per member, signed | `reports/Form_B_Peer_Evaluation.docx` — three copies, **ACTION: sign** |
+| Individual Contribution Forms for **all four** checkpoints | `reports/Form_A_Individual_Contribution.docx` — twelve copies, **ACTION: sign** |
+| Due: beginning of Week 16, before defense schedules begin | — |
+
+**What goes in the digital folder.** The brief asks for one organised folder
+containing the SQL, the Excel, the Power BI file and the datasets:
+
+| Folder | From this repository |
+| --- | --- |
+| `sql/` | `01_schema_mysql.sql`, `02_mysql_full_import.sql`, `04_queries.sql`, `06_dashboard_views.sql` |
+| `excel/` | `reports/Checkpoint_2_Workbook.xlsx` — the Checkpoint 2 deliverable, unchanged |
+| `powerbi/` | `Checkpoint_3_Dashboard.pbix` and its exported PDF — **ACTION** |
+| `data/` | `data/raw/sales_dataset_raw.csv` and `data/dashboard/*.csv` |
+| `reports/` | All four checkpoint reports as PDF |
+
+The Excel workbook is Checkpoint 2's and needs no changes for Checkpoint 4 —
+it is included because the brief asks for all digital files together, not
+because anything new is required of it.
+
 - Defense scheduled, Weeks 16–18
 
 ### And the standing constraint

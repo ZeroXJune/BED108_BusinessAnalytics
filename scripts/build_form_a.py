@@ -1,10 +1,13 @@
 """
 Builds the printable Individual Contribution Form (Form A).
 
-Section 1.4 of the BED 106 brief requires a signed copy from every group
-member with every checkpoint, so the document holds one page per role - four
-ready-to-sign copies - followed by a reminder page of what each role actually
-did in Checkpoints 1 and 2.
+Checkpoint 4 requires signed forms for all four checkpoints, one per member,
+so the document holds a ready-to-sign page for every member-checkpoint pair -
+twelve for a group of three - followed by a reminder page of what was actually
+done in each checkpoint.
+
+Member name and role are left blank to write in: the brief asks for both, and
+who held which role is the group's to state.
 
 Formatted to the Section 3.1 standard: Arial 12pt, 1-inch margins.
 
@@ -27,8 +30,13 @@ INK = RGBColor(0x1F, 0x29, 0x33)
 ACCENT = RGBColor(0x2F, 0x6F, 0x9F)
 MUTED = RGBColor(0x5A, 0x66, 0x72)
 
-ROLES = ["Project Lead / Analyst", "Data Engineer",
-         "Statistician / Modeler", "BI Developer / Visualizer"]
+MEMBERS = 3          # copies per checkpoint, one for each member
+CHECKPOINTS = [
+    (1, "Data Fundamentals & SQL Querying"),
+    (2, "Spreadsheet & Statistical Analysis"),
+    (3, "BI Dashboard Development"),
+    (4, "Capstone Analytics Project & Final Defense"),
+]
 
 PROMPTS = {
     "Checkpoint 1 — Data Fundamentals & SQL Querying": [
@@ -59,6 +67,39 @@ PROMPTS = {
         ("BI Developer / Visualizer",
          "Pivot charts, histogram, scatter plots with trendlines, forecast "
          "chart, workbook formatting and layout."),
+    ],
+    "Checkpoint 3 — BI Dashboard Development": [
+        ("Project Lead / Analyst",
+         "Dashboard blueprint and page purposes, the choice of order count as "
+         "the primary KPI, the written discussion of insights, presentation "
+         "narrative."),
+        ("Data Engineer",
+         "The five dashboard views, the exported datasets and their "
+         "verification against the published figures, the Power BI data model "
+         "and relationships."),
+        ("Statistician / Modeler",
+         "The clustering: feature choice, selecting k by silhouette, naming "
+         "the segments from the cluster centres, and the segment profile "
+         "figures."),
+        ("BI Developer / Visualizer",
+         "Building the three dashboard pages, slicers and drill-through, "
+         "chart formatting, titles and labels, the exported PDF."),
+    ],
+    "Checkpoint 4 — Capstone Analytics Project & Final Defense": [
+        ("Project Lead / Analyst",
+         "Executive summary, integration of all four checkpoints into the "
+         "final report, the conclusions and recommendations, defense "
+         "coordination."),
+        ("Data Engineer",
+         "Data governance section, the compiled digital submission folder, "
+         "references and appendix."),
+        ("Statistician / Modeler",
+         "The multiple regression, multicollinearity and residual "
+         "diagnostics, holdout evaluation, model assumptions and "
+         "limitations."),
+        ("BI Developer / Visualizer",
+         "Slide deck, dashboard screenshots and annotation, figure and table "
+         "numbering across the integrated report."),
     ],
 }
 
@@ -125,7 +166,24 @@ def small(doc, text, italic=True, after=10):
     return par
 
 
-def form_page(doc, role):
+def prefilled(doc, label, value, space_after=18):
+    """A labelled line with the value already filled in."""
+    par = doc.add_paragraph()
+    par.paragraph_format.space_after = Pt(space_after)
+    run = par.add_run(label + "  ")
+    run.bold = True
+    run.font.name = FONT
+    run.font.size = Pt(11)
+    run.font.color.rgb = INK
+    run = par.add_run(value)
+    run.font.name = FONT
+    run.font.size = Pt(11)
+    run.font.color.rgb = ACCENT
+    rule(par)
+    return par
+
+
+def form_page(doc, number, title):
     heading(doc, "Individual Contribution Form", 16)
     heading(doc, "BED 106 — Business Analytics · Mini Capstone Project",
             11, INK, after=2)
@@ -133,22 +191,9 @@ def form_page(doc, role):
                "Instructor: Jessie A. Melendres", after=16)
 
     field(doc, "Group Name / Number:")
-    field(doc, "Checkpoint No.:")
+    prefilled(doc, "Checkpoint No.:", "%d — %s" % (number, title))
     field(doc, "Member Name:")
-
-    # The role is pre-filled so each printed page belongs to one member.
-    par = doc.add_paragraph()
-    par.paragraph_format.space_after = Pt(18)
-    run = par.add_run("Role:  ")
-    run.bold = True
-    run.font.name = FONT
-    run.font.size = Pt(11)
-    run.font.color.rgb = INK
-    run = par.add_run(role)
-    run.font.name = FONT
-    run.font.size = Pt(11)
-    run.font.color.rgb = ACCENT
-    rule(par)
+    field(doc, "Role:")
 
     heading(doc, "Specific Contributions This Checkpoint", 12, INK, after=4)
     small(doc, "Write these in your own words. Be specific about what you "
@@ -223,17 +268,22 @@ def main():
         section.left_margin = section.right_margin = Inches(1.0)
         section.top_margin = section.bottom_margin = Inches(1.0)
 
-    for i, role in enumerate(ROLES):
-        if i:
-            doc.add_page_break()
-        form_page(doc, role)
+    first = True
+    for number, title in CHECKPOINTS:
+        for _ in range(MEMBERS):
+            if not first:
+                doc.add_page_break()
+            first = False
+            form_page(doc, number, title)
 
     doc.add_page_break()
     prompts_page(doc)
 
     doc.save(OUT)
+    pages = len(CHECKPOINTS) * MEMBERS
     print(f"wrote {OUT}")
-    print(f"  {len(ROLES)} signable copies, one per role, plus a prompts page")
+    print(f"  {pages} signable copies — {MEMBERS} members x "
+          f"{len(CHECKPOINTS)} checkpoints — plus a prompts page")
 
 
 if __name__ == "__main__":
