@@ -237,6 +237,13 @@ The brief specifies eleven sections. Most already exist.
 `docs/discussion_script.md` already covers the first three segments and the
 recommendations as spoken lines and can be extended for the last three.
 
+**The deck is built**: `reports/Capstone_Defense_Deck.pptx`, 23 slides mapped
+to the seven segments, with speaker notes on every slide. Two things to do to
+it before the defense — replace the wireframe on the demo slide with a
+screenshot of the finished dashboard, and fill the group number on the title
+slide. Rebuild with `node scripts/build_deck.js` after editing the generator
+rather than editing the file by hand, or the two will drift.
+
 ### The four questions most likely to be asked
 
 **"Your multiple regression performed worse than your simple one. Why present
@@ -278,7 +285,7 @@ Taken from the brief's Checkpoint 4 submission requirements, in its order.
 | --- | --- |
 | Final capstone report — spiral-bound hardcopy **and** digital PDF | **ACTION: integrate the 11 sections** |
 | All digital files in one organised folder: SQL, Excel, Power BI, datasets | Everything exists except the `.pbix` — see below |
-| Presentation slide deck, `.pptx` or `.pdf` | **ACTION: not yet built** |
+| Presentation slide deck, `.pptx` or `.pdf` | `reports/Capstone_Defense_Deck.pptx` — 23 slides, **ACTION: swap the wireframe on the demo slide for a dashboard screenshot** |
 | Peer Evaluation Forms, one per member, signed | `reports/Form_B_Peer_Evaluation.docx` — three copies, **ACTION: sign** |
 | Individual Contribution Forms for **all four** checkpoints | `reports/Form_A_Individual_Contribution.docx` — twelve copies, **ACTION: sign** |
 | Due: beginning of Week 16, before defense schedules begin | — |

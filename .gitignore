@@ -4,3 +4,8 @@ __pycache__/
 
 # Generated build artefact - rebuild with scripts/clean_and_load.py
 data/sales_trend.db
+
+# Installed by scripts/build_deck.js; reinstall with `npm install pptxgenjs`
+node_modules/
+package-lock.json
+package.json
