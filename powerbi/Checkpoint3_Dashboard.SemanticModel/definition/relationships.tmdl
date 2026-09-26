@@ -1,0 +1,11 @@
+relationship 9100eb0a-986a-47e5-a690-f796a8a7c792
+	fromColumn: Sales.customer_id
+	toColumn: CustomerSegments.customer_id
+
+relationship cec3c221-555f-4bce-bb12-5d10d6aade06
+	fromColumn: Sales.sub_category_name
+	toColumn: SubcategorySegments.sub_category_name
+
+relationship 102950b6-eeff-4e30-a3e2-83cba957c351
+	fromColumn: Sales.order_date
+	toColumn: DateTable.Date

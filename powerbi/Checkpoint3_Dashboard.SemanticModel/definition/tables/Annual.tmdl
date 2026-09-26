@@ -1,0 +1,67 @@
+table Annual
+	lineageTag: 5bcbb117-907f-4c01-a9b8-667334792114
+
+	column year_number
+		dataType: int64
+		lineageTag: e66076d3-b406-478e-a4e9-fcd683141157
+		summarizeBy: sum
+		sourceColumn: year_number
+
+	column months_covered
+		dataType: int64
+		lineageTag: 14941d05-8aaf-4241-84a2-fce98ed2c9f0
+		summarizeBy: sum
+		sourceColumn: months_covered
+
+	column transaction_lines
+		dataType: int64
+		lineageTag: b9c806af-6258-4398-83b6-0d3798106d9f
+		summarizeBy: sum
+		sourceColumn: transaction_lines
+
+	column units_sold
+		dataType: int64
+		lineageTag: 4e298289-86f3-45e3-b0ce-96314964b50d
+		summarizeBy: sum
+		sourceColumn: units_sold
+
+	column revenue
+		dataType: double
+		lineageTag: 3592aa41-9114-4ec0-b205-30d8bd6e663d
+		summarizeBy: sum
+		sourceColumn: revenue
+
+	column profit
+		dataType: double
+		lineageTag: 14f2c37b-43de-4001-b062-333e592786d7
+		summarizeBy: sum
+		sourceColumn: profit
+
+	column revenue_per_month
+		dataType: double
+		lineageTag: 70a1ddaf-dde0-4635-aa34-1e7d33fd0afd
+		summarizeBy: sum
+		sourceColumn: revenue_per_month
+
+	column avg_line_value
+		dataType: double
+		lineageTag: 2fdd8870-52b7-41ba-99f6-190687491c2f
+		summarizeBy: sum
+		sourceColumn: avg_line_value
+
+	column margin_pct
+		dataType: double
+		lineageTag: 675bb2ac-c9d4-473c-a71a-168c0f9eecdb
+		summarizeBy: sum
+		sourceColumn: margin_pct
+
+	partition Annual = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(FolderPath & "annual.csv"),
+				        [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"year_number", Int64.Type}, {"months_covered", Int64.Type}, {"transaction_lines", Int64.Type}, {"units_sold", Int64.Type}, {"revenue", type number}, {"profit", type number}, {"revenue_per_month", type number}, {"avg_line_value", type number}, {"margin_pct", type number}})
+				in
+				    Typed

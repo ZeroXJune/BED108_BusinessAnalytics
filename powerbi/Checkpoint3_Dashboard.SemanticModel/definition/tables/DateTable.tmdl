@@ -1,0 +1,45 @@
+table DateTable
+	lineageTag: 5b3f0e53-e739-4828-a444-592ea0040585
+	dataCategory: Time
+
+	column Date = [Date]
+		dataType: dateTime
+		lineageTag: 7ff4942a-d95b-4c76-af35-c657fee69924
+		summarizeBy: none
+		isKey
+		formatString: yyyy-mm-dd
+
+	column Year = YEAR ( [Date] )
+		dataType: int64
+		lineageTag: 401fda1f-0475-49c9-9445-47a691c480e3
+		summarizeBy: none
+
+	column Quarter = "Q" & FORMAT ( QUARTER ( [Date] ), "0" )
+		dataType: string
+		lineageTag: 378bd87f-eb5c-4f52-accc-7f74dad9a459
+		summarizeBy: none
+
+	column MonthNumber = MONTH ( [Date] )
+		dataType: int64
+		lineageTag: 3ea8ee11-ddf7-4921-98c8-6bccd0b6c30b
+		summarizeBy: none
+
+	column MonthName = FORMAT ( [Date], "MMMM" )
+		dataType: string
+		lineageTag: b87c783f-59a3-4199-b492-ca630a1de85b
+		summarizeBy: none
+
+	column MonthStart = EOMONTH ( [Date], -1 ) + 1
+		dataType: dateTime
+		lineageTag: b067b1c8-0bb4-44a7-a94f-b3ef7abfe983
+		summarizeBy: none
+		formatString: yyyy-mm-dd
+
+	column YearMonth = FORMAT ( [Date], "YYYY-MM" )
+		dataType: string
+		lineageTag: febd799e-9333-4968-9bbb-18a76a00de5e
+		summarizeBy: none
+
+	partition DateTable = calculated
+		mode: import
+		source = CALENDAR ( DATE ( 2020, 3, 1 ), DATE ( 2025, 3, 31 ) )

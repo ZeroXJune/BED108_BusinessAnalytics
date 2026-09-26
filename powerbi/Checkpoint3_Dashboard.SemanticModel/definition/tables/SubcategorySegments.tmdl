@@ -1,0 +1,67 @@
+table SubcategorySegments
+	lineageTag: e35b4d10-d02d-48bd-84df-a810bc60399a
+
+	column sub_category_name
+		dataType: string
+		lineageTag: 0dc8732d-e5b1-407b-ae6b-98ce6b57461c
+		summarizeBy: none
+		sourceColumn: sub_category_name
+
+	column category_name
+		dataType: string
+		lineageTag: 84eb2c90-9de1-4bb3-b24f-3dbdf4374dea
+		summarizeBy: none
+		sourceColumn: category_name
+
+	column revenue_total
+		dataType: double
+		lineageTag: c50660fd-a2b9-4734-8e14-60a329043303
+		summarizeBy: sum
+		sourceColumn: revenue_total
+
+	column revenue_2023
+		dataType: double
+		lineageTag: 4c7aba57-074e-404c-911d-793e25ac1bd8
+		summarizeBy: sum
+		sourceColumn: revenue_2023
+
+	column revenue_2024
+		dataType: double
+		lineageTag: a75d3401-13d5-4e0b-bff5-7e85869f11ce
+		summarizeBy: sum
+		sourceColumn: revenue_2024
+
+	column growth_pct
+		dataType: double
+		lineageTag: f6b493d1-33ef-41e9-ba3d-a7f886eb0aa2
+		summarizeBy: sum
+		sourceColumn: growth_pct
+
+	column margin_pct
+		dataType: double
+		lineageTag: 86426935-0d6e-4af9-8f1c-16e07d5e2127
+		summarizeBy: sum
+		sourceColumn: margin_pct
+
+	column cluster
+		dataType: int64
+		lineageTag: dfe6218a-482f-4f70-808e-ddb4abb852ac
+		summarizeBy: sum
+		sourceColumn: cluster
+
+	column segment
+		dataType: string
+		lineageTag: c52d46f9-51c1-4df2-9fcb-c54424a6b1a5
+		summarizeBy: none
+		sourceColumn: segment
+
+	partition SubcategorySegments = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(FolderPath & "subcategory_segments.csv"),
+				        [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"sub_category_name", type text}, {"category_name", type text}, {"revenue_total", type number}, {"revenue_2023", type number}, {"revenue_2024", type number}, {"growth_pct", type number}, {"margin_pct", type number}, {"cluster", Int64.Type}, {"segment", type text}})
+				in
+				    Typed

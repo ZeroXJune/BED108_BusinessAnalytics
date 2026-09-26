@@ -78,6 +78,8 @@ scripts/build_predictive_model.py            Task 4.1 multiple regression, with 
 powerbi/load_tables.m                        Power Query: loads and types every dashboard table
 powerbi/measures.dax                         all 20 DAX measures, plus a bulk-create script
 scripts/build_deck.js                        builds the 23-slide final defense deck
+scripts/build_pbip.py                        generates the Power BI project (.pbip)
+powerbi/Checkpoint3_Dashboard.pbip           model + KPI page, open in Power BI then Save as .pbix
 docs/checkpoint3_spec.md                     CP3 data layer, measures and dashboard layout
 ```
 

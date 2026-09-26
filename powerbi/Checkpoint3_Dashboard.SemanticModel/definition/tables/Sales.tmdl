@@ -1,0 +1,201 @@
+table Sales
+	lineageTag: e30fc72e-481a-4a70-907a-03fe03c82131
+
+	column sale_id
+		dataType: int64
+		lineageTag: 989ca4e1-971f-4184-bd4d-af5753990855
+		summarizeBy: sum
+		sourceColumn: sale_id
+
+	column order_ref
+		dataType: string
+		lineageTag: 6cfd81c4-3ab9-45ce-86c9-9907675548dd
+		summarizeBy: none
+		sourceColumn: order_ref
+
+	column order_date
+		dataType: dateTime
+		lineageTag: d6aa9e54-1fd1-4819-a062-59b89610bf8e
+		summarizeBy: none
+		sourceColumn: order_date
+		formatString: yyyy-mm-dd
+
+	column customer_id
+		dataType: int64
+		lineageTag: 0349e95e-aac1-4510-8a93-8c0e9ea49d9c
+		summarizeBy: sum
+		sourceColumn: customer_id
+
+	column year_number
+		dataType: int64
+		lineageTag: a525262d-1872-4c92-a02a-1cba1d6d7498
+		summarizeBy: sum
+		sourceColumn: year_number
+
+	column quarter_number
+		dataType: int64
+		lineageTag: d51266c5-a267-40dd-9c4c-2ed4b432bd79
+		summarizeBy: sum
+		sourceColumn: quarter_number
+
+	column month_number
+		dataType: int64
+		lineageTag: 0f109b53-66f9-48d6-9386-b5d94eb01f0a
+		summarizeBy: sum
+		sourceColumn: month_number
+
+	column month_name
+		dataType: string
+		lineageTag: 11789048-afda-4c23-b0e1-a0ad01bd4994
+		summarizeBy: none
+		sourceColumn: month_name
+
+	column year_month
+		dataType: string
+		lineageTag: 691c19c4-6c3e-400a-acde-fcd729b4b8b5
+		summarizeBy: none
+		sourceColumn: year_month
+
+	column month_start
+		dataType: dateTime
+		lineageTag: fee96ed8-251b-4650-a931-06308bed5de2
+		summarizeBy: none
+		sourceColumn: month_start
+		formatString: yyyy-mm-dd
+
+	column is_complete_month
+		dataType: int64
+		lineageTag: 2c9485f6-8465-434c-90d7-d0ef5786c6c4
+		summarizeBy: sum
+		sourceColumn: is_complete_month
+
+	column is_complete_year
+		dataType: int64
+		lineageTag: fb86c3cf-c64f-4306-b66e-ba3b2c6cc5e4
+		summarizeBy: sum
+		sourceColumn: is_complete_year
+
+	column customer_name
+		dataType: string
+		lineageTag: bf145b01-8b10-46b4-9a27-0f5f99c88afe
+		summarizeBy: none
+		sourceColumn: customer_name
+
+	column city_name
+		dataType: string
+		lineageTag: 26b176a9-dad2-4165-889b-e93e7ca5be64
+		summarizeBy: none
+		sourceColumn: city_name
+
+	column state_name
+		dataType: string
+		lineageTag: a8ee40e0-a528-4c03-927b-9fc51ccd95cc
+		summarizeBy: none
+		sourceColumn: state_name
+
+	column category_name
+		dataType: string
+		lineageTag: 75992f5a-b743-4f29-a2fb-5a0c2afd42c7
+		summarizeBy: none
+		sourceColumn: category_name
+
+	column sub_category_name
+		dataType: string
+		lineageTag: 6a3da9c3-ecdb-4cdc-8e44-ffe21d3b4ba1
+		summarizeBy: none
+		sourceColumn: sub_category_name
+
+	column payment_mode_name
+		dataType: string
+		lineageTag: f29eb7ec-106d-4fca-87b0-c5c41683f338
+		summarizeBy: none
+		sourceColumn: payment_mode_name
+
+	column quantity
+		dataType: int64
+		lineageTag: 58e44d25-4d0a-444c-8f68-43a1600ee185
+		summarizeBy: sum
+		sourceColumn: quantity
+
+	column amount
+		dataType: double
+		lineageTag: 2eb62e2a-ba14-4768-817e-b2e68b1ffd0a
+		summarizeBy: sum
+		sourceColumn: amount
+
+	column profit
+		dataType: double
+		lineageTag: 1c69971b-6675-4644-abb7-06e499c31586
+		summarizeBy: sum
+		sourceColumn: profit
+
+	measure 'Revenue' = SUM ( Sales[amount] )
+		formatString: #,0
+		lineageTag: 8f09e744-39fe-4e3d-8abf-006a7c17c118
+
+	measure 'Profit' = SUM ( Sales[profit] )
+		formatString: #,0
+		lineageTag: e874cdf4-a2ed-47a0-aea6-f84d3573fbd0
+
+	measure 'Orders' = COUNTROWS ( Sales )
+		formatString: #,0
+		lineageTag: 981ad7ad-6f61-4f23-881a-ec56c660f8df
+
+	measure 'Units' = SUM ( Sales[quantity] )
+		formatString: #,0
+		lineageTag: a6546eae-f22d-414c-abc7-b60291b94b91
+
+	measure 'Customers' = DISTINCTCOUNT ( Sales[customer_id] )
+		formatString: #,0
+		lineageTag: 2481a58a-303c-4fd2-9b28-6a4a7b9f022b
+
+	measure 'Margin %' = DIVIDE ( [Profit], [Revenue] ) * 100
+		formatString: #,0.00
+		lineageTag: 80ee67d1-094f-42d5-9808-80222e484079
+
+	measure 'Avg Line Value' = DIVIDE ( [Revenue], [Orders] )
+		formatString: #,0.00
+		lineageTag: 29e512a3-6ca9-4c1f-9e1f-340d738503fa
+
+	measure 'Months Covered' = DISTINCTCOUNT ( Sales[year_month] )
+		formatString: #,0
+		lineageTag: 2ac3a21f-2093-4d46-8958-7b3d1e7f2338
+
+	measure 'Revenue per Month' = DIVIDE ( [Revenue], [Months Covered] )
+		formatString: #,0.00
+		lineageTag: b5aa2805-d3b0-473d-9edf-58cbbc57eebd
+
+	measure 'Orders per Month' = DIVIDE ( [Orders], [Months Covered] )
+		formatString: #,0.0
+		lineageTag: 54055b70-a99b-47a6-865d-c07c6f5009dc
+
+	measure 'Peak Revenue per Month' = CALCULATE ( [Revenue per Month], ALL ( Sales ), Sales[year_number] = 2022 )
+		formatString: #,0.00
+		lineageTag: f243cb1e-035b-4965-820a-62d0e8c98a1f
+
+	measure 'Peak Orders per Month' = CALCULATE ( [Orders per Month], ALL ( Sales ), Sales[year_number] = 2022 )
+		formatString: #,0.0
+		lineageTag: 59a4e476-279a-4ccb-8984-8273bb95dfdc
+
+	measure 'Gap to Peak %' = DIVIDE ( [Revenue per Month] - [Peak Revenue per Month], [Peak Revenue per Month] ) * 100
+		formatString: #,0.0
+		lineageTag: b08deaa4-5da5-4134-b2a3-8bf17624b47c
+
+	measure 'Order Gap' = [Peak Orders per Month] - [Orders per Month]
+		formatString: #,0.0
+		lineageTag: 0a5a64d2-b32c-4d5e-aabb-7c89a044f0d8
+
+	measure 'Gap Value per Year' = [Order Gap] * 5224.25 * 12
+		formatString: #,0
+		lineageTag: 1d8f42ab-8a1c-41c5-8950-765f0f64ae39
+
+	partition Sales = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(FolderPath & "sales_detail.csv"),
+				        [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"sale_id", Int64.Type}, {"order_ref", type text}, {"order_date", type date}, {"customer_id", Int64.Type}, {"year_number", Int64.Type}, {"quarter_number", Int64.Type}, {"month_number", Int64.Type}, {"month_name", type text}, {"year_month", type text}, {"month_start", type date}, {"is_complete_month", Int64.Type}, {"is_complete_year", Int64.Type}, {"customer_name", type text}, {"city_name", type text}, {"state_name", type text}, {"category_name", type text}, {"sub_category_name", type text}, {"payment_mode_name", type text}, {"quantity", Int64.Type}, {"amount", type number}, {"profit", type number}})
+				in
+				    Typed

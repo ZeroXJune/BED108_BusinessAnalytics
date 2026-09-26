@@ -1,0 +1,92 @@
+table Monthly
+	lineageTag: a0655794-010f-435d-9d5a-170b2c5790f6
+
+	column year_month
+		dataType: string
+		lineageTag: 0c1e7f54-ebde-4b85-8454-1c29765372a0
+		summarizeBy: none
+		sourceColumn: year_month
+
+	column month_start
+		dataType: dateTime
+		lineageTag: 2609fe1e-a337-4412-a340-0ea3057d5b6e
+		summarizeBy: none
+		sourceColumn: month_start
+		formatString: yyyy-mm-dd
+
+	column year_number
+		dataType: int64
+		lineageTag: e15b01f9-f394-41a5-9da1-84ff0b94e1bd
+		summarizeBy: sum
+		sourceColumn: year_number
+
+	column quarter_number
+		dataType: int64
+		lineageTag: 363f1ead-b674-4090-b987-26f16f15c5ed
+		summarizeBy: sum
+		sourceColumn: quarter_number
+
+	column month_number
+		dataType: int64
+		lineageTag: ba997e2d-1ed5-4747-92a7-2e3a3c45dd6a
+		summarizeBy: sum
+		sourceColumn: month_number
+
+	column month_name
+		dataType: string
+		lineageTag: 6b10c310-7c30-4a82-a2d9-ceee15791ce7
+		summarizeBy: none
+		sourceColumn: month_name
+
+	column transaction_lines
+		dataType: int64
+		lineageTag: 34e5029a-fe07-4b62-8728-36d90296adaf
+		summarizeBy: sum
+		sourceColumn: transaction_lines
+
+	column units_sold
+		dataType: int64
+		lineageTag: 8b5c74f8-f5e0-4af9-9d58-7b8e76fe7c1f
+		summarizeBy: sum
+		sourceColumn: units_sold
+
+	column revenue
+		dataType: double
+		lineageTag: a51e2ba4-0acb-46df-94e2-45f2c18c342b
+		summarizeBy: sum
+		sourceColumn: revenue
+
+	column profit
+		dataType: double
+		lineageTag: 3d2c6be1-0ac6-4a62-b41e-b813f2e3ec3d
+		summarizeBy: sum
+		sourceColumn: profit
+
+	column avg_line_value
+		dataType: double
+		lineageTag: a39e9703-ed9f-4b22-8a64-83ace54e2097
+		summarizeBy: sum
+		sourceColumn: avg_line_value
+
+	column margin_pct
+		dataType: double
+		lineageTag: 4e9c8439-4a0c-4534-8c7b-6fca846d0578
+		summarizeBy: sum
+		sourceColumn: margin_pct
+
+	column in_analysis_window
+		dataType: int64
+		lineageTag: 6cfecccc-c8e6-404d-85b1-9a0cf2f84fe3
+		summarizeBy: sum
+		sourceColumn: in_analysis_window
+
+	partition Monthly = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(FolderPath & "monthly.csv"),
+				        [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"year_month", type text}, {"month_start", type date}, {"year_number", Int64.Type}, {"quarter_number", Int64.Type}, {"month_number", Int64.Type}, {"month_name", type text}, {"transaction_lines", Int64.Type}, {"units_sold", Int64.Type}, {"revenue", type number}, {"profit", type number}, {"avg_line_value", type number}, {"margin_pct", type number}, {"in_analysis_window", Int64.Type}})
+				in
+				    Typed

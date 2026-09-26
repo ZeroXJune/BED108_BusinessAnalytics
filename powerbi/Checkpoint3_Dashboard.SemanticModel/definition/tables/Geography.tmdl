@@ -1,0 +1,61 @@
+table Geography
+	lineageTag: b8db3fee-a581-4be1-9708-9b115a3009f7
+
+	column state_name
+		dataType: string
+		lineageTag: c953fcb3-80ce-4ec2-ad51-02d05edd9052
+		summarizeBy: none
+		sourceColumn: state_name
+
+	column city_name
+		dataType: string
+		lineageTag: 0c0cd88c-683e-4894-aacb-e28a24e07ed6
+		summarizeBy: none
+		sourceColumn: city_name
+
+	column transaction_lines
+		dataType: int64
+		lineageTag: 1d67839a-3510-452c-ba6e-3d77d3562a94
+		summarizeBy: sum
+		sourceColumn: transaction_lines
+
+	column customers
+		dataType: int64
+		lineageTag: ec0ef7ee-1267-44ea-8b44-c81d224a3db7
+		summarizeBy: sum
+		sourceColumn: customers
+
+	column revenue
+		dataType: double
+		lineageTag: d4f035a9-cce6-4fb2-be7b-3eafbd34c6f6
+		summarizeBy: sum
+		sourceColumn: revenue
+
+	column profit
+		dataType: double
+		lineageTag: b8dcee4e-0c98-443a-ae4e-e96567119e29
+		summarizeBy: sum
+		sourceColumn: profit
+
+	column revenue_per_customer
+		dataType: double
+		lineageTag: bca9df9e-1c18-4bc2-85e8-2052605c3a12
+		summarizeBy: sum
+		sourceColumn: revenue_per_customer
+
+	column margin_pct
+		dataType: double
+		lineageTag: 233caf4b-ad2b-44b7-8598-4e6b7d2169f7
+		summarizeBy: sum
+		sourceColumn: margin_pct
+
+	partition Geography = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(FolderPath & "geography.csv"),
+				        [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"state_name", type text}, {"city_name", type text}, {"transaction_lines", Int64.Type}, {"customers", Int64.Type}, {"revenue", type number}, {"profit", type number}, {"revenue_per_customer", type number}, {"margin_pct", type number}})
+				in
+				    Typed

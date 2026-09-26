@@ -1,0 +1,107 @@
+table CustomerSegments
+	lineageTag: 47cc0d18-94b4-4ff1-b88a-ee6c15f72f31
+
+	column customer_id
+		dataType: int64
+		lineageTag: b0929cef-e457-4d85-891e-f7a349cfad86
+		summarizeBy: sum
+		sourceColumn: customer_id
+
+	column customer_name
+		dataType: string
+		lineageTag: 4e5609e4-f720-4498-a53d-b7e319dc9559
+		summarizeBy: none
+		sourceColumn: customer_name
+
+	column city_name
+		dataType: string
+		lineageTag: aee20547-0f27-44c2-87fa-b73a6719508c
+		summarizeBy: none
+		sourceColumn: city_name
+
+	column state_name
+		dataType: string
+		lineageTag: c0ececab-a6a8-43ae-bbd9-ea7272977522
+		summarizeBy: none
+		sourceColumn: state_name
+
+	column transaction_lines
+		dataType: int64
+		lineageTag: a7072fe5-fc34-43d8-ba03-4aef4aa7d215
+		summarizeBy: sum
+		sourceColumn: transaction_lines
+
+	column revenue
+		dataType: double
+		lineageTag: 18c0d873-9b58-46ab-9ed0-34a0ae576980
+		summarizeBy: sum
+		sourceColumn: revenue
+
+	column profit
+		dataType: double
+		lineageTag: 35b7a664-5a35-4c1e-b64d-fb8fb5f17c04
+		summarizeBy: sum
+		sourceColumn: profit
+
+	column margin_pct
+		dataType: double
+		lineageTag: a5deb9af-1c14-4e5e-a216-397c5265f15e
+		summarizeBy: sum
+		sourceColumn: margin_pct
+
+	column recency_days
+		dataType: int64
+		lineageTag: 99023279-9dab-439f-97e8-bdfe8a8ae9c5
+		summarizeBy: sum
+		sourceColumn: recency_days
+
+	column cluster
+		dataType: int64
+		lineageTag: ce977468-b863-463b-993c-fc102b532e13
+		summarizeBy: sum
+		sourceColumn: cluster
+
+	column segment
+		dataType: string
+		lineageTag: 9206ee43-a764-475d-a797-adee9a02c5e0
+		summarizeBy: none
+		sourceColumn: segment
+
+	measure 'Segment Customers' = COUNTROWS ( CustomerSegments )
+		formatString: #,0
+		lineageTag: ba1dcab4-5ecd-4cc3-9eff-483bda291ceb
+
+	measure 'Segment Revenue' = SUM ( CustomerSegments[revenue] )
+		formatString: #,0
+		lineageTag: f94febd9-17be-42e7-9659-e541812d7401
+
+	measure 'Segment Profit' = SUM ( CustomerSegments[profit] )
+		formatString: #,0
+		lineageTag: dab5613e-8ef5-4a71-94a4-792203ebeebf
+
+	measure 'Segment Margin %' = DIVIDE ( [Segment Profit], [Segment Revenue] ) * 100
+		formatString: #,0.00
+		lineageTag: 11685ce5-b00d-45fa-9cfb-080c5dcd5c3b
+
+	measure 'Segment % of Customers' = DIVIDE ( [Segment Customers], CALCULATE ( [Segment Customers], ALL ( CustomerSegments ) ) ) * 100
+		formatString: #,0.0
+		lineageTag: eea5786e-f8c4-458b-a9ce-ab92038d3d98
+
+	measure 'Segment % of Revenue' = DIVIDE ( [Segment Revenue], CALCULATE ( [Segment Revenue], ALL ( CustomerSegments ) ) ) * 100
+		formatString: #,0.0
+		lineageTag: e230c28a-9a13-4335-a5cd-095a4c7891f4
+
+	measure 'Segment % of Profit' = DIVIDE ( [Segment Profit], CALCULATE ( [Segment Profit], ALL ( CustomerSegments ) ) ) * 100
+		formatString: #,0.0
+		lineageTag: 5e5d3b46-60d0-408e-8461-ae08869e9a29
+
+	partition CustomerSegments = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(FolderPath & "customer_segments.csv"),
+				        [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"customer_id", Int64.Type}, {"customer_name", type text}, {"city_name", type text}, {"state_name", type text}, {"transaction_lines", Int64.Type}, {"revenue", type number}, {"profit", type number}, {"margin_pct", type number}, {"recency_days", Int64.Type}, {"cluster", Int64.Type}, {"segment", type text}})
+				in
+				    Typed

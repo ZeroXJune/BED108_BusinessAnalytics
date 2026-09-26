@@ -2,11 +2,42 @@
 
 **BED 106 Business Analytics — Mini Capstone Project**
 
-A `.pbix` is a proprietary binary that only Power BI Desktop writes, and Power
-BI Desktop is Windows-only, so the file itself has to be produced on your
-machine. Everything that can be prepared in advance has been: the data is
-shaped and typed, the measures are written, and the visuals are specified field
-by field. What remains is loading, pasting and dragging.
+A `.pbix` cannot be generated outside Power BI Desktop: its data model is a
+binary written by the Analysis Services engine, which ships only with the
+Windows application. But Power BI also has a **plain-text project format**,
+`.pbip`, and that *can* be generated — so there are two routes below.
+
+## Route A — open the generated project (try this first)
+
+`powerbi/Checkpoint3_Dashboard.pbip` is a complete Power BI project: the
+semantic model with all eight tables, their column types, three relationships
+and all twenty-two measures, plus page 1 of the report with the four KPI cards
+and the trend chart already placed.
+
+**To use it:**
+
+1. Power BI Desktop → File → Options and settings → Options → Preview features
+   → tick **Power BI Project (.pbip) save format** if it is not already on, and
+   restart
+2. File → Open → browse to `Checkpoint3_Dashboard.pbip`
+3. It will prompt for **FolderPath** — give it the full path to your
+   `data\dashboard\` folder, with a trailing backslash
+4. Refresh. Then File → **Save as** → `Checkpoint3_Dashboard.pbix`
+
+That leaves you pages 2 and 3 to build, which is Steps 6 and 7 below.
+
+> **This has not been opened in Power BI Desktop.** There is no Power BI in the
+> environment it was generated in, so it has been checked structurally — every
+> file parses, every relationship points at a real column, the model references
+> all eight tables — but not opened. If Power BI rejects it, do not fight it:
+> use Route B, which is all hand-operated and cannot fail for the same reason.
+> Tell me what the error says and I will fix the generator.
+
+## Route B — build it by hand (the reliable route)
+
+Everything from Step 1 onward. The data is shaped and typed, the measures are
+written, and the visuals are specified field by field; what remains is loading,
+pasting and dragging.
 
 Budget about **90 minutes** for the first build if nobody in the group has used
 Power BI before, and about 30 if someone has.
