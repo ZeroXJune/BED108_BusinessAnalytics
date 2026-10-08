@@ -4,7 +4,7 @@
   "resourcePackages": [],
   "sections": [
     {
-      "name": "50316671db1440c2ace1",
+      "name": "1a009c55ccfd4e23a333",
       "displayName": "1 Executive Summary",
       "ordinal": 0,
       "width": 1280,
@@ -18,7 +18,7 @@
           "z": 0,
           "width": 296,
           "height": 150,
-          "config": "{\"name\": \"c8e60226-9679-4a3a-9d44-2e69ca3fcae2\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 24, \"y\": 24, \"z\": 0, \"width\": 296, \"height\": 150}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Sales.Orders per Month\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"s\", \"Entity\": \"Sales\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"s\"}}, \"Property\": \"Orders per Month\"}, \"Name\": \"Sales.Orders per Month\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"28D\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Orders per month  (2022 peak: 24.0)'\"}}}}}]}}}"
+          "config": "{\"name\": \"11912066-7c64-4a91-92c0-2f9bb97162d2\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 24, \"y\": 24, \"z\": 0, \"width\": 296, \"height\": 150}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Sales.Orders per Month\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"s\", \"Entity\": \"Sales\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"s\"}}, \"Property\": \"Orders per Month\"}, \"Name\": \"Sales.Orders per Month\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"28D\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Orders per month  (2022 peak: 24.0)'\"}}}}}]}}}"
         },
         {
           "x": 334,
@@ -26,7 +26,7 @@
           "z": 0,
           "width": 296,
           "height": 150,
-          "config": "{\"name\": \"b4b49abe-83d0-473a-8fb3-5d11936f9669\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 334, \"y\": 24, \"z\": 0, \"width\": 296, \"height\": 150}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Sales.Revenue per Month\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"s\", \"Entity\": \"Sales\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"s\"}}, \"Property\": \"Revenue per Month\"}, \"Name\": \"Sales.Revenue per Month\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"28D\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Revenue per month  (2022 peak: 121,648)'\"}}}}}]}}}"
+          "config": "{\"name\": \"f265a700-f7f3-4264-ad9e-1012eccea9a7\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 334, \"y\": 24, \"z\": 0, \"width\": 296, \"height\": 150}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Sales.Revenue per Month\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"s\", \"Entity\": \"Sales\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"s\"}}, \"Property\": \"Revenue per Month\"}, \"Name\": \"Sales.Revenue per Month\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"28D\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Revenue per month  (2022 peak: 121,648)'\"}}}}}]}}}"
         },
         {
           "x": 644,
@@ -34,7 +34,7 @@
           "z": 0,
           "width": 296,
           "height": 150,
-          "config": "{\"name\": \"ffe6ee9c-77f2-459b-809e-9f3f23f18dbf\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 644, \"y\": 24, \"z\": 0, \"width\": 296, \"height\": 150}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Sales.Margin %\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"s\", \"Entity\": \"Sales\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"s\"}}, \"Property\": \"Margin %\"}, \"Name\": \"Sales.Margin %\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"28D\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Margin %'\"}}}}}]}}}"
+          "config": "{\"name\": \"cdd829b3-827d-44b7-a5a9-a82045a2f967\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 644, \"y\": 24, \"z\": 0, \"width\": 296, \"height\": 150}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Sales.Margin %\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"s\", \"Entity\": \"Sales\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"s\"}}, \"Property\": \"Margin %\"}, \"Name\": \"Sales.Margin %\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"28D\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Margin %'\"}}}}}]}}}"
         },
         {
           "x": 954,
@@ -42,7 +42,7 @@
           "z": 0,
           "width": 296,
           "height": 150,
-          "config": "{\"name\": \"3c2c8e04-c95d-4003-a6fb-1821f861623d\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 954, \"y\": 24, \"z\": 0, \"width\": 296, \"height\": 150}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Sales.Gap to Peak %\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"s\", \"Entity\": \"Sales\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"s\"}}, \"Property\": \"Gap to Peak %\"}, \"Name\": \"Sales.Gap to Peak %\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"28D\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Gap to the 2022 peak'\"}}}}}]}}}"
+          "config": "{\"name\": \"1c0df4a6-a602-4bb8-a2ed-60c5ba26208b\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 954, \"y\": 24, \"z\": 0, \"width\": 296, \"height\": 150}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Sales.Gap to Peak %\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"s\", \"Entity\": \"Sales\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"s\"}}, \"Property\": \"Gap to Peak %\"}, \"Name\": \"Sales.Gap to Peak %\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"fontSize\": {\"expr\": {\"Literal\": {\"Value\": \"28D\"}}}}}]}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Gap to the 2022 peak'\"}}}}}]}}}"
         },
         {
           "x": 24,
@@ -50,12 +50,12 @@
           "z": 1,
           "width": 916,
           "height": 470,
-          "config": "{\"name\": \"ece45ad2-6cd6-4bd9-b969-ef6fba1912ac\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 24, \"y\": 196, \"z\": 1, \"width\": 916, \"height\": 470}}], \"singleVisual\": {\"visualType\": \"lineChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Monthly.month_start\"}], \"Y\": [{\"queryRef\": \"Sum(Monthly.revenue)\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Monthly\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"month_start\"}, \"Name\": \"Monthly.month_start\"}, {\"Aggregation\": {\"Expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"revenue\"}}, \"Function\": 0}, \"Name\": \"Sum(Monthly.revenue)\"}], \"Where\": [{\"Condition\": {\"Comparison\": {\"ComparisonKind\": 0, \"Left\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"in_analysis_window\"}}, \"Right\": {\"Literal\": {\"Value\": \"1L\"}}}}}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Revenue per month, April 2020 - December 2024'\"}}}}}]}}}"
+          "config": "{\"name\": \"92c002a0-1d2b-425f-ad97-ebfcca80254b\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 24, \"y\": 196, \"z\": 1, \"width\": 916, \"height\": 470}}], \"singleVisual\": {\"visualType\": \"lineChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Monthly.month_start\"}], \"Y\": [{\"queryRef\": \"Sum(Monthly.revenue)\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Monthly\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"month_start\"}, \"Name\": \"Monthly.month_start\"}, {\"Aggregation\": {\"Expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"revenue\"}}, \"Function\": 0}, \"Name\": \"Sum(Monthly.revenue)\"}], \"Where\": [{\"Condition\": {\"Comparison\": {\"ComparisonKind\": 0, \"Left\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"in_analysis_window\"}}, \"Right\": {\"Literal\": {\"Value\": \"1L\"}}}}}]}, \"drillFilterOtherVisuals\": true, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Revenue per month, April 2020 - December 2024'\"}}}}}]}}}"
         }
       ]
     },
     {
-      "name": "932153369df24f959ae4",
+      "name": "16a5c8ffe2444968a2db",
       "displayName": "2 Trend & Comparison",
       "ordinal": 1,
       "width": 1280,
@@ -65,7 +65,7 @@
       "visualContainers": []
     },
     {
-      "name": "b20086d7e88b42b69fa3",
+      "name": "ee77db2dc5c24d4fadc3",
       "displayName": "3 Deep Dive & Segmentation",
       "ordinal": 2,
       "width": 1280,

@@ -1,99 +1,99 @@
 table CustomerSegments
-	lineageTag: a5f604b8-a51f-45f8-a0ad-02bb70d3109d
+	lineageTag: d4eb95eb-21dc-4115-9182-f8a020c47845
 
 	column customer_id
 		dataType: int64
-		lineageTag: e29f07f9-b362-4ee4-a884-cfd9dd09444c
+		lineageTag: cd87d068-ee96-49e6-b1a7-f00eeea430f7
 		summarizeBy: sum
 		sourceColumn: customer_id
 
 	column customer_name
 		dataType: string
-		lineageTag: 3481d689-1a6b-4738-98a8-59d2b11c0269
+		lineageTag: bbaace13-bb59-4882-8310-8025b39c6b08
 		summarizeBy: none
 		sourceColumn: customer_name
 
 	column city_name
 		dataType: string
-		lineageTag: 3e983daa-eb88-4888-859f-3fd2523fed10
+		lineageTag: 540879d6-5682-42a2-bd0a-a4eafcccc97e
 		summarizeBy: none
 		sourceColumn: city_name
 
 	column state_name
 		dataType: string
-		lineageTag: c64c2432-8a86-4cf4-a979-40d1cb531aa8
+		lineageTag: 6f64bd48-a8a3-4c40-97ef-a1b48d14c76a
 		summarizeBy: none
 		sourceColumn: state_name
 
 	column transaction_lines
 		dataType: int64
-		lineageTag: 15691cda-783a-40fd-9349-d20a39688047
+		lineageTag: 1b4c5a35-169a-47c1-99db-7a68845d91ad
 		summarizeBy: sum
 		sourceColumn: transaction_lines
 
 	column revenue
 		dataType: double
-		lineageTag: e2428857-2b48-44ef-b91b-48ec4e71e91d
+		lineageTag: 5988da26-c4e3-4482-a919-da2096774125
 		summarizeBy: sum
 		sourceColumn: revenue
 
 	column profit
 		dataType: double
-		lineageTag: 53fbebd0-4374-4ef1-a201-9003d2fb1352
+		lineageTag: 497bd12f-3830-40bb-822a-75a3623c5aae
 		summarizeBy: sum
 		sourceColumn: profit
 
 	column margin_pct
 		dataType: double
-		lineageTag: 2e1f7a3b-cc10-4679-a839-da7bd300085b
+		lineageTag: 64f5df4a-727c-4fd2-aa78-d455925f0af9
 		summarizeBy: sum
 		sourceColumn: margin_pct
 
 	column recency_days
 		dataType: int64
-		lineageTag: 07c3750f-b78d-41ad-9604-1b259bc5ab24
+		lineageTag: 0376ecb9-aca9-40e0-8b4a-953f1f13490a
 		summarizeBy: sum
 		sourceColumn: recency_days
 
 	column cluster
 		dataType: int64
-		lineageTag: d1af73fa-c6b9-49d3-af76-a967867f93ee
+		lineageTag: 7f6e307d-7ebc-4aa6-86d9-5e8fc1512895
 		summarizeBy: sum
 		sourceColumn: cluster
 
 	column segment
 		dataType: string
-		lineageTag: ee41efd4-9847-44fb-81b5-59a58c10e388
+		lineageTag: 12b3423c-4989-411b-933a-3e7b23f41df5
 		summarizeBy: none
 		sourceColumn: segment
 
 	measure 'Segment Customers' = COUNTROWS ( CustomerSegments )
 		formatString: #,0
-		lineageTag: a2b3c7f8-1d12-4d44-89be-0c9c29df303e
+		lineageTag: 4dbfaa2d-9e5a-45e3-b0a3-ff01975e1119
 
 	measure 'Segment Revenue' = SUM ( CustomerSegments[revenue] )
 		formatString: #,0
-		lineageTag: c26a40fc-2a73-461d-84b8-3db36f818958
+		lineageTag: 4d9a53b6-779e-4f53-a7e3-b0e83b0729f6
 
 	measure 'Segment Profit' = SUM ( CustomerSegments[profit] )
 		formatString: #,0
-		lineageTag: 3108dce4-5faa-4d3e-8dd8-89e99bf00ac6
+		lineageTag: 31dd5989-2bc2-408b-8215-9c3c72daf349
 
 	measure 'Segment Margin %' = DIVIDE ( [Segment Profit], [Segment Revenue] ) * 100
 		formatString: #,0.00
-		lineageTag: 2b828bbd-d635-4056-bd8a-51ae5d4fd35b
+		lineageTag: 50fe42af-b282-4443-a4bb-5728595ef6c4
 
 	measure 'Segment % of Customers' = DIVIDE ( [Segment Customers], CALCULATE ( [Segment Customers], ALL ( CustomerSegments ) ) ) * 100
 		formatString: #,0.0
-		lineageTag: 67512f8b-73f9-4c0f-a6d5-7eb0e034f352
+		lineageTag: 82ea2883-67ca-41ea-97b0-12f28c4fe67e
 
 	measure 'Segment % of Revenue' = DIVIDE ( [Segment Revenue], CALCULATE ( [Segment Revenue], ALL ( CustomerSegments ) ) ) * 100
 		formatString: #,0.0
-		lineageTag: cd1249b3-7305-4e22-a73a-6294304b203d
+		lineageTag: f48c2dbe-f50c-4ada-a9b2-4caddc4277d9
 
 	measure 'Segment % of Profit' = DIVIDE ( [Segment Profit], CALCULATE ( [Segment Profit], ALL ( CustomerSegments ) ) ) * 100
 		formatString: #,0.0
-		lineageTag: 12721d31-58db-41ea-aad7-3b783811fc50
+		lineageTag: 86eb1abc-92c7-4e0c-a138-15412736bfc9
 
 	partition CustomerSegments = m
 		mode: import

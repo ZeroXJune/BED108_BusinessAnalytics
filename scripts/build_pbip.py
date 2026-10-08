@@ -61,11 +61,15 @@ RELATIONSHIPS = [
 
 MEASURES = [
     ("Sales", "Revenue", "SUM ( Sales[amount] )", "#,0"),
-    ("Sales", "Profit", "SUM ( Sales[profit] )", "#,0"),
+    # "Total Profit", not "Profit": a measure cannot share a name with a
+    # column on the same table, and Sales already has a `profit` column.
+    # Power BI rejects the whole project with "The 'Profit' measure cannot be
+    # created because a column with the same name already exists."
+    ("Sales", "Total Profit", "SUM ( Sales[profit] )", "#,0"),
     ("Sales", "Orders", "COUNTROWS ( Sales )", "#,0"),
     ("Sales", "Units", "SUM ( Sales[quantity] )", "#,0"),
     ("Sales", "Customers", "DISTINCTCOUNT ( Sales[customer_id] )", "#,0"),
-    ("Sales", "Margin %", "DIVIDE ( [Profit], [Revenue] ) * 100", "#,0.00"),
+    ("Sales", "Margin %", "DIVIDE ( [Total Profit], [Revenue] ) * 100", "#,0.00"),
     ("Sales", "Avg Line Value", "DIVIDE ( [Revenue], [Orders] )", "#,0.00"),
     ("Sales", "Months Covered", "DISTINCTCOUNT ( Sales[year_month] )", "#,0"),
     ("Sales", "Revenue per Month", "DIVIDE ( [Revenue], [Months Covered] )", "#,0.00"),
@@ -336,7 +340,24 @@ def build_report(dest):
           json.dumps(report, indent=2, ensure_ascii=False))
 
 
+def check_no_name_clashes():
+    """
+    A measure may not share a name with a column on the same table, and the
+    comparison is case-insensitive. Power BI refuses to open the whole project
+    if one does, so this is checked here rather than discovered on opening.
+    """
+    for table, filename in TABLES:
+        cols = {c.lower() for c in headers(os.path.join(DATA, filename))}
+        clash = [m for t, m, _, _ in MEASURES if t == table and m.lower() in cols]
+        if clash:
+            raise SystemExit(
+                "measure/column name clash on %s: %s — rename the measure"
+                % (table, ", ".join(clash)))
+    print("  no measure/column name clashes")
+
+
 def main():
+    check_no_name_clashes()
     base = os.path.dirname(OUT)
     model_dir = os.path.join(base, "%s.SemanticModel" % NAME)
     report_dir = os.path.join(base, "%s.Report" % NAME)

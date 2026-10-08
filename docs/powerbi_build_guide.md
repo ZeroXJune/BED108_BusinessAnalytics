@@ -227,7 +227,7 @@ belong on `Sales`, the last seven on `CustomerSegments`.
 ```
 Revenue = SUM ( Sales[amount] )
 
-Profit = SUM ( Sales[profit] )
+Total Profit = SUM ( Sales[profit] )
 
 Orders = COUNTROWS ( Sales )
 
@@ -235,7 +235,7 @@ Units = SUM ( Sales[quantity] )
 
 Customers = DISTINCTCOUNT ( Sales[customer_id] )
 
-Margin % = DIVIDE ( [Profit], [Revenue] ) * 100
+Margin % = DIVIDE ( [Total Profit], [Revenue] ) * 100
 
 Avg Line Value = DIVIDE ( [Revenue], [Orders] )
 
@@ -283,6 +283,17 @@ Segment % of Profit =
 DIVIDE ( [Segment Profit],
          CALCULATE ( [Segment Profit], ALL ( CustomerSegments ) ) ) * 100
 ```
+
+## Why it is `Total Profit` and not `Profit`
+
+A measure may not share a name with a column on the same table, and Power BI
+compares the names case-insensitively. `Sales` already has a `profit` column,
+so creating a measure called `Profit` fails with *"The 'Profit' measure cannot
+be created because a column with the same name already exists."* Hence
+`Total Profit`, which is why `Margin %` references `[Total Profit]`.
+
+`Revenue` is fine, because `Sales` holds `amount`, not `revenue`. The seven
+segment measures are all prefixed `Segment `, so none of them clash either.
 
 ## Three things to be able to explain
 

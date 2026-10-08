@@ -1,57 +1,57 @@
 table SubcategorySegments
-	lineageTag: 783c596a-d4ee-4441-964c-96bbfdc2ba7f
+	lineageTag: 92a13964-1846-489f-87e0-be939a48cb6b
 
 	column sub_category_name
 		dataType: string
-		lineageTag: 34869ba8-de52-4f31-a91b-0c745a745c42
+		lineageTag: 5e259702-88a7-4e43-9b2e-f9f560020b47
 		summarizeBy: none
 		sourceColumn: sub_category_name
 
 	column category_name
 		dataType: string
-		lineageTag: 5058a744-1f07-4773-bc85-ac0ba1ba6706
+		lineageTag: a72ba870-a0c8-45c9-9f7f-0b7949a13e1c
 		summarizeBy: none
 		sourceColumn: category_name
 
 	column revenue_total
 		dataType: double
-		lineageTag: aa98b7a3-a57e-4203-bf7e-3dbf2e0414ce
+		lineageTag: 96dd31de-089a-41bf-882e-f767dbf16c93
 		summarizeBy: sum
 		sourceColumn: revenue_total
 
 	column revenue_2023
 		dataType: double
-		lineageTag: 30da4c73-23e0-409a-8c6b-885cfa4a2296
+		lineageTag: 950b263a-c689-411b-9e9d-c913dd7d45b0
 		summarizeBy: sum
 		sourceColumn: revenue_2023
 
 	column revenue_2024
 		dataType: double
-		lineageTag: 297739dd-4d51-4835-98de-c64af0005037
+		lineageTag: a72a588a-883f-4afd-8325-0f0206acdcf3
 		summarizeBy: sum
 		sourceColumn: revenue_2024
 
 	column growth_pct
 		dataType: double
-		lineageTag: 19331f65-3d85-451b-8c53-915736f36993
+		lineageTag: 9289447e-b583-4eeb-9279-a0fed703069a
 		summarizeBy: sum
 		sourceColumn: growth_pct
 
 	column margin_pct
 		dataType: double
-		lineageTag: 27538e54-bb3f-43bb-a3f5-6d6b28864a16
+		lineageTag: 7c5128ab-7a4e-4189-b388-f49acc30d206
 		summarizeBy: sum
 		sourceColumn: margin_pct
 
 	column cluster
 		dataType: int64
-		lineageTag: a0278812-63bf-417d-a946-365562048231
+		lineageTag: 1aebe89f-c4f0-4c83-9f66-f6aa749f711d
 		summarizeBy: sum
 		sourceColumn: cluster
 
 	column segment
 		dataType: string
-		lineageTag: 704279ec-1a2d-4bb8-9527-58ba59c4c0a7
+		lineageTag: 86f6f6a1-584e-41a4-8c30-59f565a8f975
 		summarizeBy: none
 		sourceColumn: segment
 

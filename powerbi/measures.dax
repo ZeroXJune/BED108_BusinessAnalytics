@@ -16,7 +16,9 @@
 
 Revenue = SUM ( Sales[amount] )
 
-Profit = SUM ( Sales[profit] )
+// Named "Total Profit", not "Profit": a measure cannot share a name
+// with a column on the same table, and Sales has a `profit` column.
+Total Profit = SUM ( Sales[profit] )
 
 Orders = COUNTROWS ( Sales )
 
@@ -24,7 +26,7 @@ Units = SUM ( Sales[quantity] )
 
 Customers = DISTINCTCOUNT ( Sales[customer_name] )
 
-Margin % = DIVIDE ( [Profit], [Revenue] ) * 100
+Margin % = DIVIDE ( [Total Profit], [Revenue] ) * 100
 
 Avg Line Value = DIVIDE ( [Revenue], [Orders] )
 
@@ -108,11 +110,11 @@ Action<Table, string, string, string> add = (t, name, expr, fmt) => {
 };
 
 add(sales, "Revenue",                "SUM ( Sales[amount] )", "#,0");
-add(sales, "Profit",                 "SUM ( Sales[profit] )", "#,0");
+add(sales, "Total Profit",           "SUM ( Sales[profit] )", "#,0");
 add(sales, "Orders",                 "COUNTROWS ( Sales )", "#,0");
 add(sales, "Units",                  "SUM ( Sales[quantity] )", "#,0");
 add(sales, "Customers",              "DISTINCTCOUNT ( Sales[customer_name] )", "#,0");
-add(sales, "Margin %",               "DIVIDE ( [Profit], [Revenue] ) * 100", "#,0.00");
+add(sales, "Margin %",               "DIVIDE ( [Total Profit], [Revenue] ) * 100", "#,0.00");
 add(sales, "Avg Line Value",         "DIVIDE ( [Revenue], [Orders] )", "#,0.00");
 add(sales, "Months Covered",         "DISTINCTCOUNT ( Sales[year_month] )", "#,0");
 add(sales, "Revenue per Month",      "DIVIDE ( [Revenue], [Months Covered] )", "#,0.00");

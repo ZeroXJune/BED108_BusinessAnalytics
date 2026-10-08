@@ -1,193 +1,193 @@
 table Sales
-	lineageTag: 3593597c-ffe3-4475-989a-1061c46b2b86
+	lineageTag: e09e707a-e46a-48ac-b101-665042f39ea6
 
 	column sale_id
 		dataType: int64
-		lineageTag: 270edbc3-3469-436c-b2d8-6d66e9b1e202
+		lineageTag: 3896f511-250a-4a58-aafd-0b5d241e9875
 		summarizeBy: sum
 		sourceColumn: sale_id
 
 	column order_ref
 		dataType: string
-		lineageTag: d9213ba2-8099-47a1-b1ce-9cb6da3382a2
+		lineageTag: 12f6585c-3cea-4a29-af0b-eaf93e855574
 		summarizeBy: none
 		sourceColumn: order_ref
 
 	column order_date
 		dataType: dateTime
-		lineageTag: df42ec25-ebec-492a-a09e-3222e3dc9a8b
+		lineageTag: 299002d5-2cb3-47f1-9b90-2a133a2e5ecd
 		summarizeBy: none
 		sourceColumn: order_date
 		formatString: yyyy-mm-dd
 
 	column customer_id
 		dataType: int64
-		lineageTag: 5b83a026-48d4-438f-bef8-4cb96d5c6555
+		lineageTag: 02db91fe-9867-43c4-b1e0-657ad8419ffe
 		summarizeBy: sum
 		sourceColumn: customer_id
 
 	column year_number
 		dataType: int64
-		lineageTag: 603d7c76-3cb5-476c-bf5e-53ababadd2e7
+		lineageTag: 7f51bf79-335a-4b47-86d9-253bf89ce6cb
 		summarizeBy: sum
 		sourceColumn: year_number
 
 	column quarter_number
 		dataType: int64
-		lineageTag: 406c5cd5-5d09-4282-8007-dbfe141c1924
+		lineageTag: d6edd7f8-3042-4974-9157-74934a584700
 		summarizeBy: sum
 		sourceColumn: quarter_number
 
 	column month_number
 		dataType: int64
-		lineageTag: f5e24860-7211-48ee-b483-5e4da4c060b5
+		lineageTag: 26518f68-c930-48b0-9407-bd29f25e96af
 		summarizeBy: sum
 		sourceColumn: month_number
 
 	column month_name
 		dataType: string
-		lineageTag: c55801f6-2a12-41f3-8971-7d0443a7e8f6
+		lineageTag: e4d778e8-ff82-4f8d-b325-4b67f9f9641d
 		summarizeBy: none
 		sourceColumn: month_name
 
 	column year_month
 		dataType: string
-		lineageTag: 02b77fc7-32b6-463b-9df6-4ea51d29ca70
+		lineageTag: dd5cc654-01b1-4aab-b099-358e31c642c1
 		summarizeBy: none
 		sourceColumn: year_month
 
 	column month_start
 		dataType: dateTime
-		lineageTag: e8306a8b-3682-438d-bf39-24110e37ea94
+		lineageTag: 09091114-7920-4780-9e60-46d4eb56156f
 		summarizeBy: none
 		sourceColumn: month_start
 		formatString: yyyy-mm-dd
 
 	column is_complete_month
 		dataType: int64
-		lineageTag: 2ba958d6-f707-4ce2-8e04-b9e86414a9fd
+		lineageTag: f590adcc-1b8a-4718-9d20-1651849078ef
 		summarizeBy: sum
 		sourceColumn: is_complete_month
 
 	column is_complete_year
 		dataType: int64
-		lineageTag: 27be643b-f906-418f-a56f-4bbe5c59f06a
+		lineageTag: 46e4cbdf-fe0f-4f15-a0f0-c8d7dcf5ed95
 		summarizeBy: sum
 		sourceColumn: is_complete_year
 
 	column customer_name
 		dataType: string
-		lineageTag: 15e0140b-678a-4e7e-a9d7-7934a0d5279b
+		lineageTag: 80829e96-5a7f-419d-b57c-c1c3c146ddc2
 		summarizeBy: none
 		sourceColumn: customer_name
 
 	column city_name
 		dataType: string
-		lineageTag: 5ac05f12-381f-4689-9794-37adb256ec6f
+		lineageTag: 955e0480-d845-42a4-8752-c98c50c99a95
 		summarizeBy: none
 		sourceColumn: city_name
 
 	column state_name
 		dataType: string
-		lineageTag: d5dd9dab-5e52-4c33-9b0c-029a552709a3
+		lineageTag: e66df39b-58fd-4829-bfe1-59ac85f691b0
 		summarizeBy: none
 		sourceColumn: state_name
 
 	column category_name
 		dataType: string
-		lineageTag: 3e4eef22-6bd4-4966-804b-c1f51a265f50
+		lineageTag: 7b57b09d-1879-4614-9ade-70351a082554
 		summarizeBy: none
 		sourceColumn: category_name
 
 	column sub_category_name
 		dataType: string
-		lineageTag: ac041cce-dc7d-4dc9-971d-dee50cf06ff9
+		lineageTag: 7e611f01-ee36-42f7-ac25-ef81251657e1
 		summarizeBy: none
 		sourceColumn: sub_category_name
 
 	column payment_mode_name
 		dataType: string
-		lineageTag: 7f5be422-01a7-4467-9798-ded5ab3404cf
+		lineageTag: d2562ebf-1b86-4dda-b655-4e8e7cc6171a
 		summarizeBy: none
 		sourceColumn: payment_mode_name
 
 	column quantity
 		dataType: int64
-		lineageTag: a6a676af-0672-4abb-b8a5-ee1575b5e69c
+		lineageTag: 3dc3541a-2fa6-4bbd-a17b-1a7860061bf7
 		summarizeBy: sum
 		sourceColumn: quantity
 
 	column amount
 		dataType: double
-		lineageTag: 264f60e5-9562-432c-9abf-adc99273450f
+		lineageTag: b8fbe66e-ad1d-476e-9bf8-80eaaab80f37
 		summarizeBy: sum
 		sourceColumn: amount
 
 	column profit
 		dataType: double
-		lineageTag: c4d433b1-3a5c-428f-93a4-4f75a1f0e584
+		lineageTag: af06d661-829c-4383-8155-5bc29eac7329
 		summarizeBy: sum
 		sourceColumn: profit
 
 	measure 'Revenue' = SUM ( Sales[amount] )
 		formatString: #,0
-		lineageTag: 0f698cac-cca0-4dfd-9dc5-c0726ab0d415
+		lineageTag: ba7de02c-2eb8-4a76-97fc-d1794746dfdb
 
-	measure 'Profit' = SUM ( Sales[profit] )
+	measure 'Total Profit' = SUM ( Sales[profit] )
 		formatString: #,0
-		lineageTag: f3e33fc0-252c-44d7-91d2-2cb2925c42ba
+		lineageTag: eb306314-747b-42de-9760-29ac4c997908
 
 	measure 'Orders' = COUNTROWS ( Sales )
 		formatString: #,0
-		lineageTag: 91418a0b-3694-4028-bddd-563866b65f59
+		lineageTag: 8b292099-b414-4187-84ab-764213b15c0a
 
 	measure 'Units' = SUM ( Sales[quantity] )
 		formatString: #,0
-		lineageTag: c9cecb73-b1dd-4c0c-9478-d6cafbd2bea7
+		lineageTag: 5bc5277c-f8d4-47af-bb19-54bc7a3067c8
 
 	measure 'Customers' = DISTINCTCOUNT ( Sales[customer_id] )
 		formatString: #,0
-		lineageTag: ecbafe74-9fad-4a8c-91c4-4d392e9645dd
+		lineageTag: fe75247a-6c4d-4bac-b077-991c19f8d208
 
-	measure 'Margin %' = DIVIDE ( [Profit], [Revenue] ) * 100
+	measure 'Margin %' = DIVIDE ( [Total Profit], [Revenue] ) * 100
 		formatString: #,0.00
-		lineageTag: 54eda004-84b6-482c-9831-62246f2fa753
+		lineageTag: 093878a8-ad37-4db8-b20c-5aa4929cbee1
 
 	measure 'Avg Line Value' = DIVIDE ( [Revenue], [Orders] )
 		formatString: #,0.00
-		lineageTag: 2de01105-978d-4394-b810-151a6b1f0071
+		lineageTag: 78e9d0df-1037-4eae-b9a1-e23993af4590
 
 	measure 'Months Covered' = DISTINCTCOUNT ( Sales[year_month] )
 		formatString: #,0
-		lineageTag: 42fe22be-efe4-4f9e-9d5b-7c13c616a067
+		lineageTag: 2b09cd30-0327-436f-b945-7436385ee0be
 
 	measure 'Revenue per Month' = DIVIDE ( [Revenue], [Months Covered] )
 		formatString: #,0.00
-		lineageTag: 0ad28d8b-be67-4ac5-afea-edf77f26d584
+		lineageTag: 0ee4a9eb-4726-4b64-a7bb-651fe3fea5f3
 
 	measure 'Orders per Month' = DIVIDE ( [Orders], [Months Covered] )
 		formatString: #,0.0
-		lineageTag: f9aaa8c5-f744-431d-a8c3-5c01a059573d
+		lineageTag: e266306a-34c5-46e3-8a55-59a1bf2c3e07
 
 	measure 'Peak Revenue per Month' = CALCULATE ( [Revenue per Month], ALL ( Sales ), Sales[year_number] = 2022 )
 		formatString: #,0.00
-		lineageTag: 408bfd82-b346-4bcd-aa45-89f08bba353a
+		lineageTag: 6a30ce81-bb06-418b-80d0-fa1aaee2e8fd
 
 	measure 'Peak Orders per Month' = CALCULATE ( [Orders per Month], ALL ( Sales ), Sales[year_number] = 2022 )
 		formatString: #,0.0
-		lineageTag: e6d1b227-42f5-4116-a838-56ac0b186189
+		lineageTag: 48f4824c-e542-4b8e-8add-71d3e6f93cc0
 
 	measure 'Gap to Peak %' = DIVIDE ( [Revenue per Month] - [Peak Revenue per Month], [Peak Revenue per Month] ) * 100
 		formatString: #,0.0
-		lineageTag: 9802e8ee-abc0-42ad-943b-acbfee8e3601
+		lineageTag: ab854430-c79b-4c19-990c-3a8570834b76
 
 	measure 'Order Gap' = [Peak Orders per Month] - [Orders per Month]
 		formatString: #,0.0
-		lineageTag: 431609e7-f009-4a4f-b20e-f64ba4831196
+		lineageTag: 0708e8be-0260-416f-b82d-54e3ce9de162
 
 	measure 'Gap Value per Year' = [Order Gap] * 5224.25 * 12
 		formatString: #,0
-		lineageTag: c7ef4fa0-6c5b-4eff-899f-ec2bd9f6c13e
+		lineageTag: 2ffe5f5e-4465-4f1e-8fbe-ce43c211000a
 
 	partition Sales = m
 		mode: import
