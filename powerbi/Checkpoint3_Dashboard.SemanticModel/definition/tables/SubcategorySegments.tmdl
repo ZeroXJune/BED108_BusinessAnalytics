@@ -1,59 +1,63 @@
 table SubcategorySegments
-	lineageTag: 77d26b79-efa9-4ae1-831b-b7134a5deef9
+	lineageTag: 5fa8ae23-338b-4557-8aaa-9115f87b44bb
 
 	column sub_category_name
 		dataType: string
-		lineageTag: 8252173b-0312-4a88-a070-f2ea75d471f8
+		lineageTag: bd4255bd-d2e1-409d-bcc4-f2fa59e25edb
 		summarizeBy: none
 		sourceColumn: sub_category_name
 
 	column category_name
 		dataType: string
-		lineageTag: 3bc01216-4793-4614-afac-c2de2c8808c8
+		lineageTag: ffe37d48-a681-4765-9ba4-b4f975a1a158
 		summarizeBy: none
 		sourceColumn: category_name
 
 	column revenue_total
 		dataType: double
-		lineageTag: 6955cbdf-7bed-4393-87cf-902635513e2a
+		lineageTag: d1982a47-e745-4717-8d41-040fc225eaa1
 		summarizeBy: sum
 		sourceColumn: revenue_total
 
 	column revenue_2023
 		dataType: double
-		lineageTag: 91cc63d0-2240-4c28-ac37-28c6bd98a844
+		lineageTag: 0e93b919-77b1-48ff-821a-f37261a7602d
 		summarizeBy: sum
 		sourceColumn: revenue_2023
 
 	column revenue_2024
 		dataType: double
-		lineageTag: 72ebaffc-2bf6-48ae-b8d7-1060f2ef7c2a
+		lineageTag: c4fbd0a2-57e4-4003-87cd-59e326bd1478
 		summarizeBy: sum
 		sourceColumn: revenue_2024
 
 	column growth_pct
 		dataType: double
-		lineageTag: 223cd715-590b-47a6-b5f7-50fe29054fc4
+		lineageTag: 3ae20e14-3f35-449e-b883-d999ccb8e0a3
 		summarizeBy: sum
 		sourceColumn: growth_pct
 
 	column margin_pct
 		dataType: double
-		lineageTag: 8585fd4f-d2e4-4819-b085-14cf3a963106
+		lineageTag: 95de32c1-1802-4b22-abea-c7b51850cf42
 		summarizeBy: sum
 		sourceColumn: margin_pct
 
 	column cluster
 		dataType: int64
-		lineageTag: 65f22f14-2f61-438b-9def-1e169070c516
+		lineageTag: b1cb68e9-45a0-4505-b357-97e5b74064ec
 		summarizeBy: sum
 		sourceColumn: cluster
 
 	column segment
 		dataType: string
-		lineageTag: 795701bc-1ebb-4232-b478-44bdaaeb558e
+		lineageTag: 06fc1b81-8ec9-45cc-ba2a-969ee78bc6dc
 		summarizeBy: none
 		sourceColumn: segment
+
+	measure 'Revenue Change 23 to 24' = SUM ( SubcategorySegments[revenue_2024] ) - SUM ( SubcategorySegments[revenue_2023] )
+		formatString: #,0
+		lineageTag: 9f8264c4-3ffc-466c-8aa6-aa0ab1d275ec
 
 	partition SubcategorySegments = m
 		mode: import

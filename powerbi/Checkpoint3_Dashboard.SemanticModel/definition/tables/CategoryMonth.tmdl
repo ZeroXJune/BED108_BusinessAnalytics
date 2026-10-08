@@ -1,70 +1,70 @@
 table CategoryMonth
-	lineageTag: 9a96c15c-c46e-4a25-8d30-e9311a96f425
+	lineageTag: 46177e32-018f-4bcc-9347-13d5c66cd735
 
 	column year_month
 		dataType: string
-		lineageTag: 98797958-902d-478a-bcd4-62ff4f72e03a
+		lineageTag: 83dddcb1-e8fb-42b6-abb7-d0d40f6700b6
 		summarizeBy: none
 		sourceColumn: year_month
 
 	column month_start
 		dataType: dateTime
-		lineageTag: 7491a5f6-8795-4650-99bf-572a65410948
+		lineageTag: 3115fe1b-1b72-453c-a2a1-1c8f79906de6
 		summarizeBy: none
 		sourceColumn: month_start
 		formatString: yyyy-mm-dd
 
 	column year_number
 		dataType: int64
-		lineageTag: 5d8a8dce-0ba1-43ef-8cc6-cd929da5d828
+		lineageTag: a4576b13-78f1-4654-83e3-43aebce962d2
 		summarizeBy: sum
 		sourceColumn: year_number
 
 	column quarter_number
 		dataType: int64
-		lineageTag: d37248d8-b8a2-450b-8303-d3471c7cd3cb
+		lineageTag: 6783e697-3986-444d-92b1-9d92ba8c1a49
 		summarizeBy: sum
 		sourceColumn: quarter_number
 
 	column category_name
 		dataType: string
-		lineageTag: 692e1672-3565-4121-8b9e-acb13f1569a0
+		lineageTag: 633d60a9-1aca-48cf-b05b-4039df64bfb0
 		summarizeBy: none
 		sourceColumn: category_name
 
 	column sub_category_name
 		dataType: string
-		lineageTag: f3abce1c-98f5-4d21-b42a-9a1cb2f2c8f4
+		lineageTag: bc9fab6b-cf37-4571-8e65-28270a980fe5
 		summarizeBy: none
 		sourceColumn: sub_category_name
 
 	column transaction_lines
 		dataType: int64
-		lineageTag: 84461810-8db9-4a5c-a657-a1a5f1087dd4
+		lineageTag: b18db111-3429-4a73-b0e4-fef2f5205344
 		summarizeBy: sum
 		sourceColumn: transaction_lines
 
 	column units_sold
 		dataType: int64
-		lineageTag: 9e7f5dc8-6a02-4330-b9a5-a32d0fc98a67
+		lineageTag: 61218454-17e0-436d-88cf-8eb4395c44ed
 		summarizeBy: sum
 		sourceColumn: units_sold
 
 	column revenue
 		dataType: double
-		lineageTag: 24405ca9-7549-4ff3-9c7d-93b1f80795a9
+		lineageTag: f807a181-edfa-4ef0-a41b-21d948a15684
 		summarizeBy: sum
 		sourceColumn: revenue
 
 	column profit
 		dataType: double
-		lineageTag: e1d0c1b3-3671-4141-8ba5-eed1addc2858
+		lineageTag: de5a6feb-b13d-41b5-9918-ea190449a9c1
 		summarizeBy: sum
 		sourceColumn: profit
 
 	column margin_pct
 		dataType: double
-		lineageTag: 844e119a-d676-4bc5-bdec-4a3ca7cd9a71
+		lineageTag: 0e8ac39f-f80f-4cca-a714-4ee2f45384f9
 		summarizeBy: sum
 		sourceColumn: margin_pct
 

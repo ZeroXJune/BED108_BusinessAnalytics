@@ -1,51 +1,51 @@
 table Geography
-	lineageTag: accc2509-e0d4-4b14-af09-10c83f19ad31
+	lineageTag: 91e2ff21-2a63-4bc0-b042-a8c1d25dae89
 
 	column state_name
 		dataType: string
-		lineageTag: 793b8aea-2757-41fa-83af-204062da04b2
+		lineageTag: e4b96e1d-bdad-4ec3-bb00-3bb80f7cf6b4
 		summarizeBy: none
 		sourceColumn: state_name
 
 	column city_name
 		dataType: string
-		lineageTag: 0bd0e896-00d0-4afe-98a9-c846f1b69e6f
+		lineageTag: 2c655a61-2c72-4561-9016-f8439924ecb0
 		summarizeBy: none
 		sourceColumn: city_name
 
 	column transaction_lines
 		dataType: int64
-		lineageTag: 54306221-c4b7-4405-86c5-965b979f9cdf
+		lineageTag: 06bb3425-780b-4298-8f09-50efb4abb956
 		summarizeBy: sum
 		sourceColumn: transaction_lines
 
 	column customers
 		dataType: int64
-		lineageTag: 1861e611-df74-4807-866a-7d17e419f8f4
+		lineageTag: f293133f-b515-4799-b950-6d2116f852c9
 		summarizeBy: sum
 		sourceColumn: customers
 
 	column revenue
 		dataType: double
-		lineageTag: f034e9fd-a2a6-49ad-b2fa-052d643bd46c
+		lineageTag: 70b0326c-e43a-458f-9680-ca8662a0e581
 		summarizeBy: sum
 		sourceColumn: revenue
 
 	column profit
 		dataType: double
-		lineageTag: 2eae9a30-66b5-496c-81b6-b9ce22b6fbf4
+		lineageTag: 951dca7a-6da9-42b0-8ac5-8964669ce8e3
 		summarizeBy: sum
 		sourceColumn: profit
 
 	column revenue_per_customer
 		dataType: double
-		lineageTag: 4c738680-cf56-4bcc-8b87-989e9188663d
+		lineageTag: fa28097a-1bd9-42cb-99bf-0db5397d459a
 		summarizeBy: sum
 		sourceColumn: revenue_per_customer
 
 	column margin_pct
 		dataType: double
-		lineageTag: f6efd00c-a7a9-4b88-8b26-29713a5bdcaa
+		lineageTag: 10c6710e-e75b-431f-9d03-108f42a94e87
 		summarizeBy: sum
 		sourceColumn: margin_pct
 

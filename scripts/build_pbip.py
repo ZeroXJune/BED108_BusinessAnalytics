@@ -93,6 +93,9 @@ MEASURES = [
      "DIVIDE ( [Segment Revenue], CALCULATE ( [Segment Revenue], ALL ( CustomerSegments ) ) ) * 100", "#,0.0"),
     ("CustomerSegments", "Segment % of Profit",
      "DIVIDE ( [Segment Profit], CALCULATE ( [Segment Profit], ALL ( CustomerSegments ) ) ) * 100", "#,0.0"),
+    ("SubcategorySegments", "Revenue Change 23 to 24",
+     "SUM ( SubcategorySegments[revenue_2024] ) - SUM ( SubcategorySegments[revenue_2023] )",
+     "#,0"),
 ]
 
 
@@ -216,78 +219,94 @@ def build_model(dest):
 
 # ------------------------------------------------------------------- report
 
-def card_visual(x, y, w, h, measure, title, fmt=None):
-    name = gid()
-    cfg = {
-        "name": name,
-        "layouts": [{"id": 0, "position": {"x": x, "y": y, "z": 0,
-                                           "width": w, "height": h}}],
-        "singleVisual": {
-            "visualType": "card",
-            "projections": {"Values": [{"queryRef": "Sales.%s" % measure}]},
-            "prototypeQuery": {
-                "Version": 2,
-                "From": [{"Name": "s", "Entity": "Sales", "Type": 0}],
-                "Select": [{
-                    "Measure": {"Expression": {"SourceRef": {"Source": "s"}},
-                                "Property": measure},
-                    "Name": "Sales.%s" % measure
-                }]
-            },
-            "drillFilterOtherVisuals": True,
-            "objects": {"labels": [{"properties": {
-                "fontSize": {"expr": {"Literal": {"Value": "28D"}}}}}]},
-            "vcObjects": {"title": [{"properties": {
-                "show": {"expr": {"Literal": {"Value": "true"}}},
-                "text": {"expr": {"Literal": {"Value": "'%s'" % title}}}
-            }}]}
-        }
+ALIASES = {"Sales": "s", "Monthly": "m", "CategoryMonth": "c",
+           "CustomerSegments": "cs", "SubcategorySegments": "ss",
+           "Geography": "g", "Annual": "a"}
+
+AGG = {"sum": 0, "avg": 1, "min": 2, "max": 3, "count": 4}
+
+
+def field(table, name, kind="column", agg=None):
+    """One projected field: a column, an aggregated column, or a measure."""
+    return {"table": table, "name": name, "kind": kind, "agg": agg}
+
+
+def _select(f):
+    """Build the prototypeQuery Select entry and the queryRef that names it."""
+    src = {"SourceRef": {"Source": ALIASES[f["table"]]}}
+    if f["kind"] == "measure":
+        ref = "%s.%s" % (f["table"], f["name"])
+        return {"Measure": {"Expression": src, "Property": f["name"]},
+                "Name": ref}, ref
+    if f["agg"]:
+        ref = "%s(%s.%s)" % (f["agg"].capitalize(), f["table"], f["name"])
+        return {"Aggregation": {
+            "Expression": {"Column": {"Expression": src, "Property": f["name"]}},
+            "Function": AGG[f["agg"]]}, "Name": ref}, ref
+    ref = "%s.%s" % (f["table"], f["name"])
+    return {"Column": {"Expression": src, "Property": f["name"]}, "Name": ref}, ref
+
+
+def visual(vtype, x, y, w, h, roles, title=None, where=None, objects=None,
+           z=0):
+    """
+    Build one visualContainer.
+
+    `roles` maps a well name to a list of fields, e.g.
+    {"Category": [field("Monthly", "month_start")],
+     "Y": [field("Monthly", "revenue", agg="sum")]}
+    """
+    selects, projections, tables = [], {}, []
+    for role, fields in roles.items():
+        projections[role] = []
+        for f in fields:
+            sel, ref = _select(f)
+            selects.append(sel)
+            projections[role].append({"queryRef": ref})
+            if f["table"] not in tables:
+                tables.append(f["table"])
+
+    single = {
+        "visualType": vtype,
+        "projections": projections,
+        "prototypeQuery": {
+            "Version": 2,
+            "From": [{"Name": ALIASES[t], "Entity": t, "Type": 0}
+                     for t in tables],
+            "Select": selects,
+        },
+        "drillFilterOtherVisuals": True,
     }
-    return {"x": x, "y": y, "z": 0, "width": w, "height": h,
+    if where:
+        single["prototypeQuery"]["Where"] = where
+    if objects:
+        single["objects"] = objects
+    if title:
+        single["vcObjects"] = {"title": [{"properties": {
+            "show": {"expr": {"Literal": {"Value": "true"}}},
+            "text": {"expr": {"Literal": {"Value": "'%s'" % title}}}}}]}
+
+    cfg = {"name": gid(),
+           "layouts": [{"id": 0, "position": {"x": x, "y": y, "z": z,
+                                              "width": w, "height": h}}],
+           "singleVisual": single}
+    return {"x": x, "y": y, "z": z, "width": w, "height": h,
             "config": json.dumps(cfg)}
 
 
-def line_visual(x, y, w, h):
-    name = gid()
-    cfg = {
-        "name": name,
-        "layouts": [{"id": 0, "position": {"x": x, "y": y, "z": 1,
-                                           "width": w, "height": h}}],
-        "singleVisual": {
-            "visualType": "lineChart",
-            "projections": {
-                "Category": [{"queryRef": "Monthly.month_start"}],
-                "Y": [{"queryRef": "Sum(Monthly.revenue)"}]
-            },
-            "prototypeQuery": {
-                "Version": 2,
-                "From": [{"Name": "m", "Entity": "Monthly", "Type": 0}],
-                "Select": [
-                    {"Column": {"Expression": {"SourceRef": {"Source": "m"}},
-                                "Property": "month_start"},
-                     "Name": "Monthly.month_start"},
-                    {"Aggregation": {"Expression": {"Column": {
-                        "Expression": {"SourceRef": {"Source": "m"}},
-                        "Property": "revenue"}}, "Function": 0},
-                     "Name": "Sum(Monthly.revenue)"}
-                ],
-                "Where": [{"Condition": {"Comparison": {
-                    "ComparisonKind": 0,
-                    "Left": {"Column": {
-                        "Expression": {"SourceRef": {"Source": "m"}},
+def card(x, y, w, h, measure, title, table="Sales"):
+    return visual("card", x, y, w, h,
+                  {"Values": [field(table, measure, "measure")]}, title,
+                  objects={"labels": [{"properties": {
+                      "fontSize": {"expr": {"Literal": {"Value": "28D"}}}}}]})
+
+
+# Only the 57 months the Checkpoint 2 regression was fitted on.
+ANALYSIS_WINDOW = [{"Condition": {"Comparison": {
+    "ComparisonKind": 0,
+    "Left": {"Column": {"Expression": {"SourceRef": {"Source": "m"}},
                         "Property": "in_analysis_window"}},
-                    "Right": {"Literal": {"Value": "1L"}}}}}]
-            },
-            "drillFilterOtherVisuals": True,
-            "vcObjects": {"title": [{"properties": {
-                "show": {"expr": {"Literal": {"Value": "true"}}},
-                "text": {"expr": {"Literal": {"Value":
-                    "'Revenue per month, April 2020 - December 2024'"}}}
-            }}]}
-        }
-    }
-    return {"x": x, "y": y, "z": 1, "width": w, "height": h,
-            "config": json.dumps(cfg)}
+    "Right": {"Literal": {"Value": "1L"}}}}}]
 
 
 def section(ordinal, display, visuals):
@@ -309,16 +328,110 @@ def build_report(dest):
                       "datasetReference": {"byPath": {
                           "path": "../%s.SemanticModel" % NAME}}}, indent=2))
 
+    # ---- Page 1: Executive Summary ----------------------------------
     kpis = [
         ("Orders per Month", "Orders per month  (2022 peak: 24.0)"),
         ("Revenue per Month", "Revenue per month  (2022 peak: 121,648)"),
         ("Margin %", "Margin %"),
         ("Gap to Peak %", "Gap to the 2022 peak"),
     ]
-    visuals = []
-    for i, (m, t) in enumerate(kpis):
-        visuals.append(card_visual(24 + i * 310, 24, 296, 150, m, t))
-    visuals.append(line_visual(24, 196, 916, 470))
+    page1 = [card(24 + i * 310, 24, 296, 150, m, t)
+             for i, (m, t) in enumerate(kpis)]
+    page1.append(visual(
+        "lineChart", 24, 196, 880, 330,
+        {"Category": [field("Monthly", "month_start")],
+         "Y": [field("Monthly", "revenue", agg="sum")]},
+        "Revenue per month, April 2020 - December 2024",
+        where=ANALYSIS_WINDOW, z=1))
+    page1.append(visual(
+        "tableEx", 920, 196, 336, 330,
+        {"Values": [field("Annual", "year_number"),
+                    field("Annual", "months_covered", agg="sum"),
+                    field("Annual", "revenue_per_month", agg="sum"),
+                    field("Annual", "margin_pct", agg="avg")]},
+        "Revenue per month by year", z=2))
+    page1.append(visual(
+        "slicer", 24, 548, 400, 140,
+        {"Values": [field("Annual", "year_number")]}, "Year", z=3))
+    page1.append(visual(
+        "slicer", 444, 548, 400, 140,
+        {"Values": [field("Sales", "category_name")]}, "Category", z=4))
+
+    # ---- Page 2: Trend & Comparison ---------------------------------
+    page2 = [
+        visual("lineChart", 24, 24, 608, 300,
+               {"Category": [field("CategoryMonth", "month_start")],
+                "Y": [field("CategoryMonth", "revenue", agg="sum")],
+                "Series": [field("CategoryMonth", "category_name")]},
+               "Revenue by category, monthly"),
+        visual("clusteredBarChart", 648, 24, 608, 300,
+               {"Category": [field("SubcategorySegments", "sub_category_name")],
+                "Y": [field("SubcategorySegments", "Revenue Change 23 to 24",
+                            "measure")]},
+               "Sub-category revenue change, 2023 to 2024", z=1),
+        visual("clusteredColumnChart", 24, 344, 608, 270,
+               {"Category": [field("CategoryMonth", "quarter_number")],
+                "Y": [field("CategoryMonth", "revenue", agg="sum")],
+                "Series": [field("CategoryMonth", "category_name")]},
+               "Quarterly revenue by category", z=2),
+        visual("clusteredBarChart", 648, 344, 608, 270,
+               {"Category": [field("SubcategorySegments", "sub_category_name")],
+                "Y": [field("SubcategorySegments", "margin_pct", agg="avg")]},
+               "Margin % by sub-category", z=3),
+        visual("slicer", 24, 634, 400, 60,
+               {"Values": [field("Sales", "year_number")]}, "Year", z=4),
+        visual("slicer", 444, 634, 400, 60,
+               {"Values": [field("Sales", "category_name")]}, "Category", z=5),
+        visual("slicer", 864, 634, 392, 60,
+               {"Values": [field("Sales", "state_name")]}, "State", z=6),
+    ]
+
+    # ---- Page 3: Deep Dive & Segmentation ---------------------------
+    page3 = [
+        visual("scatterChart", 24, 24, 600, 300,
+               {"Category": [field("SubcategorySegments", "sub_category_name")],
+                "X": [field("SubcategorySegments", "growth_pct", agg="avg")],
+                "Y": [field("SubcategorySegments", "margin_pct", agg="avg")],
+                "Size": [field("SubcategorySegments", "revenue_total",
+                               agg="sum")],
+                "Series": [field("SubcategorySegments", "segment")]},
+               "Sub-category segments (k-means, k = 3)"),
+        visual("scatterChart", 640, 24, 616, 300,
+               {"Category": [field("CustomerSegments", "customer_name")],
+                "X": [field("CustomerSegments", "revenue", agg="sum")],
+                "Y": [field("CustomerSegments", "margin_pct", agg="avg")],
+                "Series": [field("CustomerSegments", "segment")]},
+               "Customer segments (k-means, n = 807)", z=1),
+        visual("tableEx", 24, 344, 460, 270,
+               {"Values": [field("CustomerSegments", "segment"),
+                           field("CustomerSegments", "Segment Customers",
+                                 "measure"),
+                           field("CustomerSegments", "Segment % of Customers",
+                                 "measure"),
+                           field("CustomerSegments", "Segment % of Revenue",
+                                 "measure"),
+                           field("CustomerSegments", "Segment % of Profit",
+                                 "measure"),
+                           field("CustomerSegments", "Segment Margin %",
+                                 "measure")]},
+               "Segment profile", z=2),
+        visual("map", 500, 344, 380, 270,
+               {"Category": [field("Geography", "state_name")],
+                "Size": [field("Geography", "revenue", agg="sum")]},
+               "Revenue by state", z=3),
+        visual("scatterChart", 896, 344, 360, 270,
+               {"Category": [field("Sales", "sale_id")],
+                "X": [field("Sales", "quantity", agg="sum")],
+                "Y": [field("Sales", "amount", agg="sum")]},
+               "Units sold against order value - r = 0.045, p = 0.123", z=4),
+        visual("slicer", 24, 634, 400, 60,
+               {"Values": [field("CustomerSegments", "segment")]},
+               "Segment", z=5),
+        visual("slicer", 444, 634, 400, 60,
+               {"Values": [field("Sales", "category_name")]}, "Category", z=6),
+        visual("slicer", 864, 634, 392, 60,
+               {"Values": [field("Sales", "year_number")]}, "Year", z=7),
+    ]
 
     report = {
         "config": json.dumps({
@@ -331,9 +444,9 @@ def build_report(dest):
         "layoutOptimization": 0,
         "resourcePackages": [],
         "sections": [
-            section(0, "1 Executive Summary", visuals),
-            section(1, "2 Trend & Comparison", []),
-            section(2, "3 Deep Dive & Segmentation", []),
+            section(0, "1 Executive Summary", page1),
+            section(1, "2 Trend & Comparison", page2),
+            section(2, "3 Deep Dive", page3),
         ],
     }
     write(os.path.join(dest, "report.json"),
@@ -351,9 +464,40 @@ def check_no_name_clashes():
         clash = [m for t, m, _, _ in MEASURES if t == table and m.lower() in cols]
         if clash:
             raise SystemExit(
-                "measure/column name clash on %s: %s — rename the measure"
+                "measure/column name clash on %s: %s - rename the measure"
                 % (table, ", ".join(clash)))
     print("  no measure/column name clashes")
+
+
+def check_fields_exist():
+    """
+    Every column a visual projects must exist in its table's CSV, and every
+    measure must be one this script defines. A typo here would open fine and
+    render an empty visual, which is harder to notice than a hard failure.
+    """
+    cols = {t: {c.lower() for c in headers(os.path.join(DATA, f))}
+            for t, f in TABLES}
+    measures = {(t, m) for t, m, _, _ in MEASURES}
+    missing = []
+    report = json.load(open(os.path.join(
+        os.path.dirname(OUT), "%s.Report" % NAME, "report.json")))
+    for sec in report["sections"]:
+        for vc in sec["visualContainers"]:
+            sv = json.loads(vc["config"])["singleVisual"]
+            for sel in sv["prototypeQuery"]["Select"]:
+                if "Measure" in sel:
+                    t, m = sel["Name"].split(".", 1)
+                    if (t, m) not in measures:
+                        missing.append("measure %s[%s]" % (t, m))
+                else:
+                    node = sel.get("Column") or sel["Aggregation"]["Expression"]["Column"]
+                    t = sel["Name"].split("(")[-1].rstrip(")").split(".")[0]
+                    if node["Property"].lower() not in cols.get(t, set()):
+                        missing.append("column %s[%s]" % (t, node["Property"]))
+    if missing:
+        raise SystemExit("visual references a field that does not exist: %s"
+                         % ", ".join(sorted(set(missing))))
+    print("  every projected field exists")
 
 
 def main():
@@ -367,6 +511,7 @@ def main():
 
     build_model(model_dir)
     build_report(report_dir)
+    check_fields_exist()
     write(os.path.join(base, "%s.pbip" % NAME), json.dumps({
         "version": "1.0",
         "artifacts": [{"report": {"path": "%s.Report" % NAME}}],
