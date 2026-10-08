@@ -1,119 +1,317 @@
 # Building the Checkpoint 3 dashboard in Power BI
 
 **BED 106 Business Analytics — Mini Capstone Project**
+Complete build instructions, from installing Power BI to exporting the `.pbix`.
 
-A `.pbix` cannot be generated outside Power BI Desktop: its data model is a
-binary written by the Analysis Services engine, which ships only with the
-Windows application. But Power BI also has a **plain-text project format**,
-`.pbip`, and that *can* be generated — so there are two routes below.
+Written for someone who has never opened Power BI. Every field well, every
+format setting, every click. Follow it in order — later steps assume the
+earlier ones are done.
 
-## Route A — open the generated project (try this first)
-
-`powerbi/Checkpoint3_Dashboard.pbip` is a complete Power BI project: the
-semantic model with all eight tables, their column types, three relationships
-and all twenty-two measures, plus page 1 of the report with the four KPI cards
-and the trend chart already placed.
-
-**To use it:**
-
-1. Power BI Desktop → File → Options and settings → Options → Preview features
-   → tick **Power BI Project (.pbip) save format** if it is not already on, and
-   restart
-2. File → Open → browse to `Checkpoint3_Dashboard.pbip`
-3. It will prompt for **FolderPath** — give it the full path to your
-   `data\dashboard\` folder, with a trailing backslash
-4. Refresh. Then File → **Save as** → `Checkpoint3_Dashboard.pbix`
-
-That leaves you pages 2 and 3 to build, which is Steps 6 and 7 below.
-
-> **This has not been opened in Power BI Desktop.** There is no Power BI in the
-> environment it was generated in, so it has been checked structurally — every
-> file parses, every relationship points at a real column, the model references
-> all eight tables — but not opened. If Power BI rejects it, do not fight it:
-> use Route B, which is all hand-operated and cannot fail for the same reason.
-> Tell me what the error says and I will fix the generator.
-
-## Route B — build it by hand (the reliable route)
-
-Everything from Step 1 onward. The data is shaped and typed, the measures are
-written, and the visuals are specified field by field; what remains is loading,
-pasting and dragging.
-
-Budget about **90 minutes** for the first build if nobody in the group has used
-Power BI before, and about 30 if someone has.
+**Time:** about 90 minutes the first time, 30 if someone in the group has used
+Power BI before.
 
 ---
 
-## Step 1 — Get the files
+## Contents
 
-From the repository you need the folder `data/dashboard/`, which holds seven
-CSVs:
+| Part | What it covers |
+| --- | --- |
+| 0 | Before you start — install, files |
+| A | The shortcut: open the generated project |
+| 1 | Load the seven tables |
+| 2 | Fix the column types |
+| 3 | Build the relationships |
+| 4 | Create the 22 measures |
+| 5 | Verify the model before building anything |
+| 6 | Set the theme |
+| 7 | Page 1 — Executive Summary |
+| 8 | Page 2 — Trend & Comparison |
+| 9 | Page 3 — Deep Dive & Segmentation |
+| 10 | Slicers and drill-through |
+| 11 | Titles, labels and source notes |
+| 12 | Export the `.pbix` and the PDF |
+| 13 | Troubleshooting |
+| 14 | Final checklist against the rubric |
 
-```
-monthly.csv              59 rows    the trend series
-category_month.csv      562 rows    page 2
-sales_detail.csv      1,194 rows    page 3 scatter
-geography.csv            18 rows    the map
-annual.csv                5 rows    the year table
-customer_segments.csv   807 rows    page 3, Task 3.3
-subcategory_segments.csv 12 rows    page 3, Task 3.3
-```
+---
 
-If they are stale, regenerate with `python3 scripts/build_dashboard_data.py`
-and `python3 scripts/build_segments.py`. The first verifies ten published
-figures before it writes and fails loudly if any has drifted.
+# Part 0 — Before you start
 
-## Step 2 — Load the tables
+## 0.1 Install Power BI Desktop
 
-**The simple way.** Home → Get data → Text/CSV, once per file. Power BI detects
-the types. Check two things afterwards: `month_start` and `order_date` must be
-**Date**, not Text, and `revenue`, `profit`, `margin_pct` must be **Decimal
-number**.
+Free, Windows only. Either:
 
-**The tidy way.** Use `powerbi/load_tables.m`, which types every column
-explicitly so you never have to fix a wrong axis later. Home → Transform data →
-New Source → Blank query → Advanced Editor → paste the file → change
-`FolderPath` at the top to your own path.
+- **Microsoft Store** — search "Power BI Desktop", Install. This version updates
+  itself, which is the easier option.
+- **Download** from powerbi.microsoft.com → Products → Power BI Desktop →
+  Download free.
 
-Rename the queries to exactly: `Monthly`, `CategoryMonth`, `Sales`,
-`Geography`, `Annual`, `CustomerSegments`, `SubcategorySegments`, `DateTable`.
-The measures refer to these names.
+A Microsoft account is **not** needed to build and save a `.pbix`. You only
+need to sign in to publish to the Power BI Service, which this project does not
+require.
 
-## Step 3 — Model view: relationships
+**If nobody in the group has Windows:** Tableau Public is free and runs on Mac,
+and the brief accepts `.twbx` instead. The data and the measures below transfer;
+the click-paths do not. Decide this before anyone starts building.
 
-Model view, then drag to create these. All are one-to-many, single direction,
-from the one side to the many.
+## 0.2 Get the data files
 
-| From | To | On |
+You need the folder `data/dashboard/` from the repository. It holds seven CSVs:
+
+| File | Rows | Used on |
 | --- | --- | --- |
-| `DateTable[Date]` | `Sales[order_date]` | mark `DateTable` as the date table |
-| `DateTable[MonthStart]` | `Monthly[month_start]` | one-to-one is fine here |
-| `DateTable[MonthStart]` | `CategoryMonth[month_start]` | |
-| `CustomerSegments[customer_id]` | `Sales[customer_id]` | **not** `customer_name` — see below |
-| `SubcategorySegments[sub_category_name]` | `Sales[sub_category_name]` | |
+| `monthly.csv` | 59 | Page 1 trend chart, KPI cards |
+| `category_month.csv` | 562 | All of Page 2 |
+| `sales_detail.csv` | 1,194 | Page 3 scatter |
+| `geography.csv` | 18 | Page 3 map |
+| `annual.csv` | 5 | Page 1 table |
+| `customer_segments.csv` | 807 | Page 3 segments |
+| `subcategory_segments.csv` | 12 | Page 2 and 3 segments |
 
-Right-click `DateTable` → **Mark as date table** → `Date`. Without this, a
-continuous axis and any time logic will misbehave.
+Put the folder somewhere with a short path and **no OneDrive sync**, for example
+`C:\BED106\data\dashboard\`. OneDrive paths change under you and break the
+refresh.
 
-**Use `customer_id`, never `customer_name`.** 802 distinct names resolve to 807
+If the files look stale, regenerate them:
+
+```
+python3 scripts/build_dashboard_data.py
+python3 scripts/build_segments.py
+```
+
+The first verifies ten published figures before it writes anything and fails
+loudly if any has drifted from the reports.
+
+---
+
+# Part A — The shortcut
+
+`powerbi/Checkpoint3_Dashboard.pbip` is a ready-made Power BI project: the whole
+semantic model (eight tables, typed columns, three relationships, all 22
+measures) plus Page 1 with the four KPI cards and the trend chart already
+placed.
+
+1. Power BI Desktop → **File → Options and settings → Options → Preview
+   features** → tick **Power BI Project (.pbip) save format** → OK → restart
+2. **File → Open** → browse to `Checkpoint3_Dashboard.pbip`
+3. It prompts for **FolderPath** — type the full path to your `data\dashboard\`
+   folder **with a trailing backslash**, e.g. `C:\BED106\data\dashboard\`
+4. **Home → Refresh**
+5. **File → Save as** → `Checkpoint3_Dashboard.pbix`
+
+Then skip to **Part 8** and build pages 2 and 3.
+
+> **This project has never been opened in Power BI Desktop.** There is no Power
+> BI in the environment that generated it, so it has been checked structurally
+> — every file parses, every relationship points at a real column — but not
+> actually opened. If it errors, don't fight it: start at Part 1 and build by
+> hand. Send me the error text and I will fix the generator.
+
+Everything from here is the hand-built route.
+
+---
+
+# Part 1 — Load the seven tables
+
+**Home → Get data → Text/CSV** → pick a file → **Open** → a preview appears →
+click **Load** (not Transform data yet).
+
+Repeat for all seven files.
+
+Power BI names each table after its file. **Rename them now** — the measures
+below refer to these exact names. Right-click each table in the Data pane →
+**Rename**:
+
+| File loaded as | Rename to |
+| --- | --- |
+| `monthly` | `Monthly` |
+| `category_month` | `CategoryMonth` |
+| `sales_detail` | `Sales` |
+| `geography` | `Geography` |
+| `annual` | `Annual` |
+| `customer_segments` | `CustomerSegments` |
+| `subcategory_segments` | `SubcategorySegments` |
+
+**Faster alternative.** `powerbi/load_tables.m` loads all seven with every
+column typed correctly in one go. Home → **Transform data** → **New Source →
+Blank query** → **Advanced Editor** → delete what is there, paste the file,
+change `FolderPath` at the top to your path → **Done** → **Close & Apply**.
+If you use this, Part 2 is already done.
+
+---
+
+# Part 2 — Fix the column types
+
+Power BI guesses types on import and gets two of them wrong in a way that
+breaks charts later. Check these before going further.
+
+**Home → Transform data** to open Power Query. For each table, click the small
+type icon to the left of the column name and set:
+
+| Table | Column | Must be |
+| --- | --- | --- |
+| `Monthly` | `month_start` | **Date** |
+| `Monthly` | `revenue`, `profit`, `avg_line_value`, `margin_pct` | **Decimal number** |
+| `Monthly` | `in_analysis_window` | **Whole number** |
+| `CategoryMonth` | `month_start` | **Date** |
+| `CategoryMonth` | `revenue`, `profit`, `margin_pct` | **Decimal number** |
+| `Sales` | `order_date`, `month_start` | **Date** |
+| `Sales` | `amount`, `profit` | **Decimal number** |
+| `Sales` | `customer_id`, `quantity` | **Whole number** |
+| `CustomerSegments` | `revenue`, `profit`, `margin_pct` | **Decimal number** |
+| `CustomerSegments` | `customer_id` | **Whole number** |
+| `SubcategorySegments` | `revenue_total`, `revenue_2023`, `revenue_2024`, `growth_pct`, `margin_pct` | **Decimal number** |
+| `Geography`, `Annual` | every numeric column | **Decimal number** |
+
+**Close & Apply** when done.
+
+**Why `month_start` matters.** `year_month` is text like `"2024-01"`. A text
+column cannot go on a continuous axis and cannot drive any date logic, so the
+trend chart would plot categories instead of time. `month_start` is the real
+date — use it on every axis.
+
+---
+
+# Part 3 — Build the relationships
+
+Switch to **Model view** (the third icon down the left edge).
+
+Drag from the **first** column named to the **second**. Direction matters:
+you always drag from the *many* side to the *one* side.
+
+| Drag from | Drag to | Cardinality |
+| --- | --- | --- |
+| `Sales[customer_id]` | `CustomerSegments[customer_id]` | Many to one (\*:1) |
+| `Sales[sub_category_name]` | `SubcategorySegments[sub_category_name]` | Many to one (\*:1) |
+
+Double-click each new relationship line and confirm **Cross filter direction:
+Single** and **Make this relationship active** is ticked.
+
+**That is all three tables that need relating. Three things must NOT be
+related:**
+
+**Never relate on `customer_name`.** 802 distinct names resolve to 807
 customers, because five names — Jacqueline Harris, Michael Rodriguez, Megan
 Williams, Christian Jones and Kimberly Fuller — each appear in two different
 cities. A relationship on the name would silently merge those five pairs and
-quietly corrupt the segment figures. This is the same defect Checkpoint 1
-documented, surfacing again in a different tool.
+corrupt every segment figure on Page 3. Use `customer_id`. This is the same
+defect Checkpoint 1 documented in `Order ID`, reappearing in a different tool.
 
-Do **not** relate `Annual` or `Geography` to anything. They are standalone
-summary tables and a relationship would double-count them.
+**Do not relate `Annual` or `Geography` to anything.** They are pre-aggregated
+summary tables. Relating them to `Sales` double-counts every value on the page.
 
-## Step 4 — The measures
+**Do not build a date table.** You do not need one. `Monthly` and
+`CategoryMonth` each carry their own `month_start` at month grain, and those
+columns go straight onto the axis. A daily date table cannot be related to them
+anyway — its month-start column repeats about thirty times per month, so it
+cannot be the "one" side of a relationship. Power BI would either refuse it or
+build it backwards and your trend visuals would filter wrongly.
 
-Twenty measures are written out in `powerbi/measures.dax`. Add them by hand
-(Modeling → New measure, about fifteen minutes), or paste the C# block at the
-bottom of that file into Tabular Editor 2 and create all twenty at once.
+---
 
-**Verify before building anything on them.** Drop a card on a blank page, put
-`Revenue per Month` on it, and filter to 2024. It must read **100,206.50**. If
-it does not, the model is wrong and every visual built on it will be wrong too.
+# Part 4 — Create the 22 measures
+
+**Modeling → New measure** opens a formula bar. Type the name, `=`, then the
+expression. Press Enter. Repeat.
+
+Click the **`Sales` table first** so the measure lands there — the first fifteen
+belong on `Sales`, the last seven on `CustomerSegments`.
+
+## On the `Sales` table
+
+```
+Revenue = SUM ( Sales[amount] )
+
+Profit = SUM ( Sales[profit] )
+
+Orders = COUNTROWS ( Sales )
+
+Units = SUM ( Sales[quantity] )
+
+Customers = DISTINCTCOUNT ( Sales[customer_id] )
+
+Margin % = DIVIDE ( [Profit], [Revenue] ) * 100
+
+Avg Line Value = DIVIDE ( [Revenue], [Orders] )
+
+Months Covered = DISTINCTCOUNT ( Sales[year_month] )
+
+Revenue per Month = DIVIDE ( [Revenue], [Months Covered] )
+
+Orders per Month = DIVIDE ( [Orders], [Months Covered] )
+
+Peak Revenue per Month =
+CALCULATE ( [Revenue per Month], ALL ( Sales ), Sales[year_number] = 2022 )
+
+Peak Orders per Month =
+CALCULATE ( [Orders per Month], ALL ( Sales ), Sales[year_number] = 2022 )
+
+Gap to Peak % =
+DIVIDE ( [Revenue per Month] - [Peak Revenue per Month],
+         [Peak Revenue per Month] ) * 100
+
+Order Gap = [Peak Orders per Month] - [Orders per Month]
+
+Gap Value per Year = [Order Gap] * 5224.25 * 12
+```
+
+## On the `CustomerSegments` table
+
+```
+Segment Customers = COUNTROWS ( CustomerSegments )
+
+Segment Revenue = SUM ( CustomerSegments[revenue] )
+
+Segment Profit = SUM ( CustomerSegments[profit] )
+
+Segment Margin % = DIVIDE ( [Segment Profit], [Segment Revenue] ) * 100
+
+Segment % of Customers =
+DIVIDE ( [Segment Customers],
+         CALCULATE ( [Segment Customers], ALL ( CustomerSegments ) ) ) * 100
+
+Segment % of Revenue =
+DIVIDE ( [Segment Revenue],
+         CALCULATE ( [Segment Revenue], ALL ( CustomerSegments ) ) ) * 100
+
+Segment % of Profit =
+DIVIDE ( [Segment Profit],
+         CALCULATE ( [Segment Profit], ALL ( CustomerSegments ) ) ) * 100
+```
+
+## Three things to be able to explain
+
+**Why divide by `Months Covered` and never by 12.** 2020 holds nine months of
+trading, because the file starts on 22 March 2020. Dividing a nine-month year by
+twelve understates it by a quarter. This is exactly the error Checkpoint 2
+caught in Checkpoint 1, and every per-month measure here is written so it cannot
+recur.
+
+**Why `ALL ( Sales )` is in the peak measures.** It clears the page's year
+slicer, so the 2022 peak stays the peak whichever year the viewer selects.
+Without it, selecting 2024 would make the "peak" 2024 and `Gap to Peak %` would
+always read zero.
+
+**Why 5224.25 is hard-coded.** It is the slope of the Checkpoint 2 regression —
+one more order in a month is worth about 5,224 in revenue. It is a constant on
+purpose: changing it means refitting the model, not editing a measure.
+
+**Faster alternative.** Install Tabular Editor 2 (free, tabulareditor.com) →
+**External Tools → Tabular Editor → Advanced Scripting** → paste the C# block
+at the bottom of `powerbi/measures.dax` → F5 → back in Power BI, **Refresh
+now**. All 22 appear at once with their number formats set.
+
+---
+
+# Part 5 — Verify before you build anything
+
+**Do this now.** Every visual you build from here inherits whatever is wrong in
+the model, and a wrong KPI is worth more lost marks than a plain-looking page.
+
+On a blank page, drop a **Card** visual, put `Revenue per Month` in it, then add
+a **Slicer** with `Sales[year_number]` and select 2024.
+
+It must read **100,206.50**. Check all five:
 
 | Measure | 2024 | 2022 |
 | --- | --- | --- |
@@ -123,89 +321,275 @@ it does not, the model is wrong and every visual built on it will be wrong too.
 | Avg Line Value | 5,010.33 | 5,068.66 |
 | Gap to Peak % | −17.6 | 0.0 |
 
+If any disagrees, stop and go to **Part 13** before building. Delete this test
+page when the numbers check out.
+
 ---
 
-## Step 5 — Page 1: Executive Summary
+# Part 6 — Set the theme
 
-*Task 3.2 requires at least four KPI cards on this page.*
+**View → Themes → Customize current theme.**
 
-**Four cards**, across the top. Visual → Card, one measure each:
-`Orders per Month`, `Revenue per Month`, `Margin %`, `Gap to Peak %`.
-Give each a title naming the comparison, for example "Orders per month — 20.0
-against a 2022 peak of 24.0".
+Under **Name and colours**, set the eight theme colours to these, so the
+dashboard matches the figures in your written reports:
 
-**Line chart** — revenue per month, the headline visual of the project.
+| Slot | Hex |
+| --- | --- |
+| Colour 1 | `2F6F9F` (blue — the main series) |
+| Colour 2 | `C1666B` (red — decline) |
+| Colour 3 | `5B8C5A` (green — growth) |
+| Colour 4 | `D09B3E` (amber — highlight) |
+| Colour 5 | `7B8994` (grey — context) |
+| Colour 6 | `1F2933` (ink — text) |
+| Colour 7 | `A7C4DC` |
+| Colour 8 | `E4EAEF` |
 
-- X axis: `Monthly[month_start]`, set to **Continuous**, not Categorical
-- Y axis: `Monthly[revenue]`
-- Filter: `Monthly[in_analysis_window]` is 1 — **this one matters.** Without it
-  the chart shows 59 months and stops agreeing with the Checkpoint 2 report,
-  which used 57
-- Title: "Revenue per month, April 2020 – December 2024"
-- Add two shaded regions or a reference line at 2022-12 to mark where growth
-  ends and the plateau begins
+Under **Text**, set the general font to **Segoe UI**, size 10.
 
-**Table** — the year summary. Fields from `Annual`: `year_number`,
-`months_covered`, `revenue_per_month`, `margin_pct`, `avg_line_value`.
+This matters for marks: "consistent colours" is named in the 30-point Design &
+Usability criterion, and one colour per category across all three pages is the
+easiest way to earn it.
 
-Keep `months_covered` visible. It is what stops a reader comparing a
-nine-month 2020 against a full year, and it is the visible trace of the
-correction the group found and fixed.
+**Name your pages now.** Right-click each page tab at the bottom → Rename:
+`1 Executive Summary`, `2 Trend & Comparison`, `3 Deep Dive`. Add pages with the
+`+` at the bottom.
 
-**Slicers**: `Annual[year_number]` and `Sales[category_name]`.
+---
 
-## Step 6 — Page 2: Trend & Comparison
+# Part 7 — Page 1: Executive Summary
 
-*Task 3.2 requires at least two different chart types here. This page has
-three.*
+The brief requires **at least four KPI cards** on this page.
 
-**Line chart** — revenue by category over time.
-X: `CategoryMonth[month_start]` continuous · Y: `revenue` ·
-Legend: `category_name`. Three lines, and the point is that they diverge.
+## 7.1 The four KPI cards
 
-**Bar chart** — sub-category change, 2023 against 2024.
-Y axis: `SubcategorySegments[sub_category_name]` ·
-X axis: a quick measure or calculated column `revenue_2024 − revenue_2023` ·
-sort descending. Printers at −136,865 and Paper at +85,689 are the two ends.
+**Visualizations pane → Card.** Drag one measure into **Fields** per card.
 
-**Column chart, small multiples** — quarter share by category.
-X: `CategoryMonth[quarter_number]` · Y: `revenue` ·
-Small multiples: `category_name`. Three panels.
+| Card | Measure | Title to type |
+| --- | --- | --- |
+| 1 | `Orders per Month` | Orders per month (2022 peak: 24.0) |
+| 2 | `Revenue per Month` | Revenue per month (2022 peak: 121,648) |
+| 3 | `Margin %` | Margin % |
+| 4 | `Gap to Peak %` | Gap to the 2022 peak |
 
-Never put a single blended seasonality line on this page. Electronics peaks in
-Q2 at 30.79% of its own annual revenue while the other two peak in Q4; one line
-is wrong for all three.
+For each card, open the **Format** pane (the paint-roller icon):
 
-**Bar chart** — margin by sub-category, using `margin_pct`. The ranking differs
-from the revenue ranking, and that difference is the reason the visual is here.
+- **Callout value** → Font size **28**, Colour → `1F2933`. On card 4 set the
+  colour to `C1666B`, since it reports a shortfall
+- **Category label** → Off (the title says it already)
+- **Title** → On → type the text above → Font size 11 → Colour `7B8994`
+- **Effects → Background** → On → Colour `E4EAEF`, Transparency 0
+- **Effects → Visual border** → On → Rounded corners 8
 
-**Slicers**: year, category, state — three dimensions, against the two the
-brief asks for.
+Position them in a row across the top: each about **3.0 in wide × 1.4 in high**,
+starting 0.5 in from the left and top edges, 0.2 in apart. Use **Format →
+General → Properties → Size and position** to type exact numbers rather than
+dragging — it is the only way to get them aligned.
 
-**Drill-through**: on Page 3, drag `sub_category_name` into the Drill through
-well. Right-clicking any bar on Page 2 then opens Page 3 filtered to it. That
-is your second interactive element for Task 3.1.
+## 7.2 The trend line chart
 
-## Step 7 — Page 3: Deep Dive & Segmentation
+**Visualizations → Line chart.**
 
-*Task 3.2 requires at least one visual from the clustering work. This page has
-three.*
+| Well | Field |
+| --- | --- |
+| X-axis | `Monthly[month_start]` |
+| Y-axis | `Monthly[revenue]` |
 
-**Scatter** — sub-category segments.
-X: `growth_pct` · Y: `margin_pct` · Size: `revenue_total` ·
-Legend: `segment` · Details: `sub_category_name`.
-Three clusters: Growth Engines, Low-Margin Niche, Declining Lines.
+**This next step is the one people miss.** In the **Filters** pane, under
+*Filters on this visual*, drag in `Monthly[in_analysis_window]` → Filter type
+**Basic filtering** → tick **1** → Apply filter.
 
-**Scatter** — customer segments.
-X: `CustomerSegments[revenue]` · Y: `margin_pct` · Legend: `segment`.
-807 points in three clusters.
+Without it the chart shows 59 months and stops agreeing with the Checkpoint 2
+report, which used 57. The two extra months are January and February 2025 —
+whole months, but outside the window the regression was fitted on, and the ones
+the forecast was tested against.
 
-**Table** — the segment profile, and the most persuasive object on the
-dashboard. Rows: `CustomerSegments[segment]`. Values: `Segment Customers`,
-`Segment % of Customers`, `Segment % of Revenue`, `Segment % of Profit`,
-`Segment Margin %`.
+Format:
 
-It should read:
+- **X-axis** → Type **Continuous** (not Categorical). If this option is missing,
+  `month_start` is still Text — go back to Part 2
+- **Y-axis** → Display units **Thousands**, Value decimal places 0
+- **Title** → "Revenue per month, April 2020 – December 2024"
+- **Lines** → Stroke width 3, Colour `2F6F9F`
+- **Gridlines** → Horizontal on, Colour `E4EAEF`; Vertical off
+
+**Mark the two regimes.** Format → **Analytics** pane → **Constant line** →
+Add → Value `121648` → Colour `C1666B` → Line style Dashed → Data label On →
+Name it "2022 peak". That single line turns a wiggly chart into the project's
+argument.
+
+Size it about **8.0 in wide × 3.6 in high**, under the cards.
+
+## 7.3 The year summary table
+
+**Visualizations → Table.** Drag in, from `Annual`, in this order:
+
+`year_number`, `months_covered`, `revenue_per_month`, `margin_pct`,
+`avg_line_value`
+
+Format:
+
+- **Title** → "Revenue per month by year"
+- **Values** → Font size 11
+- **Specific column** → `months_covered` → Background colour `E4EAEF`
+
+**Keep `months_covered` visible.** It shows 2020 at nine months, which is what
+stops a reader comparing it against a full year. It is the visible trace of the
+correction your group found and fixed, and it is worth a sentence in the
+defense.
+
+Place it to the right of the line chart, about **3.6 in wide × 3.6 in high**.
+
+## 7.4 Page 1 slicers
+
+**Visualizations → Slicer**, two of them, along the bottom:
+
+| Slicer | Field | Format |
+| --- | --- | --- |
+| Year | `Annual[year_number]` | Style **Tile**, horizontal |
+| Category | `Sales[category_name]` | Style **Tile**, horizontal |
+
+Set both: Format → **Slicer settings → Options → Style: Tile**, and
+**Selection → Multi-select with Ctrl** on.
+
+---
+
+# Part 8 — Page 2: Trend & Comparison
+
+The brief requires **at least two different chart types** here. This page has
+three.
+
+## 8.1 Revenue by category over time — line chart
+
+| Well | Field |
+| --- | --- |
+| X-axis | `CategoryMonth[month_start]` (Continuous) |
+| Y-axis | `CategoryMonth[revenue]` |
+| Legend | `CategoryMonth[category_name]` |
+
+Title: "Revenue by category, monthly". Legend → Position **Top centre**.
+
+The point of this visual is that the three lines **diverge** — say so when you
+present it.
+
+Top-left quadrant, about **5.8 in × 3.0 in**.
+
+## 8.2 Sub-category change — bar chart
+
+First make the measure. Click `SubcategorySegments` → **New measure**:
+
+```
+Revenue Change 23 to 24 =
+SUM ( SubcategorySegments[revenue_2024] ) - SUM ( SubcategorySegments[revenue_2023] )
+```
+
+**Visualizations → Clustered bar chart** (horizontal bars):
+
+| Well | Field |
+| --- | --- |
+| Y-axis | `SubcategorySegments[sub_category_name]` |
+| X-axis | `Revenue Change 23 to 24` |
+
+Format:
+
+- Click the **⋯** on the visual → **Sort axis** → `Revenue Change 23 to 24` →
+  **Sort ascending**, so Printers sits at one end and Paper at the other
+- **Data labels** → On, Display units None, Decimal places 0
+- **Bars → Colour → Conditional formatting (fx)** → Format style **Rules** →
+  Based on `Revenue Change 23 to 24` → Rule: *if value < 0* → `C1666B`;
+  *if value ≥ 0* → `5B8C5A`
+- Title: "Sub-category revenue change, 2023 to 2024"
+
+Red at one end, green at the other, Printers at −136,865 and Paper at +85,689.
+
+Top-right quadrant, about **5.8 in × 3.0 in**.
+
+## 8.3 Quarter share by category — column chart with small multiples
+
+**Visualizations → Clustered column chart:**
+
+| Well | Field |
+| --- | --- |
+| X-axis | `CategoryMonth[quarter_number]` |
+| Y-axis | `CategoryMonth[revenue]` |
+| Small multiples | `CategoryMonth[category_name]` |
+
+Format → **Small multiples** → Layout 3 columns × 1 row.
+
+Title: "Quarterly revenue by category".
+
+**Never replace this with one blended seasonality line.** Electronics peaks in
+Q2 at 30.79% of its own annual revenue; Furniture and Office Supplies peak in Q4
+at 30.84% and 32.16%. A single curve is wrong for all three, and saying so is
+one of your findings.
+
+Bottom-left, about **5.8 in × 2.6 in**.
+
+## 8.4 Margin by sub-category — bar chart
+
+| Well | Field |
+| --- | --- |
+| Y-axis | `SubcategorySegments[sub_category_name]` |
+| X-axis | `SubcategorySegments[margin_pct]` (set to **Average**, not Sum) |
+
+To change it: click the arrow next to the field in the well → **Average**.
+
+Sort descending by margin. Title: "Margin % by sub-category".
+
+This visual earns its place because the ranking here **differs** from the
+revenue ranking — that difference is the point.
+
+Bottom-right, about **5.8 in × 2.6 in**.
+
+---
+
+# Part 9 — Page 3: Deep Dive & Segmentation
+
+The brief requires **at least one visual from the clustering work**. This page
+has three.
+
+## 9.1 Sub-category segments — scatter
+
+**Visualizations → Scatter chart:**
+
+| Well | Field |
+| --- | --- |
+| X-axis | `SubcategorySegments[growth_pct]` (Average) |
+| Y-axis | `SubcategorySegments[margin_pct]` (Average) |
+| Size | `SubcategorySegments[revenue_total]` (Sum) |
+| Legend | `SubcategorySegments[segment]` |
+| Values | `SubcategorySegments[sub_category_name]` |
+
+Three clusters appear: **Growth Engines**, **Low-Margin Niche**, **Declining
+Lines**.
+
+Format → **Category labels** → On, so each bubble is named. Title:
+"Sub-category segments (k-means, k = 3)".
+
+Top-left, about **5.5 in × 3.0 in**.
+
+## 9.2 Customer segments — scatter
+
+| Well | Field |
+| --- | --- |
+| X-axis | `CustomerSegments[revenue]` (Sum, **not** Average) |
+| Y-axis | `CustomerSegments[margin_pct]` (Average) |
+| Legend | `CustomerSegments[segment]` |
+| Values | `CustomerSegments[customer_name]` |
+
+807 points in three clusters. Title: "Customer segments (k-means, n = 807)".
+
+Top-right, about **5.5 in × 3.0 in**.
+
+## 9.3 The segment profile table — the most persuasive object on the dashboard
+
+**Visualizations → Table:**
+
+| Well | Field |
+| --- | --- |
+| Rows | `CustomerSegments[segment]` |
+| Values | `Segment Customers`, `Segment % of Customers`, `Segment % of Revenue`, `Segment % of Profit`, `Segment Margin %` |
+
+It must read exactly this:
 
 | Segment | n | % customers | % revenue | % profit | Margin |
 | --- | --- | --- | --- | --- | --- |
@@ -213,54 +597,212 @@ It should read:
 | High-Margin Buyers | 311 | 38.5 | 28.9 | 42.6 | 38.5 |
 | Thin-Margin Buyers | 350 | 43.4 | 32.7 | 18.7 | 14.9 |
 
-**Map** — `Geography[state_name]`, sized by `revenue`. Six states, a 28%
-spread. It is here so a viewer can confirm that geography is not a driver
-rather than take the claim on trust.
+If it shows 802 customers instead of 807, the relationship is on `customer_name`
+— go back to Part 3.
 
-**Scatter** — `Sales[quantity]` against `Sales[amount]`, the negative result.
-r = 0.045, p = 0.123. Add a trend line from the Analytics pane; its flatness is
-the finding.
+Format → **Cell elements** → `Segment % of Profit` → **Background colour** → On
+→ Conditional formatting, so the 18.7 reads red and the 42.6 green. That one
+touch makes the finding visible without a word of explanation.
 
-**Slicers**: `CustomerSegments[segment]`, category, year. The segment slicer is
-this page's spine — selecting Thin-Margin Buyers and watching the profit share
-collapse is the live demonstration for Task 3.4.
+Bottom-left, about **4.4 in × 2.6 in**.
+
+## 9.4 State revenue — map
+
+**Visualizations → Map** (the filled map also works):
+
+| Well | Field |
+| --- | --- |
+| Location | `Geography[state_name]` |
+| Bubble size | `Geography[revenue]` |
+
+If Power BI asks about map services, accept. Title: "Revenue by state".
+
+This is here so a viewer can confirm for themselves that geography is **not** a
+driver — the spread across five years is only 28%. Negative results earn marks
+under Insights & Storytelling.
+
+Bottom-middle, about **3.8 in × 2.6 in**.
+
+## 9.5 Quantity against amount — the negative result
+
+**Visualizations → Scatter chart:**
+
+| Well | Field |
+| --- | --- |
+| X-axis | `Sales[quantity]` (do **not** aggregate — set to "Don't summarize") |
+| Y-axis | `Sales[amount]` ("Don't summarize") |
+| Values | `Sales[sale_id]` |
+
+Then **Analytics pane → Trend line → Add**, Colour `C1666B`, Style Dashed.
+
+Title: "Units sold against order value — r = 0.045, p = 0.123".
+
+The trend line comes out flat. That flatness **is** the finding: a "sell more
+units" target would not move revenue in this business.
+
+Bottom-right, about **3.8 in × 2.6 in**.
 
 ---
 
-## Step 8 — Finish
+# Part 10 — Slicers and drill-through
 
-**Every visual needs a title, axis labels and a source note.** Task 3.2 asks
-for it explicitly and the rubric gives 30 points for design and usability. Put
-one text box on each page: *"Source: sales_trend database, 1,194 transaction
-lines, March 2020 – March 2025. Synthetic dataset — see Checkpoint 1."*
+The brief requires **slicers on at least two dimensions** and names
+drill-through as an interactive element. This gives you three dimensions plus
+drill-through.
 
-Keep one colour per category across all three pages. A reader should not have
-to relearn the palette on each page.
+## 10.1 Page slicers
 
-**Then:**
+| Page | Slicers |
+| --- | --- |
+| 1 | `Annual[year_number]`, `Sales[category_name]` |
+| 2 | `Sales[year_number]`, `Sales[category_name]`, `Sales[state_name]` |
+| 3 | `CustomerSegments[segment]`, `Sales[category_name]`, `Sales[year_number]` |
 
-- File → Save as → `Checkpoint_3_Dashboard.pbix`
-- File → Export → PDF, for all three pages
-- Check every KPI against the table in Step 4 one final time
+Style them all the same: Format → **Slicer settings → Style: Tile**, horizontal,
+along the bottom of each page.
 
-## If a number disagrees
+**The segment slicer on Page 3 is your live demonstration.** Selecting
+*Thin-Margin Buyers* and watching the profit share collapse to 18.7% is the most
+persuasive single interaction on the dashboard — Task 3.4 asks you to
+demonstrate one live, and this is it.
 
-In order of likelihood:
+## 10.2 Drill-through from Page 2 to Page 3
 
-**The line chart shows 59 months.** The `in_analysis_window = 1` filter is
-missing from the visual.
+On **Page 3**, in the Visualizations pane, find the **Drill through** well at
+the bottom. Drag `SubcategorySegments[sub_category_name]` into it.
 
-**Revenue per Month is wrong by a factor.** `Months Covered` is counting the
-wrong thing — it must be `DISTINCTCOUNT(Sales[year_month])`, not a hard 12.
+Power BI adds a back-arrow button to Page 3 automatically.
 
-**A date axis sorts oddly or will not go continuous.** `month_start` imported
-as Text. Fix the type in Power Query, not in the visual.
+Now right-click any bar on Page 2's sub-category chart → **Drill through → 3
+Deep Dive**, and Page 3 opens filtered to that sub-category.
 
-**Segment percentages do not sum to 100.** The `ALL()` in the share measures
-was dropped, so the denominator is being filtered along with the numerator.
+Test it on Printers before the defense. "Right-click Printers, drill through,
+and here is everything about the sub-category that lost 136,865" is a strong
+thirty seconds.
 
-**Everything is doubled.** `Annual` or `Geography` got related to `Sales`. They
-are summary tables; remove the relationship.
+## 10.3 Cross-filtering
 
-**The segment table shows 802 customers, not 807.** The relationship was built
-on `customer_name` instead of `customer_id`.
+Leave it on — it is the default. Clicking a category in one visual filters the
+others on the page. Mention it as an interactive element; it costs nothing.
+
+---
+
+# Part 11 — Titles, labels and source notes
+
+The brief says *"All visuals must be properly titled, labeled, and sourced."*
+This is part of the 30-point Design & Usability criterion, so do not skip it.
+
+**Every visual needs a title.** Format → General → Title → On. Write what the
+visual *shows*, not what it is: "Revenue per month by year", not "Bar chart".
+
+**Axis labels on.** Format → X-axis → Title → On, same for Y-axis.
+
+**One source note per page.** Insert → **Text box**, place it bottom-left, 9pt,
+colour `7B8994`:
+
+> Source: sales_trend database, 1,194 transaction lines, March 2020 – March 2025.
+> Synthetic dataset — see Checkpoint 1.
+
+**One page header per page.** Insert → Text box, top-left, 16pt bold, colour
+`1F2933`, with the page name. Keeps the three pages looking like one artefact.
+
+**Consistency check before you finish.** Same colour for Electronics on every
+page. Same font everywhere. Same slicer style. A reader should not have to
+relearn the layout on each page.
+
+---
+
+# Part 12 — Export
+
+1. **File → Save as** → `Checkpoint_3_Dashboard.pbix` — this is the digital
+   deliverable
+2. **File → Export → Export to PDF** → all three pages — this is the printed
+   deliverable
+3. Take **screenshots of each page** for the written report and for the
+   Checkpoint 4 integrated report, section 6
+4. Walk the three pages once and check every KPI against the table in **Part 5**
+   one final time
+
+---
+
+# Part 13 — Troubleshooting
+
+In order of how often each happens.
+
+**The line chart shows 59 months instead of 57.**
+The `in_analysis_window = 1` filter is missing from that visual. Part 7.2.
+
+**`Revenue per Month` is wrong by roughly a factor of 1.3.**
+`Months Covered` is counting the wrong thing. It must be
+`DISTINCTCOUNT(Sales[year_month])`, never a hard-coded 12.
+
+**The date axis will not switch to Continuous.**
+`month_start` imported as Text. Fix the type in Power Query (Part 2), not in the
+visual.
+
+**The segment table shows 802 customers, not 807.**
+The relationship is on `customer_name`. Change it to `customer_id`. Part 3.
+
+**Segment percentages do not add up to 100.**
+The `ALL()` was dropped from the share measures, so the denominator is being
+filtered along with the numerator. Part 4.
+
+**Every number is several times too large.**
+`Annual` or `Geography` got related to `Sales`. Delete the relationship — they
+are pre-aggregated summary tables.
+
+**`Gap to Peak %` always reads 0.**
+`ALL ( Sales )` is missing from `Peak Revenue per Month`, so the year slicer is
+moving the peak along with the current value.
+
+**A visual says "can't determine relationships between fields".**
+You have mixed fields from two unrelated tables in one visual. Either use one
+table's fields, or relate them properly.
+
+**The scatter on Page 3 shows one dot.**
+`quantity` and `amount` are being aggregated. Set both to "Don't summarize" and
+put `sale_id` in Values.
+
+---
+
+# Part 14 — Final checklist
+
+Against the Checkpoint 3 rubric.
+
+**Dashboard Design & Usability — 30 pts**
+
+- Three pages, named and in order
+- Every visual titled; axes labelled
+- One colour per category, the same on all three pages
+- Slicers work and are styled consistently
+- Drill-through from Page 2 to Page 3 tested
+
+**Data Accuracy — 25 pts**
+
+- All five KPIs match the Part 5 table
+- The trend chart is filtered to the 57-month window
+- The segment table reads 146 / 311 / 350 and totals 807
+- `months_covered` is visible in the year table
+
+**Insights & Storytelling — 25 pts**
+
+- Each page answers a stated question
+- The negative results are on the dashboard, not hidden: geography at 28%
+  spread, quantity against amount at r = 0.045
+- The written discussion is **in the group's own words** — Section 3.2 of the
+  brief, and worth saying twice
+
+**Documentation — 20 pts**
+
+- Blueprint wireframe printed (`docs/figures/cp3_fig3_wireframe.png`)
+- Written report covering design decisions, insights and segmentation findings
+- `.pbix` submitted digitally
+- PDF of all three pages
+- Signed Individual Contribution Form
+
+## The standing constraint
+
+Section 3.2 has not gone away. The measures, the segmentation and the figures in
+this guide are computed output and tooling. **The reading of them has to be
+yours** — every sentence of interpretation in the written report and every word
+you say over the dashboard in the live presentation.
