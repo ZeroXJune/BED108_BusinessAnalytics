@@ -284,6 +284,31 @@ DIVIDE ( [Segment Profit],
          CALCULATE ( [Segment Profit], ALL ( CustomerSegments ) ) ) * 100
 ```
 
+## If Power BI says the name already exists
+
+It offers to pick a different name for you. **Do not accept that.** The
+measures reference each other — `Margin %` uses `[Total Profit]`,
+`Gap to Peak %` uses `[Revenue per Month]` — so a measure silently renamed to
+`Total Profit 2` leaves the ones that call it broken or pointing at nothing.
+
+The message means the measure is already in the model. Three ways that happens:
+
+**You opened the generated `.pbip`.** It already contains all 22 measures, so
+this whole Part is done — skip to Part 5 and verify them instead. Check the
+Data pane: measures carry a small calculator icon, columns do not.
+
+**The Tabular Editor script ran twice.** Same outcome. Check the Data pane
+before running it again.
+
+**Someone else in the group already added them** to the file you are sharing.
+
+Either way the fix is to stop adding and check what is there. Click the `Sales`
+table in the Data pane and count: there should be **fifteen** measures on it
+and **seven** on `CustomerSegments`. If the count is right, Part 4 is finished.
+
+If you genuinely need to start over, delete the measures first — right-click →
+Delete from model — rather than creating renamed duplicates alongside them.
+
 ## Why it is `Total Profit` and not `Profit`
 
 A measure may not share a name with a column on the same table, and Power BI
