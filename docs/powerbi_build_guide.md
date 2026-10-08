@@ -101,11 +101,16 @@ placed.
 
 Then skip to **Part 8** and build pages 2 and 3.
 
-> **This project has never been opened in Power BI Desktop.** There is no Power
-> BI in the environment that generated it, so it has been checked structurally
-> — every file parses, every relationship points at a real column — but not
-> actually opened. If it errors, don't fight it: start at Part 1 and build by
-> hand. Send me the error text and I will fix the generator.
+It contains no date table, for the reason given in Part 3: `Monthly` and
+`CategoryMonth` carry their own `month_start` at month grain, so nothing in the
+dashboard needs a calendar.
+
+> **Known history.** The first version of this project was rejected by Power BI
+> with *"The calculated column 'DateTable[Date]' cannot be used as a primary
+> key of the table"* — a calculated table cannot have a key column marked that
+> way. The date table has been removed entirely rather than patched, since
+> nothing here used it. If it still errors, don't fight it: start at Part 1 and
+> build by hand, and send me the message so I can fix the generator.
 
 Everything from here is the hand-built route.
 

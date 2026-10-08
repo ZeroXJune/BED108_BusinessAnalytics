@@ -31,6 +31,8 @@ DOCUMENTS = [
      os.path.join(ROOT, "docs", "Checkpoint_1_Explained.docx")),
     (os.path.join(ROOT, "reports", "Checkpoint_2_Report.md"),
      os.path.join(ROOT, "reports", "Checkpoint_2_Report.docx")),
+    (os.path.join(ROOT, "reports", "Integrated_Capstone_Report.md"),
+     os.path.join(ROOT, "reports", "Integrated_Capstone_Report.docx")),
     (os.path.join(ROOT, "docs", "checkpoint2_explained.md"),
      os.path.join(ROOT, "docs", "Checkpoint_2_Explained.docx")),
     (os.path.join(ROOT, "docs", "contribution_guide.md"),
@@ -56,6 +58,8 @@ ACCENT = RGBColor(0x2F, 0x6F, 0x9F)
 MUTED = RGBColor(0x7B, 0x89, 0x94)
 
 INLINE = re.compile(r"(\*\*.+?\*\*|\*[^*]+?\*|`[^`]+?`)")
+INCLUDE = re.compile(r'^<!--\s*include:\s*(\S+?)(?:\s+from\s+"(.+?)")?\s*-->$',
+                     re.I)
 IMAGE = re.compile(r"^!\[(.*?)\]\((.+?)\)$")
 
 
@@ -266,6 +270,34 @@ def convert(md, doc):
         add_runs(doc.add_paragraph(), text)
 
 
+def expand_includes(text, base, depth=0):
+    """
+    Replace `<!-- include: path -->` with that file's content.
+
+    With `from "## Heading"` the include starts at that heading instead of the
+    top of the file, so a document can pull one section out of another without
+    a second copy of it existing to drift.
+    """
+    if depth > 4:
+        raise RuntimeError("include nesting too deep")
+    out = []
+    for line in text.split("\n"):
+        m = INCLUDE.match(line.strip())
+        if not m:
+            out.append(line)
+            continue
+        path = os.path.normpath(os.path.join(base, m.group(1)))
+        body = open(path).read()
+        start = m.group(2)
+        if start:
+            idx = body.find(start)
+            if idx < 0:
+                raise RuntimeError("%s: heading %r not found" % (path, start))
+            body = body[idx:]
+        out.append(expand_includes(body, os.path.dirname(path), depth + 1))
+    return "\n".join(out)
+
+
 def content_digest(data):
     """Hash a .docx by its internal parts, ignoring zip container framing.
 
@@ -288,7 +320,8 @@ def build(src, out):
         section.left_margin = section.right_margin = Inches(1.0)
         section.top_margin = section.bottom_margin = Inches(1.0)
 
-    convert(open(src, encoding="utf-8").read(), doc)
+    text = open(src, encoding="utf-8").read()
+    convert(expand_includes(text, os.path.dirname(os.path.abspath(src))), doc)
 
     buf = io.BytesIO()
     doc.save(buf)

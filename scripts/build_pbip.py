@@ -57,7 +57,6 @@ TABLES = [
 RELATIONSHIPS = [
     ("Sales", "customer_id", "CustomerSegments", "customer_id"),
     ("Sales", "sub_category_name", "SubcategorySegments", "sub_category_name"),
-    ("Sales", "order_date", "DateTable", "Date"),
 ]
 
 MEASURES = [
@@ -164,40 +163,6 @@ def table_tmdl(name, filename):
     return "\n".join(lines)
 
 
-def datetable_tmdl():
-    """A calculated date table, so it cannot drift from the data."""
-    cols = [
-        ("Date", "dateTime", "[Date]"),
-        ("Year", "int64", "YEAR ( [Date] )"),
-        ("Quarter", "string", '"Q" & FORMAT ( QUARTER ( [Date] ), "0" )'),
-        ("MonthNumber", "int64", "MONTH ( [Date] )"),
-        ("MonthName", "string", 'FORMAT ( [Date], "MMMM" )'),
-        ("MonthStart", "dateTime", "EOMONTH ( [Date], -1 ) + 1"),
-        ("YearMonth", "string", 'FORMAT ( [Date], "YYYY-MM" )'),
-    ]
-    lines = ["table DateTable", "\tlineageTag: %s" % gid(),
-             "\tdataCategory: Time", ""]
-    for name, t, expr in cols:
-        lines += [
-            "\tcolumn %s = %s" % (name, expr),
-            "\t\tdataType: %s" % t,
-            "\t\tlineageTag: %s" % gid(),
-            "\t\tsummarizeBy: none",
-        ]
-        if name == "Date":
-            lines.append("\t\tisKey")
-        if t == "dateTime":
-            lines.append("\t\tformatString: yyyy-mm-dd")
-        lines.append("")
-    lines += [
-        "\tpartition DateTable = calculated",
-        "\t\tmode: import",
-        "\t\tsource = CALENDAR ( DATE ( 2020, 3, 1 ), DATE ( 2025, 3, 31 ) )",
-        "",
-    ]
-    return "\n".join(lines)
-
-
 def build_model(dest):
     defn = os.path.join(dest, "definition")
     write(os.path.join(dest, "definition.pbism"),
@@ -205,7 +170,7 @@ def build_model(dest):
     write(os.path.join(defn, "database.tmdl"),
           "database\n\tcompatibilityLevel: 1567\n")
 
-    names = [n for n, _ in TABLES] + ["DateTable"]
+    names = [n for n, _ in TABLES]
     model = [
         "model Model",
         "\tculture: en-US",
@@ -233,7 +198,6 @@ def build_model(dest):
     for name, filename in TABLES:
         write(os.path.join(defn, "tables", "%s.tmdl" % name),
               table_tmdl(name, filename))
-    write(os.path.join(defn, "tables", "DateTable.tmdl"), datetable_tmdl())
 
     rels = []
     for ft, fc, tt, tc in RELATIONSHIPS:

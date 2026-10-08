@@ -3,7 +3,7 @@ model Model
 	defaultPowerBIDataSourceVersion: powerBI_V3
 	sourceQueryCulture: en-US
 
-	annotation PBI_QueryOrder = ["Monthly", "CategoryMonth", "Sales", "Geography", "Annual", "CustomerSegments", "SubcategorySegments", "DateTable"]
+	annotation PBI_QueryOrder = ["Monthly", "CategoryMonth", "Sales", "Geography", "Annual", "CustomerSegments", "SubcategorySegments"]
 
 ref table Monthly
 ref table CategoryMonth
@@ -12,6 +12,5 @@ ref table Geography
 ref table Annual
 ref table CustomerSegments
 ref table SubcategorySegments
-ref table DateTable
 
 ref cultureInfo en-US
