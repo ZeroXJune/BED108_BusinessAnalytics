@@ -1,7 +1,7 @@
-relationship 4899d77d-9e31-49ac-813a-cea28d9ecebe
+relationship 5616dfdb-5632-4a46-823d-34c812cf7037
 	fromColumn: Sales.customer_id
 	toColumn: CustomerSegments.customer_id
 
-relationship e94ec8c7-47ef-4991-9162-6486ab555911
+relationship 6182f3a8-f9f6-4927-aa5b-3408df9a9054
 	fromColumn: Sales.sub_category_name
 	toColumn: SubcategorySegments.sub_category_name

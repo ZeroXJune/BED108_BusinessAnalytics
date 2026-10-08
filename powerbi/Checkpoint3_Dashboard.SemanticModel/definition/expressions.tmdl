@@ -1,4 +1,4 @@
-expression FolderPath = "C:\Users\YourName\Documents\BED106\data\dashboard\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
-	lineageTag: 2419a129-8b25-4ff6-bac9-dda887e796ee
+expression FolderPath = "C:\BED106\data\dashboard\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: ab08ebb1-9928-479b-9fdd-49e029238c76
 
 	annotation PBI_ResultType = Text

@@ -15,7 +15,7 @@
 // =====================================================================
 let
     // ---- CHANGE THIS to your own path -----------------------------------
-    FolderPath = "C:\Users\YourName\Documents\BED106\data\dashboard\",
+    FolderPath = "C:\BED106\data\dashboard\",
 
     Read = (name as text) as table =>
         Csv.Document(

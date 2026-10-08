@@ -193,8 +193,8 @@ def build_model(dest):
 
     # FolderPath is a parameter, so opening the project prompts for it.
     write(os.path.join(defn, "expressions.tmdl"),
-          'expression FolderPath = "C:\\Users\\YourName\\Documents\\BED106\\'
-          'data\\dashboard\\" meta [IsParameterQuery=true, Type="Text", '
+          'expression FolderPath = "C:\\BED106\\data\\dashboard\\" '
+          'meta [IsParameterQuery=true, Type="Text", '
           'IsParameterQueryRequired=true]\n'
           "\tlineageTag: %s\n\n"
           "\tannotation PBI_ResultType = Text\n" % gid())
